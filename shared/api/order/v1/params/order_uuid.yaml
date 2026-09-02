@@ -1,0 +1,6 @@
+name: order_uuid
+in: path
+required: true
+description: Uuid заказа для которого проводится оплата
+schema:
+  type: string

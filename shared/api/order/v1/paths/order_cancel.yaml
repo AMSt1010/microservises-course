@@ -1,0 +1,36 @@
+parameters:
+ - $ref: ../params/order_uuid.yaml
+post: 
+ summary: Отменяет заказ
+ operationId: OrderCancelByUuid
+ tags: 
+  - Orders
+ responses:
+  '204':
+    description: Заказ успешно отменён
+  '404':
+    description: Заказ не найден
+    content:
+      application/json:
+        schema:
+          $ref: ../components/errors/not_found_error.yaml
+  '409':
+    description: Заказ уже оплачен и не может быть отменён
+    content:
+      application/json:
+        schema:
+          $ref: ../components/errors/conflict_error.yaml
+  '400':
+    description: Неизвестный статус заказа
+    content:
+      application/json:
+        schema:
+          $ref: ../components/errors/bad_request_error.yaml
+  default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: ../components/errors/generic_error.yaml 
+
+ 
