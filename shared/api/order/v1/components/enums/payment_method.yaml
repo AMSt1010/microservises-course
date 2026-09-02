@@ -1,0 +1,14 @@
+type: string
+description: |
+  Выбранный способ оплаты:
+  * `UNKNOWN` — Неизвестный способ
+  * `CARD` — Банковская карта
+  * `SBP` — Система быстрых платежей
+  * `CREDIT_CARD` — Кредитная карта
+  * `INVESTOR_MONEY` — Деньги инвестора
+enum:
+  - UNKNOWN
+  - CARD
+  - SBP
+  - CREDIT_CARD
+  - INVESTOR_MONEY

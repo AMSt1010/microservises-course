@@ -1,0 +1,20 @@
+module github.com/alex100010/microservices-course/hw/hw_1/inventory
+
+go 1.25.0
+
+require (
+	github.com/alex100010/microservices-course/hw/hw_1/shared v0.0.0-00010101000000-000000000000
+	github.com/google/uuid v1.6.0
+	google.golang.org/grpc v1.83.1
+	google.golang.org/protobuf v1.36.12
+)
+
+require (
+	go.opentelemetry.io/otel/sdk/metric v1.45.0 // indirect
+	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
+)
+
+replace github.com/alex100010/microservices-course/hw/hw_1/shared => ../shared

@@ -32,7 +32,8 @@ vars:
 
   OPEN_API_FILES: '{{.ROOT_DIR}}/shared/api/bundles'
 
-  MODULES: assembly inventory order payment platform iam notification
+  #MODULES: assembly inventory order payment platform iam notification
+  MODULES: shared order inventory payment
 
 tasks:
   install-formatters:
@@ -136,15 +137,13 @@ tasks:
     desc: "Устанавливает Buf в каталог bin"
     cmds:
       - |
+        mkdir -p {{.BIN_DIR}}
         [ -f {{.BUF}} ] || {
-          mkdir -p {{.BIN_DIR}} tmp-buf
-          curl -sSL \
-            "https://github.com/bufbuild/buf/releases/download/v{{.BUF_VERSION}}/buf-$(uname -s)-$(uname -m).tar.gz" \
-            | tar -xz -C tmp-buf
-          mv tmp-buf/buf/bin/buf {{.BUF}}
-          rm -rf tmp-buf
-          chmod +x {{.BUF}}
+          echo '📦 Устанавливаем buf {{.BUF_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/bufbuild/buf/cmd/buf@v{{.BUF_VERSION}}
         }
+    status:
+      - test -x {{.BUF}}
 
   proto:install-plugins:
     desc: "Устанавливает protoc плагины в каталог bin"
@@ -176,11 +175,13 @@ tasks:
   redocly-cli:install:
     desc: Установить локально Redocly CLI
     cmds:
-      - |
-        [ -f {{.REDOCLY}} ] || {
-          npm ci
-        }
-
+    - |
+      if [ ! -x "{{.REDOCLY}}" ]; then
+        echo "📦 Устанавливаем @redocly/cli..."
+        npm install --no-save @redocly/cli
+      fi
+    status:
+    - test -x {{.REDOCLY}}
   redocly-cli:order-v1-bundle:
     desc: Собрать OpenAPI в один файл через локальный redocly
     deps: [ redocly-cli:install ]
@@ -233,11 +234,13 @@ tasks:
     desc: "Обновление зависимостей в go.mod во всех модулях"
     cmds:
       - |
+        echo "🔄 Обновление зависимостей в go.work"
+        go work sync
         echo "🔄 Обновление зависимостей в go.mod во всех модулях"
         for mod in {{.MODULES}}; do
           if [ -d "$mod" ]; then
             echo "🔄 Обновление зависимостей в $mod"
-            (cd "$mod" && go mod tidy -compat=1.24) || exit 1
+            (cd "$mod" && go mod tidy -compat=1.25.0) || exit 1
           fi
         done
 
@@ -323,15 +326,15 @@ tasks:
           exit 1
         fi
         
-        # Извлекаем UUID заказа с учетом разных форматов JSON
-        ORDER_UUID=$(echo $ORDER_RESPONSE | grep -o '"uuid":"[^"]*' | cut -d'"' -f4)
+            # Извлекаем UUID заказа
+        ORDER_UUID=$(echo "$ORDER_RESPONSE" | grep -o '"order_uuid"[[:space:]]*:[[:space:]]*"[^"]*' | sed -E 's/.*"([^"]+)$/\1/')
         if [ -z "$ORDER_UUID" ]; then
-          ORDER_UUID=$(echo $ORDER_RESPONSE | grep -o '"uuid": "[^"]*' | cut -d'"' -f4)
-          if [ -z "$ORDER_UUID" ]; then
-            echo "❌ Не удалось извлечь UUID заказа из ответа."
-            echo "🔍 Ответ сервера: $ORDER_RESPONSE"
-            exit 1
-          fi
+          ORDER_UUID=$(echo "$ORDER_RESPONSE" | grep -o '"uuid"[[:space:]]*:[[:space:]]*"[^"]*' | sed -E 's/.*"([^"]+)$/\1/')
+        fi
+        if [ -z "$ORDER_UUID" ]; then
+          echo "❌ Не удалось извлечь UUID заказа из ответа."
+          echo "🔍 Ответ сервера: $ORDER_RESPONSE"
+          exit 1
         fi
         echo "✅ Успешно создан заказ с UUID: $ORDER_UUID"
         
@@ -364,10 +367,10 @@ tasks:
         echo "✅ Начальный статус заказа корректный: $ORDER_STATUS"
         
         echo
-        echo "💰 Тест 6: Оплата заказа (REST API)"
+         echo "💰 Тест 6: Оплата заказа (REST API)"
         PAY_RESPONSE=$(curl -s -X POST "http://localhost:8080/api/v1/orders/$ORDER_UUID/pay" \
           -H "Content-Type: application/json" \
-          -d "{\"payment_method\":\"PAYMENT_METHOD_CARD\"}")
+          -d "{\"payment_method\":\"CARD\"}")
         
         if [[ "$PAY_RESPONSE" == *"error"* ]]; then
           echo "❌ Ошибка при оплате заказа."
@@ -405,17 +408,18 @@ tasks:
           exit 1
         fi
         
-        # Извлекаем UUID второго заказа с учетом разных форматов JSON
-        ORDER2_UUID=$(echo $ORDER2_RESPONSE | grep -o '"uuid":"[^"]*' | cut -d'"' -f4)
+        # Извлекаем UUID второго заказа
+        ORDER2_UUID=$(echo "$ORDER2_RESPONSE" | grep -o '"order_uuid"[[:space:]]*:[[:space:]]*"[^"]*' | sed -E 's/.*"([^"]+)$/\1/')
         if [ -z "$ORDER2_UUID" ]; then
-          ORDER2_UUID=$(echo $ORDER2_RESPONSE | grep -o '"uuid": "[^"]*' | cut -d'"' -f4)
-          if [ -z "$ORDER2_UUID" ]; then
-            echo "❌ Не удалось извлечь UUID второго заказа из ответа."
-            echo "🔍 Ответ сервера: $ORDER2_RESPONSE"
-            exit 1
-          fi
+          ORDER2_UUID=$(echo "$ORDER2_RESPONSE" | grep -o '"uuid"[[:space:]]*:[[:space:]]*"[^"]*' | sed -E 's/.*"([^"]+)$/\1/')
+        fi
+        if [ -z "$ORDER2_UUID" ]; then
+          echo "❌ Не удалось извлечь UUID второго заказа из ответа."
+          echo "🔍 Ответ сервера: $ORDER2_RESPONSE"
+          exit 1
         fi
         echo "✅ Успешно создан второй заказ с UUID: $ORDER2_UUID"
+
         
         # Проверяем его начальный статус
         ORDER2_INFO=$(curl -s -X GET "http://localhost:8080/api/v1/orders/$ORDER2_UUID")
