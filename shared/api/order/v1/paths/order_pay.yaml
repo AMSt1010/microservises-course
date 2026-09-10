@@ -1,10 +1,10 @@
-parameters:
-  - $ref: ../params/order_uuid.yaml
 post:
   summary: Проводит оплату ранее созданного заказа.
   operationId: OrderPay 
   tags:
     - Orders
+  parameters:
+  - $ref: ../params/order_uuid.yaml
   requestBody: 
     required: true
     content:

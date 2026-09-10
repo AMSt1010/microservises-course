@@ -22,7 +22,7 @@ type paymentService struct {
 }
 
 // Обрабатывает команду на оплату и возвращает `transaction_uuid`.
-func (pS *paymentService) PayOrder(_ context.Context, req *payment_v1.PayOrderRequest) (*payment_v1.PayOrderResponse, error) {
+func (pS *paymentService) PayOrder(ctx context.Context, req *payment_v1.PayOrderRequest) (*payment_v1.PayOrderResponse, error) {
 	transaction_uuid := uuid.NewString()
 
 	log.Printf("Оплата прошла успешно , transaction_uuid: %v\nUUID заказа: %v\nUUID пользователя: %v\nСпособ оплаты: %v\n", transaction_uuid, req.GetOrderUuid(), req.GetUserUuid(), req.GetPaymentMethod())

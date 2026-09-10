@@ -33,13 +33,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/generic_error'
   /api/v1/orders/{order_uuid}/pay:
-    parameters:
-      - $ref: '#/components/parameters/order_uuid'
     post:
       summary: Проводит оплату ранее созданного заказа.
       operationId: OrderPay
       tags:
         - Orders
+      parameters:
+        - $ref: '#/components/parameters/order_uuid'
       requestBody:
         required: true
         content:
@@ -72,13 +72,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/generic_error'
   /api/v1/orders/{order_uuid}:
-    parameters:
-      - $ref: '#/components/parameters/order_uuid'
     get:
       summary: Возвращает информацию о заказе.
       operationId: GetOrderByUuid
       tags:
         - Orders
+      parameters:
+        - $ref: '#/components/parameters/order_uuid'
       responses:
         '200':
           description: Информация о заказе полностью получена
@@ -99,13 +99,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/generic_error'
   /api/v1/orders/{order_uuid}/cancel:
-    parameters:
-      - $ref: '#/components/parameters/order_uuid'
     post:
       summary: Отменяет заказ
       operationId: OrderCancelByUuid
       tags:
         - Orders
+      parameters:
+        - $ref: '#/components/parameters/order_uuid'
       responses:
         '204':
           description: Заказ успешно отменён

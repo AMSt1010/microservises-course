@@ -1,10 +1,10 @@
-parameters:
-  - $ref: ../params/order_uuid.yaml
 get:
   summary: Возвращает информацию о заказе.
   operationId: GetOrderByUuid
   tags:
     - Orders
+  parameters:
+  - $ref: ../params/order_uuid.yaml
   responses:
     '200':
       description: Информация о заказе полностью получена

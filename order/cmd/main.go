@@ -45,11 +45,32 @@ func NewOrderStorage() *OrderStorage {
 	}
 }
 
+// cloneOrderDto создает полную глубокую копию структуры OrderDto,
+// изолируя внутренние срезы от гонок данных.
+func cloneOrderDto(order *orderV1.OrderDto) orderV1.OrderDto {
+	if order == nil {
+		return orderV1.OrderDto{}
+	}
+
+	// 1. Поверхностное копирование структуры
+	orderCopy := *order
+
+	// 2. Глубокое копирование среза строк
+	if order.PartUuids != nil {
+		orderCopy.PartUuids = make([]string, len(order.PartUuids))
+		copy(orderCopy.PartUuids, order.PartUuids)
+	}
+
+	return orderCopy
+}
+
 // Создает новый заказ в Map или обновляет информацию о заказе
 func (s *OrderStorage) SaveOrder(order *orderV1.OrderDto) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	orderCopy := *order
+
+	// Клонируем данные "на входе", чтобы изменения извне не портили хранилище
+	orderCopy := cloneOrderDto(order)
 	s.orders[order.OrderUUID] = &orderCopy
 }
 
@@ -62,7 +83,9 @@ func (s *OrderStorage) GetOrder(orderUUID string) (orderV1.OrderDto, bool) {
 	if !ok {
 		return orderV1.OrderDto{}, false
 	}
-	return *order, true
+
+	// Клонируем данные "на выходе", чтобы читающий код не мог устроить Data Race
+	return cloneOrderDto(order), true
 }
 
 func (s *OrderStorage) MarkAsPaidCAS(orderUUID, transactionUUID string, method orderV1.PaymentMethod) (*orderV1.OrderDto, error) {
@@ -85,9 +108,8 @@ func (s *OrderStorage) MarkAsPaidCAS(orderUUID, transactionUUID string, method o
 	order.Status = orderV1.OrderStatusPAID
 	order.TransactionUUID = orderV1.NewOptString(transactionUUID)
 	order.PaymentMethod = orderV1.NewOptPaymentMethod(method)
-
-	orderCopy := *order
-	return &orderCopy, nil
+	result := cloneOrderDto(order)
+	return &result, nil
 }
 
 func (s *OrderStorage) CancelOrder(orderUUID string) (orderV1.OrderStatus, error) {

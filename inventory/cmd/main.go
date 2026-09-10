@@ -66,7 +66,7 @@ func newInventoryService() *inventoryService {
 }
 
 // Записывает информацию о новой детали
-func (inv *inventoryService) CreatePart(_ context.Context, req *inventory_v1.CreatePartRequest) (*inventory_v1.CreatePartResponse, error) {
+func (inv *inventoryService) CreatePart(ctx context.Context, req *inventory_v1.CreatePartRequest) (*inventory_v1.CreatePartResponse, error) {
 	inv.mu.Lock()
 	defer inv.mu.Unlock()
 
@@ -149,7 +149,7 @@ func (inv *inventoryService) collectSourceByUUIDs(uuids []string) []PartsFilterS
 }
 
 // Возвращает список деталей с возможностью фильтрации.
-func (inv *inventoryService) ListParts(_ context.Context, req *inventory_v1.ListPartsRequest) (*inventory_v1.ListPartsResponse, error) {
+func (inv *inventoryService) ListParts(ctx context.Context, req *inventory_v1.ListPartsRequest) (*inventory_v1.ListPartsResponse, error) {
 	inv.mu.RLock()
 	defer inv.mu.RUnlock()
 
@@ -201,7 +201,7 @@ func (inv *inventoryService) ListParts(_ context.Context, req *inventory_v1.List
 }
 
 // Возвращает информацию о детали по её UUID
-func (inv *inventoryService) GetPart(_ context.Context, req *inventory_v1.GetPartRequest) (*inventory_v1.GetPartResponse, error) {
+func (inv *inventoryService) GetPart(ctx context.Context, req *inventory_v1.GetPartRequest) (*inventory_v1.GetPartResponse, error) {
 	inv.mu.RLock()
 	defer inv.mu.RUnlock()
 
