@@ -2,12 +2,15 @@ package repository
 
 import (
 	"context"
-	//"github.com/olezhek28/microservices-course-examples/week_2/layers/internal/model"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
 
-type UFORepository interface {
-	Create(ctx context.Context, info model.SightingInfo) (string, error)
-	Get(ctx context.Context, uuid string) (model.Sighting, error)
-	Update(ctx context.Context, uuid string, updateInfo model.SightingUpdateInfo) error
-	Delete(ctx context.Context, uuid string) error
+type InventoryRepository interface {
+	// Записывает информацию о новой детали
+	CreatePart(ctx context.Context, info model.PartInfo) (string, error)
+	// Возвращает информацию о детали по её UUID
+	GetPart(ctx context.Context, uuid string) (model.Part, error)
+	// Возвращает список деталей с возможностью фильтрации
+	ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error)
 }
