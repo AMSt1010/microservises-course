@@ -95,3 +95,83 @@ func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter {
 		Tags:                  filter.Tags,
 	}
 }
+
+// PartToModel преобразует репозиторную модель Part в доменную модель.
+func PartToModel(part repoModel.Part) model.Part {
+	return model.Part{
+		UUID:      part.UUID,
+		Info:      PartInfoToModel(part.Info),
+		CreatedAt: part.CreatedAt,
+		UpdatedAt: part.UpdatedAt,
+	}
+}
+
+// PartInfoToModel преобразует PartInfo, выполняя глубокую изоляцию срезов и мап.
+func PartInfoToModel(info repoModel.PartInfo) model.PartInfo {
+	var tags []string
+	if info.Tags != nil {
+		tags = make([]string, len(info.Tags))
+		copy(tags, info.Tags)
+	}
+
+	metadata := make(map[string]model.CustomValue, len(info.Metadata))
+	if info.Metadata != nil {
+		for k, v := range info.Metadata {
+			metadata[k] = CustomValueToModel(v)
+		}
+	}
+
+	return model.PartInfo{
+		Name:          info.Name,
+		Description:   info.Description,
+		Price:         info.Price,
+		StockQuantity: info.StockQuantity,
+		Category:      model.Category(info.Category),
+		Dimensions:    DimensionsToModel(info.Dimensions),
+		Manufacturer:  ManufacturerToModel(info.Manufacturer),
+		Tags:          tags,
+		Metadata:      metadata,
+	}
+}
+
+// DimensionsToModel преобразует Dimensions в доменную модель.
+func DimensionsToModel(dim repoModel.Dimensions) model.Dimensions {
+	return model.Dimensions{
+		Length: dim.Length,
+		Width:  dim.Width,
+		Height: dim.Height,
+		Weight: dim.Weight,
+	}
+}
+
+// ManufacturerToModel преобразует Manufacturer в доменную модель.
+func ManufacturerToModel(m repoModel.Manufacturer) model.Manufacturer {
+	return model.Manufacturer{
+		Name:    m.Name,
+		Country: m.Country,
+		Website: m.Website,
+	}
+}
+
+// CustomValueToModel преобразует CustomValue с копированием указателей.
+func CustomValueToModel(cv repoModel.CustomValue) model.CustomValue {
+	return model.CustomValue{
+		StringValue: cv.StringValue,
+		Int64Value:  cv.Int64Value,
+		DoubleValue: cv.DoubleValue,
+		BoolValue:   cv.BoolValue,
+	}
+}
+
+// PartsToModel преобразует срез деталей в пакетном режиме с предвыделением памяти.
+func PartsToModel(parts []repoModel.Part) []model.Part {
+	if parts == nil {
+		return nil
+	}
+
+	res := make([]model.Part, len(parts))
+	for i, p := range parts {
+		res[i] = PartToModel(p)
+	}
+	return res
+}

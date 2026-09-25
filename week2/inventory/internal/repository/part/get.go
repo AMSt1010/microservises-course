@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
 )
 
 // Возвращает информацию о детали по её UUID
@@ -23,7 +24,5 @@ func (r *repository) GetPart(ctx context.Context, uuid string) (model.Part, erro
 
 	log.Printf("Деталь с Uuid %s получена: %+v", uuid, part)
 
-	return &inventory_v1.GetPartResponse{
-		Part: part,
-	}, nil
+	return converter.PartToModel(part), nil
 }
