@@ -1,17 +1,25 @@
 package converter
 
 import (
+	"time"
+
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
+	"github.com/samber/lo"
 )
 
-// PartToRepoModel конвертирует корневую сущность детали в модель репозитория
+// PartToRepoModel конвертирует корневую сущность детали в модель репозитория с глубоким копированием указателей.
 func PartToRepoModel(part model.Part) repoModel.Part {
+	var updatedAt *time.Time
+	if part.UpdatedAt != nil {
+		updatedAt = lo.ToPtr(*part.UpdatedAt)
+	}
+
 	return repoModel.Part{
 		UUID:      part.UUID,
 		Info:      PartInfoToRepoModel(part.Info),
 		CreatedAt: part.CreatedAt,
-		UpdatedAt: part.UpdatedAt,
+		UpdatedAt: updatedAt,
 	}
 }
 
@@ -54,14 +62,24 @@ func CategoryToRepoModel(c model.Category) repoModel.Category {
 	return repoModel.Category(c)
 }
 
-// CustomValueToRepoModel конвертирует CustomValue в модель репозитория
+// CustomValueToRepoModel конвертирует CustomValue в модель репозитория с глубоким копированием значений.
 func CustomValueToRepoModel(cv model.CustomValue) repoModel.CustomValue {
-	return repoModel.CustomValue{
-		StringValue: cv.StringValue,
-		Int64Value:  cv.Int64Value,
-		DoubleValue: cv.DoubleValue,
-		BoolValue:   cv.BoolValue,
+	var res repoModel.CustomValue
+
+	if cv.StringValue != nil {
+		res.StringValue = lo.ToPtr(*cv.StringValue)
 	}
+	if cv.Int64Value != nil {
+		res.Int64Value = lo.ToPtr(*cv.Int64Value)
+	}
+	if cv.DoubleValue != nil {
+		res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+	}
+	if cv.BoolValue != nil {
+		res.BoolValue = lo.ToPtr(*cv.BoolValue)
+	}
+
+	return res
 }
 
 // MetadataToRepoModel выполняет маппинг словаря метаданных
@@ -96,13 +114,18 @@ func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter {
 	}
 }
 
-// PartToModel преобразует репозиторную модель Part в доменную модель.
+// PartToModel преобразует репозиторную модель Part в доменную модель с глубоким копированием указателей.
 func PartToModel(part repoModel.Part) model.Part {
+	var updatedAt *time.Time
+	if part.UpdatedAt != nil {
+		updatedAt = lo.ToPtr(*part.UpdatedAt) // Копирует значение и возвращает новый указатель
+	}
+
 	return model.Part{
 		UUID:      part.UUID,
 		Info:      PartInfoToModel(part.Info),
 		CreatedAt: part.CreatedAt,
-		UpdatedAt: part.UpdatedAt,
+		UpdatedAt: updatedAt,
 	}
 }
 
@@ -153,14 +176,24 @@ func ManufacturerToModel(m repoModel.Manufacturer) model.Manufacturer {
 	}
 }
 
-// CustomValueToModel преобразует CustomValue с копированием указателей.
+// CustomValueToModel преобразует CustomValue с созданием независимых копий значений по указателям.
 func CustomValueToModel(cv repoModel.CustomValue) model.CustomValue {
-	return model.CustomValue{
-		StringValue: cv.StringValue,
-		Int64Value:  cv.Int64Value,
-		DoubleValue: cv.DoubleValue,
-		BoolValue:   cv.BoolValue,
+	var res model.CustomValue
+
+	if cv.StringValue != nil {
+		res.StringValue = lo.ToPtr(*cv.StringValue)
 	}
+	if cv.Int64Value != nil {
+		res.Int64Value = lo.ToPtr(*cv.Int64Value)
+	}
+	if cv.DoubleValue != nil {
+		res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+	}
+	if cv.BoolValue != nil {
+		res.BoolValue = lo.ToPtr(*cv.BoolValue)
+	}
+
+	return res
 }
 
 // PartsToModel преобразует срез деталей в пакетном режиме с предвыделением памяти.

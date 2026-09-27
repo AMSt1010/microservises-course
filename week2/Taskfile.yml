@@ -36,7 +36,7 @@ vars:
   COVERAGE_DIR: '{{.ROOT_DIR}}/coverage'
   COVERAGE_FILE: total.out
 
-  MODULES: assembly inventory order payment platform iam notification
+  MODULES: inventory order payment
 
 tasks:
   install-formatters:
@@ -237,11 +237,13 @@ tasks:
     desc: "Обновление зависимостей в go.mod во всех модулях"
     cmds:
       - |
+        echo "🔄 Обновление зависимостей в go.work"
+        go work sync
         echo "🔄 Обновление зависимостей в go.mod во всех модулях"
         for mod in {{.MODULES}}; do
           if [ -d "$mod" ]; then
             echo "🔄 Обновление зависимостей в $mod"
-            (cd "$mod" && go mod tidy -compat=1.24) || exit 1
+            (cd "$mod" && go mod tidy -compat=1.25.0) || exit 1
           fi
         done
 
@@ -255,12 +257,19 @@ tasks:
         }
 
   mockery:install:
-    desc: "Устанавливает mockery в ./bin"
+    desc: "Собирает mockery в ./bin с обновленным пакетом x/tools"
     cmds:
       - |
         [ -f {{.MOCKERY}} ] || {
-          echo '📦 Installing mockery...'
-          GOBIN={{.BIN_DIR}} go install github.com/vektra/mockery/v2@{{.MOCKERY_VERSION}}
+          echo '📦 Клонируем и собираем mockery под текущую версию Go...'
+          mkdir -p {{.BIN_DIR}}
+          TMP_DIR=$(mktemp -d)
+          git clone --depth 1 --branch {{.MOCKERY_VERSION}} https://github.com/vektra/mockery $TMP_DIR
+          cd $TMP_DIR
+          go get golang.org/x/tools@latest
+          go mod tidy
+          go build -o {{.MOCKERY}} .
+          rm -rf $TMP_DIR
         }
     status:
       - test -x {{.MOCKERY}}

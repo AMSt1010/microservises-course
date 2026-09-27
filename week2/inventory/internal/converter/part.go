@@ -38,7 +38,7 @@ func PartToModel(part *InvV1.Part) model.Part {
 }
 
 // PartInfoToModel преобразует protobuf PartInfo в доменную модель PartInfo.
-func PartInfoToModel(info *InvV1.PartInfo) model.PartInfo {
+func PartInfoToModel(info *InvV1.Info) model.PartInfo {
 	if info == nil {
 		return model.PartInfo{}
 	}
@@ -104,7 +104,8 @@ func CustomValueToModel(cv *InvV1.CustomValue) model.CustomValue {
 	}
 
 	var res model.CustomValue
-	switch val := cv.Value.(type) {
+
+	switch val := cv.Kind.(type) {
 	case *InvV1.CustomValue_StringValue:
 		res.StringValue = lo.ToPtr(val.StringValue)
 	case *InvV1.CustomValue_Int64Value:
@@ -126,10 +127,22 @@ func PartsFilterToModel(filter *InvV1.PartsFilter) model.PartsFilter {
 
 	var categories []model.Category
 	if filter.Categories != nil {
-		categories = lo.Map(filter.Categories, func(item int32, _ int) model.Category {
+		categories = lo.Map(filter.Categories, func(item InvV1.Category, _ int) model.Category {
 			return model.Category(item)
 		})
 	}
+	/*
+			var categories []model.Category
+			if filter.Categories != nil {
+		    	// 1. Выделяем память ровно под нужный объем за одну аллокацию
+		    	categories = make([]model.Category, len(filter.Categories))
+
+		    	// 2. Явно приводим каждый элемент по индексу
+		    	for i, item := range filter.Categories {
+		        categories[i] = model.Category(item)
+		    	}
+			}
+	*/
 
 	var uuids []string
 	if filter.Uuids != nil {
@@ -184,7 +197,7 @@ func PartToProto(part model.Part) *InvV1.Part {
 }
 
 // PartInfoToProto преобразует доменную модель PartInfo в protobuf PartInfo.
-func PartInfoToProto(info model.PartInfo) *InvV1.PartInfo {
+func PartInfoToProto(info model.PartInfo) *InvV1.Info {
 	var tags []string
 	if info.Tags != nil {
 		tags = make([]string, len(info.Tags))
@@ -199,7 +212,7 @@ func PartInfoToProto(info model.PartInfo) *InvV1.PartInfo {
 		}
 	}
 
-	return &InvV1.PartInfo{
+	return &InvV1.Info{
 		Name:          info.Name,
 		Description:   info.Description,
 		Price:         info.Price,
@@ -236,25 +249,25 @@ func CustomValueToProto(cv model.CustomValue) *InvV1.CustomValue {
 	switch {
 	case cv.StringValue != nil:
 		return &InvV1.CustomValue{
-			Value: &InvV1.CustomValue_StringValue{
+			Kind: &InvV1.CustomValue_StringValue{
 				StringValue: *cv.StringValue,
 			},
 		}
 	case cv.Int64Value != nil:
 		return &InvV1.CustomValue{
-			Value: &InvV1.CustomValue_Int64Value{
+			Kind: &InvV1.CustomValue_Int64Value{
 				Int64Value: *cv.Int64Value,
 			},
 		}
 	case cv.DoubleValue != nil:
 		return &InvV1.CustomValue{
-			Value: &InvV1.CustomValue_DoubleValue{
+			Kind: &InvV1.CustomValue_DoubleValue{
 				DoubleValue: *cv.DoubleValue,
 			},
 		}
 	case cv.BoolValue != nil:
 		return &InvV1.CustomValue{
-			Value: &InvV1.CustomValue_BoolValue{
+			Kind: &InvV1.CustomValue_BoolValue{
 				BoolValue: *cv.BoolValue,
 			},
 		}

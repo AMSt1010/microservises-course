@@ -10,7 +10,7 @@ import (
 func (s *service) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
 	UUID, err := s.invRepository.CreatePart(ctx, info)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	return UUID, nil
 }

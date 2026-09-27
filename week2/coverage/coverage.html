@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>converter: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter/part.go (63.1%)</option>
+				
+				<option value="file1">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model/part.go (0.0%)</option>
+				
+				<option value="file2">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/create.go (100.0%)</option>
+				
+				<option value="file3">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/get.go (100.0%)</option>
+				
+				<option value="file4">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/list.go (95.5%)</option>
+				
+				<option value="file5">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/repository.go (100.0%)</option>
+				
+				<option value="file6">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/create.go (100.0%)</option>
+				
+				<option value="file7">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/get.go (100.0%)</option>
+				
+				<option value="file8">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/list.go (100.0%)</option>
+				
+				<option value="file9">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/service.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">no coverage</span>
+				<span class="cov1">low coverage</span>
+				<span class="cov2">*</span>
+				<span class="cov3">*</span>
+				<span class="cov4">*</span>
+				<span class="cov5">*</span>
+				<span class="cov6">*</span>
+				<span class="cov7">*</span>
+				<span class="cov8">*</span>
+				<span class="cov9">*</span>
+				<span class="cov10">high coverage</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package converter
+
+import (
+        "time"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+        repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
+        "github.com/samber/lo"
+)
+
+// PartToRepoModel конвертирует корневую сущность детали в модель репозитория с глубоким копированием указателей.
+func PartToRepoModel(part model.Part) repoModel.Part {
+        <span class="cov0" title="0">var updatedAt *time.Time
+        if part.UpdatedAt != nil </span>{
+                <span class="cov0" title="0">updatedAt = lo.ToPtr(*part.UpdatedAt)
+</span>        }
+
+        <span class="cov0" title="0">return repoModel.Part{
+                UUID:      part.UUID,
+                Info:      PartInfoToRepoModel(part.Info),
+                CreatedAt: part.CreatedAt,
+                UpdatedAt: updatedAt,
+</span>        }
+}
+
+// PartInfoToRepoModel конвертирует характеристики детали в модель репозитория
+func PartInfoToRepoModel(info model.PartInfo) repoModel.PartInfo {
+        <span class="cov10" title="6">return repoModel.PartInfo{
+                Name:          info.Name,
+                Description:   info.Description,
+                Price:         info.Price,
+                StockQuantity: info.StockQuantity,
+                Category:      CategoryToRepoModel(info.Category),
+                Dimensions:    DimensionsToRepoModel(info.Dimensions),
+                Manufacturer:  ManufacturerToRepoModel(info.Manufacturer),
+                Tags:          info.Tags,
+                Metadata:      MetadataToRepoModel(info.Metadata),
+</span>        }
+}
+
+// DimensionsToRepoModel конвертирует габариты в модель репозитория
+func DimensionsToRepoModel(d model.Dimensions) repoModel.Dimensions {
+        <span class="cov10" title="6">return repoModel.Dimensions{
+                Length: d.Length,
+                Width:  d.Width,
+                Height: d.Height,
+                Weight: d.Weight,
+</span>        }
+}
+
+// ManufacturerToRepoModel конвертирует данные производителя в модель репозитория
+func ManufacturerToRepoModel(m model.Manufacturer) repoModel.Manufacturer {
+        <span class="cov10" title="6">return repoModel.Manufacturer{
+                Name:    m.Name,
+                Country: m.Country,
+                Website: m.Website,
+</span>        }
+}
+
+// CategoryToRepoModel конвертирует категорию в модель репозитория
+func CategoryToRepoModel(c model.Category) repoModel.Category {
+        <span class="cov10" title="6">return repoModel.Category(c)
+</span>}
+
+// CustomValueToRepoModel конвертирует CustomValue в модель репозитория с глубоким копированием значений.
+func CustomValueToRepoModel(cv model.CustomValue) repoModel.CustomValue {
+        <span class="cov10" title="6">var res repoModel.CustomValue
+</span>
+        <span class="cov10" title="6">if cv.StringValue != nil </span>{
+                <span class="cov10" title="6">res.StringValue = lo.ToPtr(*cv.StringValue)
+</span>        }
+        <span class="cov10" title="6">if cv.Int64Value != nil </span>{
+                <span class="cov0" title="0">res.Int64Value = lo.ToPtr(*cv.Int64Value)
+</span>        }
+        <span class="cov10" title="6">if cv.DoubleValue != nil </span>{
+                <span class="cov0" title="0">res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+</span>        }
+        <span class="cov10" title="6">if cv.BoolValue != nil </span>{
+                <span class="cov0" title="0">res.BoolValue = lo.ToPtr(*cv.BoolValue)
+</span>        }
+
+        <span class="cov10" title="6">return res</span>
+}
+
+// MetadataToRepoModel выполняет маппинг словаря метаданных
+func MetadataToRepoModel(meta map[string]model.CustomValue) map[string]repoModel.CustomValue {
+        <span class="cov10" title="6">if meta == nil </span>{
+                <span class="cov0" title="0">return nil
+</span>        }
+
+        <span class="cov10" title="6">res := make(map[string]repoModel.CustomValue, len(meta))
+        for k, v := range meta </span>{
+                <span class="cov10" title="6">res[k] = CustomValueToRepoModel(v)
+</span>        }
+        <span class="cov10" title="6">return res</span>
+}
+
+// PartsFilterToRepoModel конвертирует фильтр выборки в модель репозитория
+func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter {
+        <span class="cov0" title="0">var categories []repoModel.Category
+        if filter.Categories != nil </span>{
+                <span class="cov0" title="0">categories = make([]repoModel.Category, len(filter.Categories))
+                for i, cat := range filter.Categories </span>{
+                        <span class="cov0" title="0">categories[i] = CategoryToRepoModel(cat)
+</span>                }
+        }
+
+        <span class="cov0" title="0">return repoModel.PartsFilter{
+                UUIDs:                 filter.UUIDs,
+                Names:                 filter.Names,
+                Categories:            categories,
+                ManufacturerCountries: filter.ManufacturerCountries,
+                Tags:                  filter.Tags,
+</span>        }
+}
+
+// PartToModel преобразует репозиторную модель Part в доменную модель с глубоким копированием указателей.
+func PartToModel(part repoModel.Part) model.Part {
+        <span class="cov10" title="6">var updatedAt *time.Time
+        if part.UpdatedAt != nil </span>{
+                <span class="cov0" title="0">updatedAt = lo.ToPtr(*part.UpdatedAt) // Копирует значение и возвращает новый указатель
+</span>        }
+
+        <span class="cov10" title="6">return model.Part{
+                UUID:      part.UUID,
+                Info:      PartInfoToModel(part.Info),
+                CreatedAt: part.CreatedAt,
+                UpdatedAt: updatedAt,
+</span>        }
+}
+
+// PartInfoToModel преобразует PartInfo, выполняя глубокую изоляцию срезов и мап.
+func PartInfoToModel(info repoModel.PartInfo) model.PartInfo {
+        <span class="cov10" title="6">var tags []string
+        if info.Tags != nil </span>{
+                <span class="cov10" title="6">tags = make([]string, len(info.Tags))
+                copy(tags, info.Tags)
+</span>        }
+
+        <span class="cov10" title="6">metadata := make(map[string]model.CustomValue, len(info.Metadata))
+        if info.Metadata != nil </span>{
+                <span class="cov10" title="6">for k, v := range info.Metadata </span>{
+                        <span class="cov10" title="6">metadata[k] = CustomValueToModel(v)
+</span>                }
+        }
+
+        <span class="cov10" title="6">return model.PartInfo{
+                Name:          info.Name,
+                Description:   info.Description,
+                Price:         info.Price,
+                StockQuantity: info.StockQuantity,
+                Category:      model.Category(info.Category),
+                Dimensions:    DimensionsToModel(info.Dimensions),
+                Manufacturer:  ManufacturerToModel(info.Manufacturer),
+                Tags:          tags,
+                Metadata:      metadata,
+</span>        }
+}
+
+// DimensionsToModel преобразует Dimensions в доменную модель.
+func DimensionsToModel(dim repoModel.Dimensions) model.Dimensions {
+        <span class="cov10" title="6">return model.Dimensions{
+                Length: dim.Length,
+                Width:  dim.Width,
+                Height: dim.Height,
+                Weight: dim.Weight,
+</span>        }
+}
+
+// ManufacturerToModel преобразует Manufacturer в доменную модель.
+func ManufacturerToModel(m repoModel.Manufacturer) model.Manufacturer {
+        <span class="cov10" title="6">return model.Manufacturer{
+                Name:    m.Name,
+                Country: m.Country,
+                Website: m.Website,
+</span>        }
+}
+
+// CustomValueToModel преобразует CustomValue с созданием независимых копий значений по указателям.
+func CustomValueToModel(cv repoModel.CustomValue) model.CustomValue {
+        <span class="cov10" title="6">var res model.CustomValue
+</span>
+        <span class="cov10" title="6">if cv.StringValue != nil </span>{
+                <span class="cov10" title="6">res.StringValue = lo.ToPtr(*cv.StringValue)
+</span>        }
+        <span class="cov10" title="6">if cv.Int64Value != nil </span>{
+                <span class="cov0" title="0">res.Int64Value = lo.ToPtr(*cv.Int64Value)
+</span>        }
+        <span class="cov10" title="6">if cv.DoubleValue != nil </span>{
+                <span class="cov0" title="0">res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+</span>        }
+        <span class="cov10" title="6">if cv.BoolValue != nil </span>{
+                <span class="cov0" title="0">res.BoolValue = lo.ToPtr(*cv.BoolValue)
+</span>        }
+
+        <span class="cov10" title="6">return res</span>
+}
+
+// PartsToModel преобразует срез деталей в пакетном режиме с предвыделением памяти.
+func PartsToModel(parts []repoModel.Part) []model.Part {
+        <span class="cov0" title="0">if parts == nil </span>{
+                <span class="cov0" title="0">return nil
+</span>        }
+
+        <span class="cov0" title="0">res := make([]model.Part, len(parts))
+        for i, p := range parts </span>{
+                <span class="cov0" title="0">res[i] = PartToModel(p)
+</span>        }
+        <span class="cov0" title="0">return res</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package model
+
+import (
+        "errors"
+        "time"
+)
+
+// PartInfo содержит базовые характеристики детали.
+type PartInfo struct {
+        Name          string
+        Description   string
+        Price         float64
+        StockQuantity int64
+        Category      Category
+        Dimensions    Dimensions
+        Manufacturer  Manufacturer
+        Tags          []string
+        Metadata      map[string]CustomValue
+}
+
+// Dimensions описывает физические размеры и вес.
+type Dimensions struct {
+        Length float64
+        Width  float64
+        Height float64
+        Weight float64
+}
+
+// Manufacturer описывает данные производителя.
+type Manufacturer struct {
+        Name    string
+        Country string
+        Website string
+}
+
+// Part описывает сущность детали в бизнес-логике.
+type Part struct {
+        UUID      string
+        Info      PartInfo
+        CreatedAt time.Time
+        UpdatedAt *time.Time
+}
+
+// PartsFilter задает параметры фильтрации при выборке деталей.
+type PartsFilter struct {
+        UUIDs                 []string
+        Names                 []string
+        Categories            []Category
+        ManufacturerCountries []string
+        Tags                  []string
+}
+
+// Category описывает доступные категории детали.
+type Category int32
+
+const (
+        CategoryUnspecified Category = iota
+        CategoryEngine
+        CategoryFuel
+        CategoryPorthole
+        CategoryWing
+)
+
+// CustomValue представляет строго одно из допустимых значений метаданных.
+type CustomValue struct {
+        StringValue *string
+        Int64Value  *int64
+        DoubleValue *float64
+        BoolValue   *bool
+}
+
+func NewStringValue(v string) CustomValue {
+        <span class="cov0" title="0">return CustomValue{StringValue: &amp;v}
+</span>}
+
+func NewInt64Value(v int64) CustomValue {
+        <span class="cov0" title="0">return CustomValue{Int64Value: &amp;v}
+</span>}
+
+func NewDoubleValue(v float64) CustomValue {
+        <span class="cov0" title="0">return CustomValue{DoubleValue: &amp;v}
+</span>}
+
+func NewBoolValue(v bool) CustomValue {
+        <span class="cov0" title="0">return CustomValue{BoolValue: &amp;v}
+</span>}
+
+func (c CustomValue) Validate() error {
+        <span class="cov0" title="0">count := 0
+        if c.StringValue != nil </span>{
+                <span class="cov0" title="0">count++
+</span>        }
+        <span class="cov0" title="0">if c.Int64Value != nil </span>{
+                <span class="cov0" title="0">count++
+</span>        }
+        <span class="cov0" title="0">if c.DoubleValue != nil </span>{
+                <span class="cov0" title="0">count++
+</span>        }
+        <span class="cov0" title="0">if c.BoolValue != nil </span>{
+                <span class="cov0" title="0">count++
+</span>        }
+
+        <span class="cov0" title="0">if count != 1 </span>{
+                <span class="cov0" title="0">return errors.New("custom value must have exactly one field populated")
+</span>        }
+        <span class="cov0" title="0">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package part
+
+import (
+        "context"
+        "log"
+        "time"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+        repoConverter "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
+        repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
+        "github.com/google/uuid"
+)
+
+// Записывает информацию о новой детали
+func (r *repository) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
+        <span class="cov10" title="6">r.mu.Lock()
+        defer r.mu.Unlock()
+</span>
+        <span class="cov10" title="6">newUUID := uuid.NewString()
+</span>
+        <span class="cov10" title="6">part := repoModel.Part{
+                UUID:      newUUID,
+                Info:      repoConverter.PartInfoToRepoModel(info),
+                CreatedAt: time.Now(),
+</span>        }
+
+        <span class="cov10" title="6">r.data[newUUID] = part
+</span>
+        <span class="cov10" title="6">partsFilter := newPartsFilterStorage(part)
+        r.filterIndices[newUUID] = partsFilter
+</span>
+        <span class="cov10" title="6">log.Printf("Создана деталь с Uuid %v", newUUID)
+        return newUUID, nil
+</span>}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package part
+
+import (
+        "context"
+        "log"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
+)
+
+// Возвращает информацию о детали по её UUID
+func (r *repository) GetPart(ctx context.Context, uuid string) (model.Part, error) {
+        <span class="cov10" title="3">r.mu.RLock()
+        defer r.mu.RUnlock()
+</span>
+        <span class="cov10" title="3">if uuid == "" </span>{
+                <span class="cov1" title="1">return model.Part{}, model.ErrUUIDCannotBeEmpty
+</span>        }
+
+        <span class="cov6" title="2">part, ok := r.data[uuid]
+        if !ok </span>{
+                <span class="cov1" title="1">return model.Part{}, model.ErrPartNotFound
+</span>        }
+
+        <span class="cov1" title="1">log.Printf("Деталь с Uuid %s получена: %+v", uuid, part)
+</span>
+        <span class="cov1" title="1">return converter.PartToModel(part), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package part
+
+import (
+        "context"
+        "strings"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
+)
+
+func containsAny(target string, searchTerms []string) bool {
+        <span class="cov10" title="10">if len(searchTerms) == 0 </span>{
+                <span class="cov7" title="5">return true
+</span>        }
+        <span class="cov7" title="5">for _, term := range searchTerms </span>{
+                <span class="cov7" title="5">if strings.Contains(target, term) </span>{
+                        <span class="cov3" title="2">return true
+</span>                }
+        }
+        <span class="cov5" title="3">return false</span>
+}
+
+func containsAnyTag(partTags, searchTags []string) bool {
+        <span class="cov5" title="3">if len(searchTags) == 0 </span>{
+                <span class="cov3" title="2">return true
+</span>        }
+        <span class="cov1" title="1">for _, searchTag := range searchTags </span>{
+                <span class="cov1" title="1">for _, partTag := range partTags </span>{
+                        <span class="cov1" title="1">if partTag == searchTag </span>{
+                                <span class="cov1" title="1">return true
+</span>                        }
+                }
+        }
+        <span class="cov0" title="0">return false</span>
+}
+
+func matchCategories(itemCategory int32, categories []model.Category) bool {
+        <span class="cov8" title="7">if len(categories) == 0 </span>{
+                <span class="cov7" title="5">return true
+</span>        }
+        <span class="cov3" title="2">for _, cat := range categories </span>{
+                <span class="cov3" title="2">if itemCategory == int32(cat) </span>{
+                        <span class="cov1" title="1">return true
+</span>                }
+        }
+        <span class="cov1" title="1">return false</span>
+}
+
+func (r *repository) collectSourceByUUIDs(uuids []string) map[string]partsFilterStorage {
+        <span class="cov1" title="1">source := make(map[string]partsFilterStorage, len(uuids))
+        for _, id := range uuids </span>{
+                <span class="cov1" title="1">if filterItem, ok := r.filterIndices[id]; ok </span>{
+                        <span class="cov1" title="1">source[id] = filterItem
+</span>                }
+        }
+        <span class="cov1" title="1">return source</span>
+}
+
+// Возвращает список деталей с возможностью фильтрации.
+func (r *repository) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) {
+        <span class="cov8" title="6">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return nil, err
+</span>        }
+
+        <span class="cov7" title="5">r.mu.RLock()
+        defer r.mu.RUnlock()
+</span>
+        <span class="cov7" title="5">if isFilterEmpty(filter) </span>{
+                <span class="cov1" title="1">result := make([]model.Part, 0, len(r.data))
+                for _, v := range r.data </span>{
+                        <span class="cov3" title="2">result = append(result, converter.PartToModel(v))
+</span>                }
+                <span class="cov1" title="1">return result, nil</span>
+        }
+
+        <span class="cov6" title="4">lowerNames := normalizationSearchStrings(filter.Names)
+        lowerCountries := normalizationSearchStrings(filter.ManufacturerCountries)
+        lowerTags := normalizationSearchStrings(filter.Tags)
+        categories := filter.Categories
+</span>
+        <span class="cov6" title="4">var source map[string]partsFilterStorage
+        if len(filter.UUIDs) &gt; 0 </span>{
+                <span class="cov1" title="1">source = r.collectSourceByUUIDs(filter.UUIDs)
+</span>        } else {
+                <span class="cov5" title="3">source = r.filterIndices
+</span>        }
+
+        <span class="cov6" title="4">result := make([]model.Part, 0, len(source))
+        for _, item := range source </span>{
+                <span class="cov8" title="7">if !matchCategories(item.category, categories) </span>{
+                        <span class="cov1" title="1">continue</span>
+                }
+                <span class="cov8" title="6">if !containsAny(item.name, lowerNames) </span>{
+                        <span class="cov3" title="2">continue</span>
+                }
+                <span class="cov6" title="4">if !containsAny(item.manufacturerCountry, lowerCountries) </span>{
+                        <span class="cov1" title="1">continue</span>
+                }
+                <span class="cov5" title="3">if !containsAnyTag(item.tags, lowerTags) </span>{
+                        <span class="cov0" title="0">continue</span>
+                }
+
+                <span class="cov5" title="3">part, ok := r.data[item.uuid]
+                if !ok </span>{
+                        <span class="cov0" title="0">continue</span> // Защита от рассинхронизации индекса и данных
+                }
+
+                <span class="cov5" title="3">result = append(result, converter.PartToModel(part))</span>
+        }
+
+        <span class="cov6" title="4">return result, nil</span>
+}
+
+func isFilterEmpty(f model.PartsFilter) bool {
+        <span class="cov7" title="5">return len(f.UUIDs) == 0 &amp;&amp;
+                len(f.Names) == 0 &amp;&amp;
+                len(f.Categories) == 0 &amp;&amp;
+                len(f.ManufacturerCountries) == 0 &amp;&amp;
+                len(f.Tags) == 0
+</span>}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package part
+
+import (
+        "strings"
+        "sync"
+
+        def "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository"
+
+        repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
+)
+
+var _ def.InventoryRepository = (*repository)(nil)
+
+type repository struct {
+        mu            sync.RWMutex
+        data          map[string]repoModel.Part
+        filterIndices map[string]partsFilterStorage
+}
+
+func NewRepository() *repository {
+        <span class="cov7" title="7">return &amp;repository{
+                data:          make(map[string]repoModel.Part),
+                filterIndices: make(map[string]partsFilterStorage),
+</span>        }
+}
+
+// Плоская структура для быстрого поиска по фильтру
+type partsFilterStorage struct {
+        // Уникальный идентификатор детали
+        uuid string
+
+        // Название детали
+        name string
+
+        // Категория
+        category int32
+
+        // Страна производителя
+        manufacturerCountry string
+
+        // Теги для быстрого поиска
+        tags []string
+}
+
+func newPartsFilterStorage(part repoModel.Part) partsFilterStorage {
+        <span class="cov6" title="6">return partsFilterStorage{
+                uuid:                part.UUID,
+                name:                strings.ToLower(strings.TrimSpace(part.Info.Name)),
+                category:            int32(part.Info.Category),
+                manufacturerCountry: strings.ToLower(strings.TrimSpace(part.Info.Manufacturer.Country)),
+                tags:                normalizationSearchStrings(part.Info.Tags),
+</span>        }
+}
+
+func normalizationSearchStrings(inputStr []string) []string {
+        <span class="cov10" title="18">normalizedString := make([]string, 0, len(inputStr))
+        for _, n := range inputStr </span>{
+                <span class="cov9" title="16">if trimmed := strings.ToLower(strings.TrimSpace(n)); trimmed != "" </span>{
+                        <span class="cov9" title="16">normalizedString = append(normalizedString, trimmed)
+</span>                }
+        }
+        <span class="cov10" title="18">return normalizedString</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package part
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+)
+
+// Записывает информацию о новой детали
+func (s *service) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
+        <span class="cov10" title="2">UUID, err := s.invRepository.CreatePart(ctx, info)
+        if err != nil </span>{
+                <span class="cov1" title="1">return "", err
+</span>        }
+        <span class="cov1" title="1">return UUID, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package part
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+)
+
+// Записывает информацию о новой детали
+func (s *service) GetPart(ctx context.Context, uuid string) (model.Part, error) {
+        <span class="cov10" title="3">part, err := s.invRepository.GetPart(ctx, uuid)
+        if err != nil </span>{
+                <span class="cov6" title="2">return model.Part{}, err
+</span>        }
+        <span class="cov1" title="1">return part, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package part
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+)
+
+// Записывает информацию о новой детали
+func (s *service) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) {
+        <span class="cov10" title="3">parts, err := s.invRepository.ListParts(ctx, filter)
+        if err != nil </span>{
+                <span class="cov1" title="1">return []model.Part{}, err
+</span>        }
+        <span class="cov6" title="2">return parts, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package part
+
+import (
+        "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository"
+        def "github.com/AMSt1010/microservises-course/week2/inventory/internal/service"
+)
+
+var _ def.InventoryService = (*service)(nil)
+
+type service struct {
+        invRepository repository.InventoryRepository
+}
+
+func NewService(repo repository.InventoryRepository) *service {
+        <span class="cov10" title="8">return &amp;service{
+                invRepository: repo,
+</span>        }
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>

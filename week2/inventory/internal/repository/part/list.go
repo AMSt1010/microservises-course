@@ -49,8 +49,8 @@ func matchCategories(itemCategory int32, categories []model.Category) bool {
 func (r *repository) collectSourceByUUIDs(uuids []string) map[string]partsFilterStorage {
 	source := make(map[string]partsFilterStorage, len(uuids))
 	for _, id := range uuids {
-		if part, ok := r.data[id]; ok {
-			source[id] = newPartsFilterStorage(part)
+		if filterItem, ok := r.filterIndices[id]; ok {
+			source[id] = filterItem
 		}
 	}
 	return source

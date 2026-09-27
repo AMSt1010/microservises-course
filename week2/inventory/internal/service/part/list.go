@@ -10,7 +10,7 @@ import (
 func (s *service) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) {
 	parts, err := s.invRepository.ListParts(ctx, filter)
 	if err != nil {
-		return []model.Part{}, nil
+		return []model.Part{}, err
 	}
 	return parts, nil
 }
