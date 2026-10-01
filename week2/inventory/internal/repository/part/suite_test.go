@@ -4,9 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
 
 type RepositorySuite struct {

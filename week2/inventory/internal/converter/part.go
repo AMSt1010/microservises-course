@@ -3,10 +3,11 @@ package converter
 import (
 	"time"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
-	InvV1 "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1"
 	"github.com/samber/lo"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
+	InvV1 "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1"
 )
 
 // ==========================================

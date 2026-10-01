@@ -3,13 +3,13 @@ package v1
 import (
 	"time"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/converter"
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	"github.com/brianvoe/gofakeit/v7"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/converter"
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	invV1 "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1"
 )
 
@@ -73,7 +73,7 @@ func (s *APISuite) TestGetPartEmptyUUIDError() {
 	st, ok := status.FromError(err)
 	s.Require().True(ok)
 	s.Require().Equal(codes.InvalidArgument, st.Code())
-	s.Require().Equal("UUID cannot be empty", st.Message())
+	s.Require().Equal("uuid cannot be empty", st.Message())
 }
 
 func (s *APISuite) TestGetPartNotFoundError() {

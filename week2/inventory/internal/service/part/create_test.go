@@ -61,7 +61,6 @@ func GenerateFakePartInfo() model.PartInfo {
 }
 
 func (s *ServiceSuite) TestCreatePartSuccess() {
-
 	info := GenerateFakePartInfo()
 
 	expectedUUID := gofakeit.UUID()
@@ -72,7 +71,6 @@ func (s *ServiceSuite) TestCreatePartSuccess() {
 
 	s.Require().NoError(err)
 	s.Require().Equal(expectedUUID, UUID)
-
 }
 
 func (s *ServiceSuite) TestCreatePartRepoError() {

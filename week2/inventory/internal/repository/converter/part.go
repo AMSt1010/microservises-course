@@ -3,9 +3,10 @@ package converter
 import (
 	"time"
 
+	"github.com/samber/lo"
+
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
-	"github.com/samber/lo"
 )
 
 // PartToRepoModel конвертирует корневую сущность детали в модель репозитория с глубоким копированием указателей.

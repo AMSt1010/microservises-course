@@ -1,9 +1,9 @@
 package v1
 
 import (
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/converter"
 	"github.com/brianvoe/gofakeit/v7"
 
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/converter"
 	invV1 "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1"
 )
 

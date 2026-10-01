@@ -1,6 +1,6 @@
 module github.com/AMSt1010/microservises-course/week2/inventory
 
-go 1.27.1
+go 1.27.0
 
 require (
 	github.com/AMSt1010/microservises-course/week2/shared v0.0.0-00010101000000-000000000000

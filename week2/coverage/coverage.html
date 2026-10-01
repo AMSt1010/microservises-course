@@ -75,6 +75,10 @@
 				
 				<option value="file9">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/service.go (100.0%)</option>
 				
+				<option value="file10">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go (100.0%)</option>
+				
+				<option value="file11">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/service.go (100.0%)</option>
+				
 				</select>
 			</div>
 			<div id="legend">
@@ -101,9 +105,10 @@
 import (
         "time"
 
+        "github.com/samber/lo"
+
         "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
         repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
-        "github.com/samber/lo"
 )
 
 // PartToRepoModel конвертирует корневую сущность детали в модель репозитория с глубоким копированием указателей.
@@ -424,10 +429,11 @@ import (
         "log"
         "time"
 
+        "github.com/google/uuid"
+
         "github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
         repoConverter "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
         repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
-        "github.com/google/uuid"
 )
 
 // Записывает информацию о новой детали
@@ -612,7 +618,6 @@ import (
         "sync"
 
         def "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository"
-
         repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
 )
 
@@ -742,6 +747,48 @@ func NewService(repo repository.InventoryRepository) *service {
                 invRepository: repo,
 </span>        }
 }
+</pre>
+		
+		<pre class="file" id="file10" style="display: none">package payment
+
+import (
+        "context"
+        "log"
+
+        "github.com/google/uuid"
+
+        "github.com/AMSt1010/microservises-course/week2/payment/internal/model"
+)
+
+func (s *service) PayOrder(ctx context.Context, payment model.Payment) (string, error) {
+        <span class="cov10" title="5">if ctx.Err() != nil </span>{
+                <span class="cov1" title="1">return "", ctx.Err()
+</span>        }
+
+        <span class="cov8" title="4">if err := payment.Validate(); err != nil </span>{
+                <span class="cov7" title="3">return "", err
+</span>        }
+
+        <span class="cov1" title="1">transactionUUID := uuid.NewString()
+</span>
+        <span class="cov1" title="1">log.Printf("Оплата прошла успешно , transaction_uuid: %v\nUUID заказа: %v\nUUID пользователя: %v\nСпособ оплаты: %v\n", transactionUUID, payment.OrderUUID, payment.UserUUID, payment.PaymentMethod)
+        return transactionUUID, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package payment
+
+import (
+        def "github.com/AMSt1010/microservises-course/week2/payment/internal/service"
+)
+
+var _ def.PaymentService = (*service)(nil)
+
+type service struct{}
+
+func NewService() *service {
+        <span class="cov10" title="5">return &amp;service{}
+</span>}
 </pre>
 		
 		</div>

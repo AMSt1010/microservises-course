@@ -1,0 +1,23 @@
+module github.com/AMSt1010/microservises-course/week2/payment
+
+go 1.27.0
+
+require (
+	github.com/AMSt1010/microservises-course/week2/shared v0.0.0-00010101000000-000000000000
+	github.com/brianvoe/gofakeit/v7 v7.17.1
+	github.com/google/uuid v1.6.0
+	github.com/stretchr/testify v1.12.1
+	google.golang.org/grpc v1.84.0
+)
+
+require (
+	github.com/stretchr/objx v0.5.3 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
+	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260706201446-f0a921348800 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
+)
+
+replace github.com/AMSt1010/microservises-course/week2/shared => ../shared

@@ -14,4 +14,7 @@ packages:
   github.com/AMSt1010/microservises-course/week2/inventory/internal/service:
     config:
       include-regex: ".*Service"
+  github.com/AMSt1010/microservises-course/week2/payment/internal/service:
+    config:
+      include-regex: ".*Service"
 

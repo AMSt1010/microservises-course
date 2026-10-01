@@ -5,10 +5,11 @@ import (
 	"log"
 	"time"
 
+	"github.com/google/uuid"
+
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	repoConverter "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
 	repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
-	"github.com/google/uuid"
 )
 
 // Записывает информацию о новой детали

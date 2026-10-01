@@ -1,6 +1,6 @@
 module github.com/AMSt1010/microservises-course/week2/shared
 
-go 1.27.1
+go 1.27.0
 
 require (
 	google.golang.org/grpc v1.84.0

@@ -3,8 +3,9 @@ package part
 import (
 	"time"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	"github.com/brianvoe/gofakeit/v7"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
 
 // GenerateFakePart генерирует валидную доменную модель Part для тестов.

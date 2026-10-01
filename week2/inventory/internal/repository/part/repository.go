@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	def "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository"
-
 	repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
 )
 

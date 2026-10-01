@@ -7,11 +7,11 @@ import (
 
 type api struct {
 	invV1.UnimplementedInventoryServiceServer
-	InvService service.InventoryService
+	invService service.InventoryService
 }
 
 func NewApi(service service.InventoryService) *api {
 	return &api{
-		InvService: service,
+		invService: service,
 	}
 }

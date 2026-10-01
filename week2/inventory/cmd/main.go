@@ -11,19 +11,19 @@ import (
 	"syscall"
 	"time"
 
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+
 	invV1API "github.com/AMSt1010/microservises-course/week2/inventory/internal/api/inventory/v1"
 	invRepository "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part"
 	invService "github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part"
 	invV1 "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 const grpcPort = 50051
 
 func main() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
-
 	if err != nil {
 		log.Printf("failed to listen: %v\n", err)
 		return
@@ -35,10 +35,10 @@ func main() {
 		}
 	}()
 
-	//Создаем grpc сервер
+	// Создаем grpc сервер
 	s := grpc.NewServer()
 
-	//Регистрируем наш сервис
+	// Регистрируем наш сервис
 
 	r := invRepository.NewRepository()
 	service := invService.NewService(r)
@@ -49,7 +49,7 @@ func main() {
 	// Включаем рефлексию для отладки
 	reflection.Register(s)
 
-	//запускаем сервер
+	// запускаем сервер
 	go func() {
 		log.Printf("gRPC server listening on %d\n", grpcPort)
 		if err := s.Serve(lis); err != nil && !errors.Is(err, grpc.ErrServerStopped) {

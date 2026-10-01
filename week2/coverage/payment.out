@@ -1,0 +1,8 @@
+mode: atomic
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:13.2,13.22 1 5
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:14.3,15.1 1 1
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:17.2,17.43 1 4
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:18.3,19.1 1 3
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:21.2,22.1 3 1
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go:23.2,24.29 3 1
+github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/service.go:12.2,13.1 1 5

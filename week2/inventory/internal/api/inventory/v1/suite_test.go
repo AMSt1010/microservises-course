@@ -4,8 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/service/mocks"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/service/mocks"
 )
 
 type APISuite struct {

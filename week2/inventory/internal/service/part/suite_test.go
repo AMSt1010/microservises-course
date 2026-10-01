@@ -4,8 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/mocks"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/mocks"
 )
 
 type ServiceSuite struct {
@@ -27,7 +28,6 @@ func (s *ServiceSuite) SetupTest() {
 }
 
 func (s *ServiceSuite) TearDownTest() {
-
 }
 
 func TestServiceIntegration(t *testing.T) {
