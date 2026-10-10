@@ -19,11 +19,9 @@ jobs:
 
       - name: Extract variables from Taskfile
         id: extract
-        # Здесь мы заставляем выполниться команду внутри week2, 
-        # но скрипт берем из корня репозитория (поднявшись на уровень вверх через ../)
         run: |
-          chmod +x ../.github/scripts/extract-versions.sh
-          ../.github/scripts/extract-versions.sh
+          chmod +x .github/scripts/extract-versions.sh
+          .github/scripts/extract-versions.sh
         working-directory: week2
 
   lint:
@@ -33,3 +31,21 @@ jobs:
       modules: ${{ needs.extract-vars.outputs.modules }}
       go-version: ${{ needs.extract-vars.outputs.go-version }}
       golangci-lint-version: ${{ needs.extract-vars.outputs.golangci-lint-version }}
+
+  test:
+    uses: ./.github/workflows/test-reusable.yml
+    needs: lint
+    with:
+      modules: ${{ needs.extract-vars.outputs.modules }}
+      go-version: ${{ needs.extract-vars.outputs.go-version }}
+
+  coverage:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/test-coverage-reusable.yml
+    needs: test
+    with:
+      modules: ${{ needs.extract-vars.outputs.modules }}
+      go-version: ${{ needs.extract-vars.outputs.go-version }}
+      gist-id: "49f37940951c92764befbe69b3bc2fdc51c92764befbe69b3bc2fdc"
+    secrets:
+      GIST_SECRET: ${{ secrets.GIST_SECRET }}
