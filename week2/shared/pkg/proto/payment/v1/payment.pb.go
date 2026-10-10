@@ -5,16 +5,16 @@
 // source: payment/v1/payment.proto
 
 // Сервис оплаты заказов симулирует работу платёжного шлюза. Он не сохраняет состояние, а просто принимает команду на
-//оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
-
+// оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
 package payment_v1
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -28,15 +28,15 @@ const (
 type PaymentMethod int32
 
 const (
-	//Неизвестная категория
+	// Неизвестная категория
 	PaymentMethod_PAYMENT_METHOD_UNSPECIFIED PaymentMethod = 0
-	//Банковская карта
+	// Банковская карта
 	PaymentMethod_PAYMENT_METHOD_CARD PaymentMethod = 1
-	//Система быстрых платежей
+	// Система быстрых платежей
 	PaymentMethod_PAYMENT_METHOD_SBP PaymentMethod = 2
-	//Кредитная карта
+	// Кредитная карта
 	PaymentMethod_PAYMENT_METHOD_CREDIT_CARD PaymentMethod = 3
-	//Деньги инвестора (внутренний метод)
+	// Деньги инвестора (внутренний метод)
 	PaymentMethod_PAYMENT_METHOD_INVESTOR_MONEY PaymentMethod = 4
 )
 
@@ -88,11 +88,11 @@ func (PaymentMethod) EnumDescriptor() ([]byte, []int) {
 // Запрос на проведение оплаты
 type PayOrderRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//UUID заказа
+	// UUID заказа
 	OrderUuid string `protobuf:"bytes,1,opt,name=order_uuid,json=orderUuid,proto3" json:"order_uuid,omitempty"`
-	//UUID пользователя, который инициирует оплату
+	// UUID пользователя, который инициирует оплату
 	UserUuid string `protobuf:"bytes,2,opt,name=user_uuid,json=userUuid,proto3" json:"user_uuid,omitempty"`
-	//Выбранный способ оплаты
+	// Выбранный способ оплаты
 	PaymentMethod PaymentMethod `protobuf:"varint,3,opt,name=payment_method,json=paymentMethod,proto3,enum=payment.v1.PaymentMethod" json:"payment_method,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -228,13 +228,16 @@ func file_payment_v1_payment_proto_rawDescGZIP() []byte {
 	return file_payment_v1_payment_proto_rawDescData
 }
 
-var file_payment_v1_payment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_payment_v1_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_payment_v1_payment_proto_goTypes = []any{
-	(PaymentMethod)(0),       // 0: payment.v1.PaymentMethod
-	(*PayOrderRequest)(nil),  // 1: payment.v1.PayOrderRequest
-	(*PayOrderResponse)(nil), // 2: payment.v1.PayOrderResponse
-}
+var (
+	file_payment_v1_payment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+	file_payment_v1_payment_proto_msgTypes  = make([]protoimpl.MessageInfo, 2)
+	file_payment_v1_payment_proto_goTypes   = []any{
+		(PaymentMethod)(0),       // 0: payment.v1.PaymentMethod
+		(*PayOrderRequest)(nil),  // 1: payment.v1.PayOrderRequest
+		(*PayOrderResponse)(nil), // 2: payment.v1.PayOrderResponse
+	}
+)
+
 var file_payment_v1_payment_proto_depIdxs = []int32{
 	0, // 0: payment.v1.PayOrderRequest.payment_method:type_name -> payment.v1.PaymentMethod
 	1, // 1: payment.v1.PaymentService.PayOrder:input_type -> payment.v1.PayOrderRequest

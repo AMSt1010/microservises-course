@@ -5,7 +5,7 @@ package inventory.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/alex100010/microservices-course/hw/hw_1/pkg/proto/inventory/v1;inventory_v1";
+option go_package = "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1;inventory_v1";
 
 // InventoryService, отвечающий за хранение и предоставление информации о деталях для сборки космических кораблей.
 service InventoryService {

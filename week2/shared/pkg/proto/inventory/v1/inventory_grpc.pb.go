@@ -10,6 +10,7 @@ package inventory_v1
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -34,9 +35,9 @@ const (
 type InventoryServiceClient interface {
 	// Записывает информацию о новой детали
 	CreatePart(ctx context.Context, in *CreatePartRequest, opts ...grpc.CallOption) (*CreatePartResponse, error)
-	//Возвращает информацию о детали по её UUID
+	// Возвращает информацию о детали по её UUID
 	GetPart(ctx context.Context, in *GetPartRequest, opts ...grpc.CallOption) (*GetPartResponse, error)
-	//Возвращает список деталей с возможностью фильтрации
+	// Возвращает список деталей с возможностью фильтрации
 	ListParts(ctx context.Context, in *ListPartsRequest, opts ...grpc.CallOption) (*ListPartsResponse, error)
 }
 
@@ -86,9 +87,9 @@ func (c *inventoryServiceClient) ListParts(ctx context.Context, in *ListPartsReq
 type InventoryServiceServer interface {
 	// Записывает информацию о новой детали
 	CreatePart(context.Context, *CreatePartRequest) (*CreatePartResponse, error)
-	//Возвращает информацию о детали по её UUID
+	// Возвращает информацию о детали по её UUID
 	GetPart(context.Context, *GetPartRequest) (*GetPartResponse, error)
-	//Возвращает список деталей с возможностью фильтрации
+	// Возвращает список деталей с возможностью фильтрации
 	ListParts(context.Context, *ListPartsRequest) (*ListPartsResponse, error)
 	mustEmbedUnimplementedInventoryServiceServer()
 }
@@ -103,9 +104,11 @@ type UnimplementedInventoryServiceServer struct{}
 func (UnimplementedInventoryServiceServer) CreatePart(context.Context, *CreatePartRequest) (*CreatePartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePart not implemented")
 }
+
 func (UnimplementedInventoryServiceServer) GetPart(context.Context, *GetPartRequest) (*GetPartResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPart not implemented")
 }
+
 func (UnimplementedInventoryServiceServer) ListParts(context.Context, *ListPartsRequest) (*ListPartsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParts not implemented")
 }

@@ -9,12 +9,13 @@
 package inventory_v1
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -28,15 +29,15 @@ const (
 type Category int32
 
 const (
-	//Неизвестная категория
+	// Неизвестная категория
 	Category_CATEGORY_UNSPECIFIED Category = 0
-	//Двигатель
+	// Двигатель
 	Category_CATEGORY_ENGINE Category = 1
-	//Топливо
+	// Топливо
 	Category_CATEGORY_FUEL Category = 2
-	//Иллюминатор
+	// Иллюминатор
 	Category_CATEGORY_PORTHOLE Category = 3
-	//Крыло
+	// Крыло
 	Category_CATEGORY_WING Category = 4
 )
 
@@ -178,7 +179,7 @@ func (x *CreatePartResponse) GetUuid() string {
 // Запрос на возвращение информацию о детали по её UUID.
 type GetPartRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Идентификатор детали
+	// Идентификатор детали
 	Uuid          string `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -224,7 +225,7 @@ func (x *GetPartRequest) GetUuid() string {
 // Ответ с данными о детали
 type GetPartResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Информация о детали
+	// Информация о детали
 	Part          *Part `protobuf:"bytes,1,opt,name=part,proto3" json:"part,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +271,7 @@ func (x *GetPartResponse) GetPart() *Part {
 // Запрос на возвращение списка деталей с возможностью фильтрации
 type ListPartsRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Фильтр по деталям (все поля опциональны)
+	// Фильтр по деталям (все поля опциональны)
 	Filter        *PartsFilter `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -316,7 +317,7 @@ func (x *ListPartsRequest) GetFilter() *PartsFilter {
 // Ответ на возвращение списка деталей с возможностью фильтрации
 type ListPartsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Список найденных деталей
+	// Список найденных деталей
 	Parts         []*Part `protobuf:"bytes,1,rep,name=parts,proto3" json:"parts,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -362,13 +363,13 @@ func (x *ListPartsResponse) GetParts() []*Part {
 // Информация о детали
 type Part struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Уникальный идентификатор детали
+	// Уникальный идентификатор детали
 	Uuid string `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
-	//Информация о детали
+	// Информация о детали
 	Info *Info `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
-	//Дата создания
+	// Дата создания
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	//Дата обновления
+	// Дата обновления
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -435,23 +436,23 @@ func (x *Part) GetUpdatedAt() *timestamppb.Timestamp {
 // Информация о детали
 type Info struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Название детали
+	// Название детали
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	//Описание детали
+	// Описание детали
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	//Цена за единицу
+	// Цена за единицу
 	Price float64 `protobuf:"fixed64,3,opt,name=price,proto3" json:"price,omitempty"`
-	//Количество на складе
+	// Количество на складе
 	StockQuantity int64 `protobuf:"varint,4,opt,name=stock_quantity,json=stockQuantity,proto3" json:"stock_quantity,omitempty"`
-	//Категория
+	// Категория
 	Category Category `protobuf:"varint,5,opt,name=category,proto3,enum=inventory.v1.Category" json:"category,omitempty"`
-	//Размеры детали
+	// Размеры детали
 	Dimensions *Dimensions `protobuf:"bytes,6,opt,name=dimensions,proto3" json:"dimensions,omitempty"`
-	//Информация о производителе
+	// Информация о производителе
 	Manufacturer *Manufacturer `protobuf:"bytes,7,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
-	//Теги для быстрого поиска
+	// Теги для быстрого поиска
 	Tags []string `protobuf:"bytes,8,rep,name=tags,proto3" json:"tags,omitempty"`
-	//Гибкие метаданные
+	// Гибкие метаданные
 	Metadata      map[string]*CustomValue `protobuf:"bytes,9,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -553,13 +554,13 @@ func (x *Info) GetMetadata() map[string]*CustomValue {
 // Информация о размерах детали
 type Dimensions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Длина в см
+	// Длина в см
 	Length float64 `protobuf:"fixed64,1,opt,name=length,proto3" json:"length,omitempty"`
-	//Ширина в см
+	// Ширина в см
 	Width float64 `protobuf:"fixed64,2,opt,name=width,proto3" json:"width,omitempty"`
-	//Высота в см
+	// Высота в см
 	Height float64 `protobuf:"fixed64,3,opt,name=height,proto3" json:"height,omitempty"`
-	//Вес в кг
+	// Вес в кг
 	Weight        float64 `protobuf:"fixed64,4,opt,name=weight,proto3" json:"weight,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -626,11 +627,11 @@ func (x *Dimensions) GetWeight() float64 {
 // Информация о производителе
 type Manufacturer struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Название
+	// Название
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	//Страна производства
+	// Страна производства
 	Country string `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
-	//Сайт производителя
+	// Сайт производителя
 	Website       string `protobuf:"bytes,3,opt,name=website,proto3" json:"website,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -805,15 +806,15 @@ func (*CustomValue_BoolValue) isCustomValue_Kind() {}
 // Список деталей с возможностью фильтрации
 type PartsFilter struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	//Список UUID'ов. Пусто — не фильтруем по UUID
+	// Список UUID'ов. Пусто — не фильтруем по UUID
 	Uuids []string `protobuf:"bytes,1,rep,name=uuids,proto3" json:"uuids,omitempty"`
-	//Список имён. Пусто — не фильтруем по имени
+	// Список имён. Пусто — не фильтруем по имени
 	Names []string `protobuf:"bytes,2,rep,name=names,proto3" json:"names,omitempty"`
-	//Список категорий. Пусто — не фильтруем по категории
+	// Список категорий. Пусто — не фильтруем по категории
 	Categories []Category `protobuf:"varint,3,rep,packed,name=categories,proto3,enum=inventory.v1.Category" json:"categories,omitempty"`
-	//Список стран производителей. Пусто — не фильтруем по стране
+	// Список стран производителей. Пусто — не фильтруем по стране
 	ManufacturerCountries []string `protobuf:"bytes,4,rep,name=manufacturer_countries,json=manufacturerCountries,proto3" json:"manufacturer_countries,omitempty"`
-	//Список тегов. Пусто — не фильтруем по тегам
+	// Список тегов. Пусто — не фильтруем по тегам
 	Tags          []string `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -973,25 +974,28 @@ func file_inventory_v1_inventory_proto_rawDescGZIP() []byte {
 	return file_inventory_v1_inventory_proto_rawDescData
 }
 
-var file_inventory_v1_inventory_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_inventory_v1_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
-var file_inventory_v1_inventory_proto_goTypes = []any{
-	(Category)(0),                 // 0: inventory.v1.Category
-	(*CreatePartRequest)(nil),     // 1: inventory.v1.CreatePartRequest
-	(*CreatePartResponse)(nil),    // 2: inventory.v1.CreatePartResponse
-	(*GetPartRequest)(nil),        // 3: inventory.v1.GetPartRequest
-	(*GetPartResponse)(nil),       // 4: inventory.v1.GetPartResponse
-	(*ListPartsRequest)(nil),      // 5: inventory.v1.ListPartsRequest
-	(*ListPartsResponse)(nil),     // 6: inventory.v1.ListPartsResponse
-	(*Part)(nil),                  // 7: inventory.v1.Part
-	(*Info)(nil),                  // 8: inventory.v1.Info
-	(*Dimensions)(nil),            // 9: inventory.v1.Dimensions
-	(*Manufacturer)(nil),          // 10: inventory.v1.Manufacturer
-	(*CustomValue)(nil),           // 11: inventory.v1.CustomValue
-	(*PartsFilter)(nil),           // 12: inventory.v1.PartsFilter
-	nil,                           // 13: inventory.v1.Info.MetadataEntry
-	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
-}
+var (
+	file_inventory_v1_inventory_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+	file_inventory_v1_inventory_proto_msgTypes  = make([]protoimpl.MessageInfo, 13)
+	file_inventory_v1_inventory_proto_goTypes   = []any{
+		(Category)(0),                 // 0: inventory.v1.Category
+		(*CreatePartRequest)(nil),     // 1: inventory.v1.CreatePartRequest
+		(*CreatePartResponse)(nil),    // 2: inventory.v1.CreatePartResponse
+		(*GetPartRequest)(nil),        // 3: inventory.v1.GetPartRequest
+		(*GetPartResponse)(nil),       // 4: inventory.v1.GetPartResponse
+		(*ListPartsRequest)(nil),      // 5: inventory.v1.ListPartsRequest
+		(*ListPartsResponse)(nil),     // 6: inventory.v1.ListPartsResponse
+		(*Part)(nil),                  // 7: inventory.v1.Part
+		(*Info)(nil),                  // 8: inventory.v1.Info
+		(*Dimensions)(nil),            // 9: inventory.v1.Dimensions
+		(*Manufacturer)(nil),          // 10: inventory.v1.Manufacturer
+		(*CustomValue)(nil),           // 11: inventory.v1.CustomValue
+		(*PartsFilter)(nil),           // 12: inventory.v1.PartsFilter
+		nil,                           // 13: inventory.v1.Info.MetadataEntry
+		(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
+	}
+)
+
 var file_inventory_v1_inventory_proto_depIdxs = []int32{
 	8,  // 0: inventory.v1.CreatePartRequest.info:type_name -> inventory.v1.Info
 	7,  // 1: inventory.v1.GetPartResponse.part:type_name -> inventory.v1.Part

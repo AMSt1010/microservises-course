@@ -75,9 +75,31 @@
 				
 				<option value="file9">github.com/AMSt1010/microservises-course/week2/inventory/internal/service/part/service.go (100.0%)</option>
 				
-				<option value="file10">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go (100.0%)</option>
+				<option value="file10">github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter/order.go (100.0%)</option>
 				
-				<option value="file11">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/service.go (100.0%)</option>
+				<option value="file11">github.com/AMSt1010/microservises-course/week2/order/internal/repository/order/cancel.go (100.0%)</option>
+				
+				<option value="file12">github.com/AMSt1010/microservises-course/week2/order/internal/repository/order/create.go (100.0%)</option>
+				
+				<option value="file13">github.com/AMSt1010/microservises-course/week2/order/internal/repository/order/get.go (100.0%)</option>
+				
+				<option value="file14">github.com/AMSt1010/microservises-course/week2/order/internal/repository/order/pay.go (100.0%)</option>
+				
+				<option value="file15">github.com/AMSt1010/microservises-course/week2/order/internal/repository/order/repository.go (100.0%)</option>
+				
+				<option value="file16">github.com/AMSt1010/microservises-course/week2/order/internal/service/order/cancel.go (100.0%)</option>
+				
+				<option value="file17">github.com/AMSt1010/microservises-course/week2/order/internal/service/order/create.go (100.0%)</option>
+				
+				<option value="file18">github.com/AMSt1010/microservises-course/week2/order/internal/service/order/get.go (100.0%)</option>
+				
+				<option value="file19">github.com/AMSt1010/microservises-course/week2/order/internal/service/order/pay.go (100.0%)</option>
+				
+				<option value="file20">github.com/AMSt1010/microservises-course/week2/order/internal/service/order/service.go (100.0%)</option>
+				
+				<option value="file21">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/pay.go (100.0%)</option>
+				
+				<option value="file22">github.com/AMSt1010/microservises-course/week2/payment/internal/service/payment/service.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -749,7 +771,472 @@ func NewService(repo repository.InventoryRepository) *service {
 }
 </pre>
 		
-		<pre class="file" id="file10" style="display: none">package payment
+		<pre class="file" id="file10" style="display: none">package converter
+
+import (
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+        repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
+)
+
+func OrderToRepoModel(order model.Order) repoModel.Order {
+        <span class="cov10" title="11">partUUIDs := make([]string, len(order.PartUuids))
+        copy(partUUIDs, order.PartUuids)
+        var paymentMethod *repoModel.PaymentMethod
+</span>
+        <span class="cov10" title="11">if order.PaymentMethod != nil </span>{
+                <span class="cov10" title="11">paymentMethod = new(repoModel.PaymentMethod(*order.PaymentMethod))
+</span>        }
+        <span class="cov10" title="11">var orderStatus *repoModel.OrderStatus
+        if order.Status != nil </span>{
+                <span class="cov10" title="11">orderStatus = new(repoModel.OrderStatus(*order.Status))
+</span>        }
+
+        <span class="cov10" title="11">var transactionUUID *string
+        if order.TransactionUUID != nil </span>{
+                <span class="cov9" title="10">transactionUUID = new(string(*order.TransactionUUID))
+</span>        }
+        <span class="cov10" title="11">return repoModel.Order{
+                OrderUUID:       order.OrderUUID,
+                UserUUID:        order.UserUUID,
+                PartUuids:       partUUIDs,
+                TotalPrice:      order.TotalPrice,
+                TransactionUUID: transactionUUID,
+                PaymentMethod:   paymentMethod,
+                Status:          orderStatus,
+</span>        }
+}
+
+func OrderToModel(order repoModel.Order) model.Order {
+        <span class="cov7" title="5">partUUIDs := make([]string, len(order.PartUuids))
+        copy(partUUIDs, order.PartUuids)
+        var paymentMethod *model.PaymentMethod
+</span>
+        <span class="cov7" title="5">if order.PaymentMethod != nil </span>{
+                <span class="cov7" title="5">paymentMethod = new(model.PaymentMethod(*order.PaymentMethod))
+</span>        }
+        <span class="cov7" title="5">var orderStatus *model.OrderStatus
+        if order.Status != nil </span>{
+                <span class="cov7" title="5">orderStatus = new(model.OrderStatus(*order.Status))
+</span>        }
+        <span class="cov7" title="5">var transactionUUID *string
+        if order.TransactionUUID != nil </span>{
+                <span class="cov7" title="5">transactionUUID = new(string(*order.TransactionUUID))
+</span>        }
+        <span class="cov7" title="5">return model.Order{
+                OrderUUID:       order.OrderUUID,
+                UserUUID:        order.UserUUID,
+                PartUuids:       partUUIDs,
+                TotalPrice:      order.TotalPrice,
+                TransactionUUID: transactionUUID,
+                PaymentMethod:   paymentMethod,
+                Status:          orderStatus,
+</span>        }
+}
+</pre>
+		
+		<pre class="file" id="file11" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
+        repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
+)
+
+// CancelOrder отменяет заказ, если он еще не оплачен
+func (r *repository) CancelOrder(ctx context.Context, orderUUID string) (model.Order, error) {
+        <span class="cov10" title="5">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov8" title="4">r.mu.Lock()
+        defer r.mu.Unlock()
+</span>
+        <span class="cov8" title="4">order, ok := r.orders[orderUUID]
+</span>
+        <span class="cov8" title="4">if !ok </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
+</span>        }
+
+        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrAlreadyPaid
+</span>        }
+
+        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderCancelled
+</span>        }
+
+        <span class="cov1" title="1">order.Status = new(repoModel.OrderStatusCANCELLED)
+        r.orders[orderUUID] = order
+</span>
+        <span class="cov1" title="1">result := converter.OrderToModel(order)
+</span>
+        <span class="cov1" title="1">return result, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file12" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
+)
+
+// Создает новый заказ в Map или обновляет информацию о заказе
+func (r *repository) CreateOrder(ctx context.Context, order model.Order) error {
+        <span class="cov10" title="11">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return err
+</span>        }
+
+        <span class="cov9" title="10">repoOrder := converter.OrderToRepoModel(order)
+</span>
+        <span class="cov9" title="10">r.mu.Lock()
+        defer r.mu.Unlock()
+</span>
+        <span class="cov9" title="10">if _, ok := r.orders[repoOrder.OrderUUID]; ok </span>{
+                <span class="cov1" title="1">return model.ErrAlreadyExists
+</span>        }
+        <span class="cov9" title="9">r.orders[repoOrder.OrderUUID] = repoOrder
+        return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file13" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
+)
+
+// Получает заказ из Map по Uuid заказа
+func (r *repository) GetOrder(ctx context.Context, orderUUID string) (model.Order, error) {
+        <span class="cov10" title="3">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov6" title="2">r.mu.RLock()
+        order, ok := r.orders[orderUUID]
+        r.mu.RUnlock()
+        if !ok </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
+</span>        }
+
+        <span class="cov1" title="1">return converter.OrderToModel(order), nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file14" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+        "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
+        repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
+)
+
+// Помечает заказ как оплаченный с использованием сравнения и замены (Compare-And-Swap)
+func (r *repository) PayOrder(ctx context.Context, orderUUID, transactionUUID string, method model.PaymentMethod) (model.Order, error) {
+        <span class="cov10" title="5">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov8" title="4">r.mu.Lock()
+        defer r.mu.Unlock()
+        order, ok := r.orders[orderUUID]
+</span>
+        <span class="cov8" title="4">if !ok </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
+</span>        }
+
+        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrAlreadyPaid
+</span>        }
+        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderCancelled
+</span>        }
+
+        <span class="cov1" title="1">order.Status = new(repoModel.OrderStatusPAID)
+        order.TransactionUUID = new(transactionUUID)
+        order.PaymentMethod = new(repoModel.PaymentMethod(method))
+</span>
+        <span class="cov1" title="1">r.orders[orderUUID] = order
+</span>
+        <span class="cov1" title="1">result := converter.OrderToModel(order)
+</span>
+        <span class="cov1" title="1">return result, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file15" style="display: none">package order
+
+import (
+        "sync"
+
+        def "github.com/AMSt1010/microservises-course/week2/order/internal/repository"
+        repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
+)
+
+var _ def.OrderRepository = (*repository)(nil)
+
+type repository struct {
+        mu     sync.RWMutex
+        orders map[string]repoModel.Order
+}
+
+func NewRepository() *repository {
+        <span class="cov10" title="16">return &amp;repository{
+                orders: make(map[string]repoModel.Order),
+</span>        }
+}
+</pre>
+		
+		<pre class="file" id="file16" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+)
+
+// Отменяет заказ.
+func (s *service) CancelOrderByUuid(ctx context.Context, orderUUID string) error {
+        <span class="cov10" title="7">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return err
+</span>        }
+        <span class="cov9" title="6">if orderUUID == "" </span>{
+                <span class="cov1" title="1">return model.ErrOrderUUIDCannotBeEmpty
+</span>        }
+
+        <span class="cov8" title="5">order, err := s.repo.GetOrder(ctx, orderUUID)
+        if err != nil </span>{
+                <span class="cov1" title="1">return err
+</span>        }
+
+        <span class="cov7" title="4">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusPAID </span>{
+                <span class="cov1" title="1">return model.ErrAlreadyPaid
+</span>        }
+
+        <span class="cov6" title="3">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusCANCELLED </span>{
+                <span class="cov1" title="1">return model.ErrOrderCancelled
+</span>        }
+
+        <span class="cov4" title="2">_, err = s.repo.CancelOrder(ctx, orderUUID)
+        if err != nil </span>{
+                <span class="cov1" title="1">return err
+</span>        }
+
+        <span class="cov1" title="1">return nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file17" style="display: none">package order
+
+import (
+        "context"
+        "fmt"
+
+        "github.com/google/uuid"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+)
+
+// Проверяет, что все запрашиваемые детали существуют
+func areAllPartsExist(checkUuids []string, parts []model.Part) bool {
+        <span class="cov6" title="3">getParts := make(map[string]struct{}, len(parts))
+        for _, part := range parts </span>{
+                <span class="cov7" title="4">getParts[part.UUID] = struct{}{}
+</span>        }
+        <span class="cov6" title="3">for _, checkuuid := range checkUuids </span>{
+                <span class="cov8" title="5">if _, ok := getParts[checkuuid]; !ok </span>{
+                        <span class="cov1" title="1">return false
+</span>                }
+        }
+        <span class="cov4" title="2">return true</span>
+}
+
+// Считает общую цену заказа с учетом количества каждого запрошенного UUID
+func totalPrice(requestedUUIDs []string, parts []model.Part) float64 {
+        <span class="cov4" title="2">priceMap := make(map[string]float64, len(parts))
+        for _, part := range parts </span>{
+                <span class="cov7" title="4">priceMap[part.UUID] = part.Info.Price
+</span>        }
+        <span class="cov4" title="2">var total float64
+        for _, id := range requestedUUIDs </span>{
+                <span class="cov7" title="4">total += priceMap[id]
+</span>        }
+        <span class="cov4" title="2">return total</span>
+}
+
+// POST /api/v1/orders
+// Создаёт новый заказ на основе выбранных пользователем деталей.
+func (s *service) CreateOrder(ctx context.Context, order model.CreateOrderIn) (model.Order, error) {
+        <span class="cov10" title="7">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov9" title="6">if err := order.Validate(); err != nil </span>{
+                <span class="cov4" title="2">return model.Order{}, err
+</span>        }
+
+        // генерируем id заказа
+        <span class="cov7" title="4">order_uuid := uuid.NewString()
+</span>
+        // список запрашиваемых деталей
+        <span class="cov7" title="4">uuids := order.PartUuids
+</span>
+        // Обращаемся к сервису Inventory и получаем список деталей
+        <span class="cov7" title="4">filter := model.PartsFilter{
+                UUIDs: order.PartUuids,
+</span>        }
+
+        <span class="cov7" title="4">listParts, err := s.inventoryClient.ListParts(ctx, filter)
+        if err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, fmt.Errorf("%w: %w", model.ErrInventoryUnavailable, err)
+</span>        }
+
+        // Список деталей
+        // Если хотя бы одной детали нет — возвращает ошибку.
+        <span class="cov6" title="3">if ok := areAllPartsExist(uuids, listParts); !ok </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrAtLeastOnePartWasNotFound
+</span>        }
+
+        // общая сумма заказа
+        <span class="cov4" title="2">total := totalPrice(uuids, listParts)
+</span>
+        // Создаем заказ с полученными данными
+        <span class="cov4" title="2">orderInStorage := model.Order{
+                OrderUUID:  order_uuid,
+                UserUUID:   order.UserUUID,
+                PartUuids:  order.PartUuids,
+                TotalPrice: float32(total),
+                Status:     new(model.OrderStatusPENDINGPAYMENT),
+</span>        }
+
+        // Обновляем данные в хранилище
+        <span class="cov4" title="2">err = s.repo.CreateOrder(ctx, orderInStorage)
+        if err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov1" title="1">return orderInStorage, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file18" style="display: none">package order
+
+import (
+        "context"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+)
+
+// Возвращает информацию о заказе.
+func (s *service) GetOrderByUuid(ctx context.Context, orderUUID string) (model.Order, error) {
+        <span class="cov10" title="4">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+
+        <span class="cov8" title="3">if orderUUID == "" </span>{
+                <span class="cov1" title="1">return model.Order{}, model.ErrOrderUUIDCannotBeEmpty
+</span>        }
+
+        <span class="cov5" title="2">order, err := s.repo.GetOrder(ctx, orderUUID)
+        if err != nil </span>{
+                <span class="cov1" title="1">return model.Order{}, err
+</span>        }
+        <span class="cov1" title="1">return order, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file19" style="display: none">package order
+
+import (
+        "context"
+        "fmt"
+
+        "github.com/AMSt1010/microservises-course/week2/order/internal/model"
+)
+
+// Проводит оплату ранее созданного заказа.
+func (s *service) PayOrder(ctx context.Context, pay model.PayOrderIn) (string, error) {
+        <span class="cov10" title="10">if err := ctx.Err(); err != nil </span>{
+                <span class="cov1" title="1">return "", err
+</span>        }
+
+        <span class="cov9" title="9">if err := pay.Validate(); err != nil </span>{
+                <span class="cov3" title="2">return "", err
+</span>        }
+
+        <span class="cov8" title="7">order, err := s.repo.GetOrder(ctx, pay.OrderUUID)
+        if err != nil </span>{
+                <span class="cov1" title="1">return "", err
+</span>        }
+
+        <span class="cov8" title="6">if order.Status != nil </span>{
+                <span class="cov8" title="6">if *order.Status == model.OrderStatusPAID </span>{
+                        <span class="cov1" title="1">return "", model.ErrAlreadyPaid
+</span>                }
+
+                <span class="cov7" title="5">if *order.Status == model.OrderStatusCANCELLED </span>{
+                        <span class="cov1" title="1">return "", model.ErrOrderCancelled
+</span>                }
+        }
+
+        <span class="cov6" title="4">payment := model.Payment{
+                OrderUUID:     order.OrderUUID,
+                UserUUID:      order.UserUUID,
+                PaymentMethod: pay.PaymentMethod,
+</span>        }
+
+        <span class="cov6" title="4">transactionUuid, err := s.paymentClient.PayOrder(ctx, payment)
+        if err != nil </span>{
+                <span class="cov3" title="2">if ctx.Err() != nil </span>{
+                        <span class="cov1" title="1">return "", ctx.Err()
+</span>                }
+                <span class="cov1" title="1">return "", fmt.Errorf("%w: %w", model.ErrPaymentUnavailable, err)</span>
+        }
+
+        <span class="cov3" title="2">_, err = s.repo.PayOrder(ctx, pay.OrderUUID, transactionUuid, pay.PaymentMethod)
+        if err != nil </span>{
+                <span class="cov1" title="1">return "", err
+</span>        }
+
+        <span class="cov1" title="1">return transactionUuid, nil</span>
+}
+</pre>
+		
+		<pre class="file" id="file20" style="display: none">package order
+
+import (
+        grpcClient "github.com/AMSt1010/microservises-course/week2/order/internal/client/grpc"
+        "github.com/AMSt1010/microservises-course/week2/order/internal/repository"
+        def "github.com/AMSt1010/microservises-course/week2/order/internal/service"
+)
+
+var _ def.OrderService = (*service)(nil)
+
+type service struct {
+        repo            repository.OrderRepository
+        inventoryClient grpcClient.InventoryClient
+        paymentClient   grpcClient.PaymentClient
+}
+
+func NewService(repo repository.OrderRepository, inventoryClient grpcClient.InventoryClient, paymentClient grpcClient.PaymentClient) *service {
+        <span class="cov10" title="28">return &amp;service{
+                repo:            repo,
+                inventoryClient: inventoryClient,
+                paymentClient:   paymentClient,
+</span>        }
+}
+</pre>
+		
+		<pre class="file" id="file21" style="display: none">package payment
 
 import (
         "context"
@@ -776,7 +1263,7 @@ func (s *service) PayOrder(ctx context.Context, payment model.Payment) (string, 
 }
 </pre>
 		
-		<pre class="file" id="file11" style="display: none">package payment
+		<pre class="file" id="file22" style="display: none">package payment
 
 import (
         def "github.com/AMSt1010/microservises-course/week2/payment/internal/service"

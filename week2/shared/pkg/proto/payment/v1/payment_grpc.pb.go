@@ -5,12 +5,12 @@
 // source: payment/v1/payment.proto
 
 // Сервис оплаты заказов симулирует работу платёжного шлюза. Он не сохраняет состояние, а просто принимает команду на
-//оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
-
+// оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
 package payment_v1
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -31,7 +31,7 @@ const (
 //
 // Сервис оплаты заказов симулирует работу платёжного шлюза
 type PaymentServiceClient interface {
-	//Обрабатывает команду на оплату и возвращает `transaction_uuid`.
+	// Обрабатывает команду на оплату и возвращает `transaction_uuid`.
 	PayOrder(ctx context.Context, in *PayOrderRequest, opts ...grpc.CallOption) (*PayOrderResponse, error)
 }
 
@@ -59,7 +59,7 @@ func (c *paymentServiceClient) PayOrder(ctx context.Context, in *PayOrderRequest
 //
 // Сервис оплаты заказов симулирует работу платёжного шлюза
 type PaymentServiceServer interface {
-	//Обрабатывает команду на оплату и возвращает `transaction_uuid`.
+	// Обрабатывает команду на оплату и возвращает `transaction_uuid`.
 	PayOrder(context.Context, *PayOrderRequest) (*PayOrderResponse, error)
 	mustEmbedUnimplementedPaymentServiceServer()
 }
