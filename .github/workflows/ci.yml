@@ -22,7 +22,6 @@ jobs:
         run: |
           chmod +x ../.github/scripts/extract-versions.sh
           ../.github/scripts/extract-versions.sh
-        working-directory: week2
 
   lint:
     needs: extract-vars
