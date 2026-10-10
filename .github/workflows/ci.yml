@@ -20,8 +20,8 @@ jobs:
       - name: Extract variables from Taskfile
         id: extract
         run: |
-          chmod +x .github/scripts/extract-versions.sh
-          .github/scripts/extract-versions.sh
+          chmod +x ../.github/scripts/extract-versions.sh
+          ../.github/scripts/extract-versions.sh
         working-directory: week2
 
   lint:
@@ -40,7 +40,7 @@ jobs:
       go-version: ${{ needs.extract-vars.outputs.go-version }}
 
   coverage:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/hw2')
     uses: ./.github/workflows/test-coverage-reusable.yml
     needs: test
     with:
