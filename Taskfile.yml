@@ -95,12 +95,15 @@ tasks:
 
   install-golangci-lint:
     desc: "Устанавливает golangci-lint в каталог bin"
+    summary: |
+      Проверяет наличие golangci-lint в директории bin.
+      Если инструмент не найден, скачивает официальный бинарник.
     cmds:
       - |
         [ -f {{.GOLANGCI_LINT}} ] || {
           mkdir -p {{.BIN_DIR}}
-          echo "📦 Устанавливаем актуальный golangci-lint..."
-          GOBIN={{.BIN_DIR}} go install ://github.com
+          echo "📦 Скачиваем бинарник golangci-lint {{.GOLANGCI_LINT_VERSION}}..."
+          curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b {{.BIN_DIR}} {{.GOLANGCI_LINT_VERSION}}
         }
     status:
       - test -x {{.GOLANGCI_LINT}}
