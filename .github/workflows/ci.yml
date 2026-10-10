@@ -20,8 +20,8 @@ jobs:
       - name: Extract variables from Taskfile
         id: extract
         run: |
-          chmod +x ../.github/scripts/extract-versions.sh
-          ../.github/scripts/extract-versions.sh
+          chmod +x .github/scripts/extract-versions.sh
+          .github/scripts/extract-versions.sh
 
   lint:
     needs: extract-vars
@@ -32,16 +32,16 @@ jobs:
       golangci-lint-version: ${{ needs.extract-vars.outputs.golangci-lint-version }}
 
   test:
+    needs: [extract-vars, lint]
     uses: ./.github/workflows/test-reusable.yml
-    needs: lint
     with:
       modules: ${{ needs.extract-vars.outputs.modules }}
       go-version: ${{ needs.extract-vars.outputs.go-version }}
 
   coverage:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/hw2')
+    needs: [extract-vars, test]
     uses: ./.github/workflows/test-coverage-reusable.yml
-    needs: test
     with:
       modules: ${{ needs.extract-vars.outputs.modules }}
       go-version: ${{ needs.extract-vars.outputs.go-version }}
