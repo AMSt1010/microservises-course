@@ -111,20 +111,22 @@ tasks:
   lint:
     desc: "Запускает golangci-lint для всех модулей"
     deps: [ install-golangci-lint ]
-    vars:
-      MODULES: 'inventory payment order'
-      GOLANGCI_LINT: '{{.GOLANGCI_LINT}}'
     cmds:
       - |
-        set -e
         ERR=0
-        echo "🔍 Линтим все модули ..."
-        for mod in {{.MODULES}}; do
-          if [ -d "$mod" ]; then
-            echo "🔍 Линтим $mod module"
-            (cd "$mod" && GOWORK=off {{.GOLANGCI_LINT}} run ./... --config=../.golangci.yml) || ERR=1
+        echo "🔍 Линтим все модули проекта..."
+        # Заменяем возможные запятые на пробелы для безопасной итерации
+        MODULE_LIST=$(echo "{{.MODULES}}" | tr ',' ' ')
+
+        for mod in $MODULE_LIST; do
+          if [ -d "{{.ROOT_DIR}}/$mod" ]; then
+            echo "🔍 Линтим модуль: $mod"
+            (cd "{{.ROOT_DIR}}/$mod" && "{{.GOLANGCI_LINT}}" run ./... --config="{{.ROOT_DIR}}/.golangci.yml") || ERR=1
+          else
+            echo "⚠️ Директория модуля не найдена: $mod"
           fi
         done
+
         exit $ERR
   install-buf:
     desc: "Устанавливает Buf в каталог bin"
