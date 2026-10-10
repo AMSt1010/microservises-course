@@ -95,9 +95,6 @@ tasks:
 
   install-golangci-lint:
     desc: "Устанавливает golangci-lint в каталог bin"
-    summary: |
-      Проверяет наличие golangci-lint в директории bin.
-      Если инструмент не найден, скачивает официальный бинарник.
     cmds:
       - |
         [ -f {{.GOLANGCI_LINT}} ] || {
@@ -115,7 +112,6 @@ tasks:
       - |
         ERR=0
         echo "🔍 Линтим все модули проекта..."
-        # Заменяем возможные запятые на пробелы для безопасной итерации
         MODULE_LIST=$(echo "{{.MODULES}}" | tr ',' ' ')
 
         for mod in $MODULE_LIST; do

@@ -14,6 +14,7 @@ on:
         type: string
 
 jobs:
+
   golangci-lint:
     name: Lint all Go modules
     runs-on: ubuntu-latest
@@ -29,6 +30,9 @@ jobs:
 
       - name: 🐾 Show go.work (debug)
         run: cat go.work || echo "❗ go.work not found"
+        
+      - name: 🧹 Clean build cache
+        run: go clean -cache  
 
       - name: 📌 Install Task
         uses: arduino/setup-task@v2.0.0
