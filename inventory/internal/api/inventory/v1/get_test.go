@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -42,7 +43,7 @@ func (s *APISuite) TestGetPartSuccess() {
 			},
 		},
 		CreatedAt: now,
-		UpdatedAt: new(now.Add(time.Hour)),
+		UpdatedAt: lo.ToPtr(now.Add(time.Hour)),
 	}
 
 	req := &invV1.GetPartRequest{

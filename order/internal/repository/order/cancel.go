@@ -3,6 +3,8 @@ package order
 import (
 	"context"
 
+	"github.com/samber/lo"
+
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
 	repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
@@ -31,7 +33,7 @@ func (r *repository) CancelOrder(ctx context.Context, orderUUID string) (model.O
 		return model.Order{}, model.ErrOrderCancelled
 	}
 
-	order.Status = new(repoModel.OrderStatusCANCELLED)
+	order.Status = lo.ToPtr(repoModel.OrderStatusCANCELLED)
 	r.orders[orderUUID] = order
 
 	result := converter.OrderToModel(order)

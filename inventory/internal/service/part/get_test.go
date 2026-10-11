@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
@@ -16,7 +17,7 @@ func GenerateFakePart() model.Part {
 		UUID:      gofakeit.UUID(),
 		Info:      GenerateFakePartInfo(),
 		CreatedAt: now,
-		UpdatedAt: new(now.Add(time.Hour)),
+		UpdatedAt: lo.ToPtr(now.Add(time.Hour)),
 	}
 }
 

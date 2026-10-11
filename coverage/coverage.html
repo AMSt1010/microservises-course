@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter/part.go (63.1%)</option>
+				<option value="file0">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter/part.go (60.7%)</option>
 				
 				<option value="file1">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model/part.go (0.0%)</option>
 				
@@ -63,7 +63,7 @@
 				
 				<option value="file3">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/get.go (100.0%)</option>
 				
-				<option value="file4">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/list.go (95.5%)</option>
+				<option value="file4">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/list.go (94.7%)</option>
 				
 				<option value="file5">github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/part/repository.go (100.0%)</option>
 				
@@ -134,23 +134,23 @@ import (
 )
 
 // PartToRepoModel конвертирует корневую сущность детали в модель репозитория с глубоким копированием указателей.
-func PartToRepoModel(part model.Part) repoModel.Part {
-        <span class="cov0" title="0">var updatedAt *time.Time
-        if part.UpdatedAt != nil </span>{
-                <span class="cov0" title="0">updatedAt = lo.ToPtr(*part.UpdatedAt)
-</span>        }
+func PartToRepoModel(part model.Part) repoModel.Part <span class="cov0" title="0">{
+        var updatedAt *time.Time
+        if part.UpdatedAt != nil </span><span class="cov0" title="0">{
+                updatedAt = lo.ToPtr(*part.UpdatedAt)
+        }</span>
 
         <span class="cov0" title="0">return repoModel.Part{
                 UUID:      part.UUID,
                 Info:      PartInfoToRepoModel(part.Info),
                 CreatedAt: part.CreatedAt,
                 UpdatedAt: updatedAt,
-</span>        }
+        }</span>
 }
 
 // PartInfoToRepoModel конвертирует характеристики детали в модель репозитория
-func PartInfoToRepoModel(info model.PartInfo) repoModel.PartInfo {
-        <span class="cov10" title="6">return repoModel.PartInfo{
+func PartInfoToRepoModel(info model.PartInfo) repoModel.PartInfo <span class="cov10" title="6">{
+        return repoModel.PartInfo{
                 Name:          info.Name,
                 Description:   info.Description,
                 Price:         info.Price,
@@ -160,74 +160,74 @@ func PartInfoToRepoModel(info model.PartInfo) repoModel.PartInfo {
                 Manufacturer:  ManufacturerToRepoModel(info.Manufacturer),
                 Tags:          info.Tags,
                 Metadata:      MetadataToRepoModel(info.Metadata),
-</span>        }
-}
+        }
+}</span>
 
 // DimensionsToRepoModel конвертирует габариты в модель репозитория
-func DimensionsToRepoModel(d model.Dimensions) repoModel.Dimensions {
-        <span class="cov10" title="6">return repoModel.Dimensions{
+func DimensionsToRepoModel(d model.Dimensions) repoModel.Dimensions <span class="cov10" title="6">{
+        return repoModel.Dimensions{
                 Length: d.Length,
                 Width:  d.Width,
                 Height: d.Height,
                 Weight: d.Weight,
-</span>        }
-}
+        }
+}</span>
 
 // ManufacturerToRepoModel конвертирует данные производителя в модель репозитория
-func ManufacturerToRepoModel(m model.Manufacturer) repoModel.Manufacturer {
-        <span class="cov10" title="6">return repoModel.Manufacturer{
+func ManufacturerToRepoModel(m model.Manufacturer) repoModel.Manufacturer <span class="cov10" title="6">{
+        return repoModel.Manufacturer{
                 Name:    m.Name,
                 Country: m.Country,
                 Website: m.Website,
-</span>        }
-}
+        }
+}</span>
 
 // CategoryToRepoModel конвертирует категорию в модель репозитория
-func CategoryToRepoModel(c model.Category) repoModel.Category {
-        <span class="cov10" title="6">return repoModel.Category(c)
-</span>}
+func CategoryToRepoModel(c model.Category) repoModel.Category <span class="cov10" title="6">{
+        return repoModel.Category(c)
+}</span>
 
 // CustomValueToRepoModel конвертирует CustomValue в модель репозитория с глубоким копированием значений.
-func CustomValueToRepoModel(cv model.CustomValue) repoModel.CustomValue {
-        <span class="cov10" title="6">var res repoModel.CustomValue
-</span>
-        <span class="cov10" title="6">if cv.StringValue != nil </span>{
-                <span class="cov10" title="6">res.StringValue = lo.ToPtr(*cv.StringValue)
-</span>        }
-        <span class="cov10" title="6">if cv.Int64Value != nil </span>{
-                <span class="cov0" title="0">res.Int64Value = lo.ToPtr(*cv.Int64Value)
-</span>        }
-        <span class="cov10" title="6">if cv.DoubleValue != nil </span>{
-                <span class="cov0" title="0">res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
-</span>        }
-        <span class="cov10" title="6">if cv.BoolValue != nil </span>{
-                <span class="cov0" title="0">res.BoolValue = lo.ToPtr(*cv.BoolValue)
-</span>        }
+func CustomValueToRepoModel(cv model.CustomValue) repoModel.CustomValue <span class="cov10" title="6">{
+        var res repoModel.CustomValue
+
+        if cv.StringValue != nil </span><span class="cov10" title="6">{
+                res.StringValue = lo.ToPtr(*cv.StringValue)
+        }</span>
+        <span class="cov10" title="6">if cv.Int64Value != nil </span><span class="cov0" title="0">{
+                res.Int64Value = lo.ToPtr(*cv.Int64Value)
+        }</span>
+        <span class="cov10" title="6">if cv.DoubleValue != nil </span><span class="cov0" title="0">{
+                res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+        }</span>
+        <span class="cov10" title="6">if cv.BoolValue != nil </span><span class="cov0" title="0">{
+                res.BoolValue = lo.ToPtr(*cv.BoolValue)
+        }</span>
 
         <span class="cov10" title="6">return res</span>
 }
 
 // MetadataToRepoModel выполняет маппинг словаря метаданных
-func MetadataToRepoModel(meta map[string]model.CustomValue) map[string]repoModel.CustomValue {
-        <span class="cov10" title="6">if meta == nil </span>{
-                <span class="cov0" title="0">return nil
-</span>        }
+func MetadataToRepoModel(meta map[string]model.CustomValue) map[string]repoModel.CustomValue <span class="cov10" title="6">{
+        if meta == nil </span><span class="cov0" title="0">{
+                return nil
+        }</span>
 
         <span class="cov10" title="6">res := make(map[string]repoModel.CustomValue, len(meta))
-        for k, v := range meta </span>{
-                <span class="cov10" title="6">res[k] = CustomValueToRepoModel(v)
-</span>        }
+        for k, v := range meta </span><span class="cov10" title="6">{
+                res[k] = CustomValueToRepoModel(v)
+        }</span>
         <span class="cov10" title="6">return res</span>
 }
 
 // PartsFilterToRepoModel конвертирует фильтр выборки в модель репозитория
-func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter {
-        <span class="cov0" title="0">var categories []repoModel.Category
-        if filter.Categories != nil </span>{
-                <span class="cov0" title="0">categories = make([]repoModel.Category, len(filter.Categories))
-                for i, cat := range filter.Categories </span>{
-                        <span class="cov0" title="0">categories[i] = CategoryToRepoModel(cat)
-</span>                }
+func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter <span class="cov0" title="0">{
+        var categories []repoModel.Category
+        if filter.Categories != nil </span><span class="cov0" title="0">{
+                categories = make([]repoModel.Category, len(filter.Categories))
+                for i, cat := range filter.Categories </span><span class="cov0" title="0">{
+                        categories[i] = CategoryToRepoModel(cat)
+                }</span>
         }
 
         <span class="cov0" title="0">return repoModel.PartsFilter{
@@ -236,37 +236,37 @@ func PartsFilterToRepoModel(filter model.PartsFilter) repoModel.PartsFilter {
                 Categories:            categories,
                 ManufacturerCountries: filter.ManufacturerCountries,
                 Tags:                  filter.Tags,
-</span>        }
+        }</span>
 }
 
 // PartToModel преобразует репозиторную модель Part в доменную модель с глубоким копированием указателей.
-func PartToModel(part repoModel.Part) model.Part {
-        <span class="cov10" title="6">var updatedAt *time.Time
-        if part.UpdatedAt != nil </span>{
-                <span class="cov0" title="0">updatedAt = lo.ToPtr(*part.UpdatedAt) // Копирует значение и возвращает новый указатель
-</span>        }
+func PartToModel(part repoModel.Part) model.Part <span class="cov10" title="6">{
+        var updatedAt *time.Time
+        if part.UpdatedAt != nil </span><span class="cov0" title="0">{
+                updatedAt = lo.ToPtr(*part.UpdatedAt) // Копирует значение и возвращает новый указатель
+        }</span>
 
         <span class="cov10" title="6">return model.Part{
                 UUID:      part.UUID,
                 Info:      PartInfoToModel(part.Info),
                 CreatedAt: part.CreatedAt,
                 UpdatedAt: updatedAt,
-</span>        }
+        }</span>
 }
 
 // PartInfoToModel преобразует PartInfo, выполняя глубокую изоляцию срезов и мап.
-func PartInfoToModel(info repoModel.PartInfo) model.PartInfo {
-        <span class="cov10" title="6">var tags []string
-        if info.Tags != nil </span>{
-                <span class="cov10" title="6">tags = make([]string, len(info.Tags))
+func PartInfoToModel(info repoModel.PartInfo) model.PartInfo <span class="cov10" title="6">{
+        var tags []string
+        if info.Tags != nil </span><span class="cov10" title="6">{
+                tags = make([]string, len(info.Tags))
                 copy(tags, info.Tags)
-</span>        }
+        }</span>
 
         <span class="cov10" title="6">metadata := make(map[string]model.CustomValue, len(info.Metadata))
-        if info.Metadata != nil </span>{
-                <span class="cov10" title="6">for k, v := range info.Metadata </span>{
-                        <span class="cov10" title="6">metadata[k] = CustomValueToModel(v)
-</span>                }
+        if info.Metadata != nil </span><span class="cov10" title="6">{
+                for k, v := range info.Metadata </span><span class="cov10" title="6">{
+                        metadata[k] = CustomValueToModel(v)
+                }</span>
         }
 
         <span class="cov10" title="6">return model.PartInfo{
@@ -279,58 +279,58 @@ func PartInfoToModel(info repoModel.PartInfo) model.PartInfo {
                 Manufacturer:  ManufacturerToModel(info.Manufacturer),
                 Tags:          tags,
                 Metadata:      metadata,
-</span>        }
+        }</span>
 }
 
 // DimensionsToModel преобразует Dimensions в доменную модель.
-func DimensionsToModel(dim repoModel.Dimensions) model.Dimensions {
-        <span class="cov10" title="6">return model.Dimensions{
+func DimensionsToModel(dim repoModel.Dimensions) model.Dimensions <span class="cov10" title="6">{
+        return model.Dimensions{
                 Length: dim.Length,
                 Width:  dim.Width,
                 Height: dim.Height,
                 Weight: dim.Weight,
-</span>        }
-}
+        }
+}</span>
 
 // ManufacturerToModel преобразует Manufacturer в доменную модель.
-func ManufacturerToModel(m repoModel.Manufacturer) model.Manufacturer {
-        <span class="cov10" title="6">return model.Manufacturer{
+func ManufacturerToModel(m repoModel.Manufacturer) model.Manufacturer <span class="cov10" title="6">{
+        return model.Manufacturer{
                 Name:    m.Name,
                 Country: m.Country,
                 Website: m.Website,
-</span>        }
-}
+        }
+}</span>
 
 // CustomValueToModel преобразует CustomValue с созданием независимых копий значений по указателям.
-func CustomValueToModel(cv repoModel.CustomValue) model.CustomValue {
-        <span class="cov10" title="6">var res model.CustomValue
-</span>
-        <span class="cov10" title="6">if cv.StringValue != nil </span>{
-                <span class="cov10" title="6">res.StringValue = lo.ToPtr(*cv.StringValue)
-</span>        }
-        <span class="cov10" title="6">if cv.Int64Value != nil </span>{
-                <span class="cov0" title="0">res.Int64Value = lo.ToPtr(*cv.Int64Value)
-</span>        }
-        <span class="cov10" title="6">if cv.DoubleValue != nil </span>{
-                <span class="cov0" title="0">res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
-</span>        }
-        <span class="cov10" title="6">if cv.BoolValue != nil </span>{
-                <span class="cov0" title="0">res.BoolValue = lo.ToPtr(*cv.BoolValue)
-</span>        }
+func CustomValueToModel(cv repoModel.CustomValue) model.CustomValue <span class="cov10" title="6">{
+        var res model.CustomValue
+
+        if cv.StringValue != nil </span><span class="cov10" title="6">{
+                res.StringValue = lo.ToPtr(*cv.StringValue)
+        }</span>
+        <span class="cov10" title="6">if cv.Int64Value != nil </span><span class="cov0" title="0">{
+                res.Int64Value = lo.ToPtr(*cv.Int64Value)
+        }</span>
+        <span class="cov10" title="6">if cv.DoubleValue != nil </span><span class="cov0" title="0">{
+                res.DoubleValue = lo.ToPtr(*cv.DoubleValue)
+        }</span>
+        <span class="cov10" title="6">if cv.BoolValue != nil </span><span class="cov0" title="0">{
+                res.BoolValue = lo.ToPtr(*cv.BoolValue)
+        }</span>
 
         <span class="cov10" title="6">return res</span>
 }
 
 // PartsToModel преобразует срез деталей в пакетном режиме с предвыделением памяти.
-func PartsToModel(parts []repoModel.Part) []model.Part {
-        <span class="cov0" title="0">if parts == nil </span>{
-                <span class="cov0" title="0">return nil
-</span>        }
+func PartsToModel(parts []repoModel.Part) []model.Part <span class="cov0" title="0">{
+        if parts == nil </span><span class="cov0" title="0">{
+                return nil
+        }</span>
 
         <span class="cov0" title="0">res := make([]model.Part, len(parts))
-        for i, p := range parts </span>{
-                <span class="cov0" title="0">res[i] = PartToModel(p)
-</span>        }
+        for i, p := range parts </span><span class="cov0" title="0">{
+                res[i] = PartToModel(p)
+        }</span>
         <span class="cov0" title="0">return res</span>
 }
 </pre>
@@ -406,40 +406,40 @@ type CustomValue struct {
         BoolValue   *bool
 }
 
-func NewStringValue(v string) CustomValue {
-        <span class="cov0" title="0">return CustomValue{StringValue: &amp;v}
-</span>}
+func NewStringValue(v string) CustomValue <span class="cov0" title="0">{
+        return CustomValue{StringValue: &amp;v}
+}</span>
 
-func NewInt64Value(v int64) CustomValue {
-        <span class="cov0" title="0">return CustomValue{Int64Value: &amp;v}
-</span>}
+func NewInt64Value(v int64) CustomValue <span class="cov0" title="0">{
+        return CustomValue{Int64Value: &amp;v}
+}</span>
 
-func NewDoubleValue(v float64) CustomValue {
-        <span class="cov0" title="0">return CustomValue{DoubleValue: &amp;v}
-</span>}
+func NewDoubleValue(v float64) CustomValue <span class="cov0" title="0">{
+        return CustomValue{DoubleValue: &amp;v}
+}</span>
 
-func NewBoolValue(v bool) CustomValue {
-        <span class="cov0" title="0">return CustomValue{BoolValue: &amp;v}
-</span>}
+func NewBoolValue(v bool) CustomValue <span class="cov0" title="0">{
+        return CustomValue{BoolValue: &amp;v}
+}</span>
 
-func (c CustomValue) Validate() error {
-        <span class="cov0" title="0">count := 0
-        if c.StringValue != nil </span>{
-                <span class="cov0" title="0">count++
-</span>        }
-        <span class="cov0" title="0">if c.Int64Value != nil </span>{
-                <span class="cov0" title="0">count++
-</span>        }
-        <span class="cov0" title="0">if c.DoubleValue != nil </span>{
-                <span class="cov0" title="0">count++
-</span>        }
-        <span class="cov0" title="0">if c.BoolValue != nil </span>{
-                <span class="cov0" title="0">count++
-</span>        }
+func (c CustomValue) Validate() error <span class="cov0" title="0">{
+        count := 0
+        if c.StringValue != nil </span><span class="cov0" title="0">{
+                count++
+        }</span>
+        <span class="cov0" title="0">if c.Int64Value != nil </span><span class="cov0" title="0">{
+                count++
+        }</span>
+        <span class="cov0" title="0">if c.DoubleValue != nil </span><span class="cov0" title="0">{
+                count++
+        }</span>
+        <span class="cov0" title="0">if c.BoolValue != nil </span><span class="cov0" title="0">{
+                count++
+        }</span>
 
-        <span class="cov0" title="0">if count != 1 </span>{
-                <span class="cov0" title="0">return errors.New("custom value must have exactly one field populated")
-</span>        }
+        <span class="cov0" title="0">if count != 1 </span><span class="cov0" title="0">{
+                return errors.New("custom value must have exactly one field populated")
+        }</span>
         <span class="cov0" title="0">return nil</span>
 }
 </pre>
@@ -459,26 +459,26 @@ import (
 )
 
 // Записывает информацию о новой детали
-func (r *repository) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
-        <span class="cov10" title="6">r.mu.Lock()
+func (r *repository) CreatePart(ctx context.Context, info model.PartInfo) (string, error) <span class="cov10" title="6">{
+        r.mu.Lock()
         defer r.mu.Unlock()
-</span>
-        <span class="cov10" title="6">newUUID := uuid.NewString()
-</span>
-        <span class="cov10" title="6">part := repoModel.Part{
+
+        newUUID := uuid.NewString()
+
+        part := repoModel.Part{
                 UUID:      newUUID,
                 Info:      repoConverter.PartInfoToRepoModel(info),
                 CreatedAt: time.Now(),
-</span>        }
+        }
 
-        <span class="cov10" title="6">r.data[newUUID] = part
-</span>
-        <span class="cov10" title="6">partsFilter := newPartsFilterStorage(part)
+        r.data[newUUID] = part
+
+        partsFilter := newPartsFilterStorage(part)
         r.filterIndices[newUUID] = partsFilter
-</span>
-        <span class="cov10" title="6">log.Printf("Создана деталь с Uuid %v", newUUID)
+
+        log.Printf("Создана деталь с Uuid %v", newUUID)
         return newUUID, nil
-</span>}
+}</span>
 </pre>
 		
 		<pre class="file" id="file3" style="display: none">package part
@@ -492,22 +492,22 @@ import (
 )
 
 // Возвращает информацию о детали по её UUID
-func (r *repository) GetPart(ctx context.Context, uuid string) (model.Part, error) {
-        <span class="cov10" title="3">r.mu.RLock()
+func (r *repository) GetPart(ctx context.Context, uuid string) (model.Part, error) <span class="cov10" title="3">{
+        r.mu.RLock()
         defer r.mu.RUnlock()
-</span>
-        <span class="cov10" title="3">if uuid == "" </span>{
-                <span class="cov1" title="1">return model.Part{}, model.ErrUUIDCannotBeEmpty
-</span>        }
+
+        if uuid == "" </span><span class="cov1" title="1">{
+                return model.Part{}, model.ErrUUIDCannotBeEmpty
+        }</span>
 
         <span class="cov6" title="2">part, ok := r.data[uuid]
-        if !ok </span>{
-                <span class="cov1" title="1">return model.Part{}, model.ErrPartNotFound
-</span>        }
+        if !ok </span><span class="cov1" title="1">{
+                return model.Part{}, model.ErrPartNotFound
+        }</span>
 
         <span class="cov1" title="1">log.Printf("Деталь с Uuid %s получена: %+v", uuid, part)
-</span>
-        <span class="cov1" title="1">return converter.PartToModel(part), nil</span>
+
+        return converter.PartToModel(part), nil</span>
 }
 </pre>
 		
@@ -521,68 +521,68 @@ import (
         "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
 )
 
-func containsAny(target string, searchTerms []string) bool {
-        <span class="cov10" title="10">if len(searchTerms) == 0 </span>{
-                <span class="cov7" title="5">return true
-</span>        }
-        <span class="cov7" title="5">for _, term := range searchTerms </span>{
-                <span class="cov7" title="5">if strings.Contains(target, term) </span>{
-                        <span class="cov3" title="2">return true
-</span>                }
+func containsAny(target string, searchTerms []string) bool <span class="cov10" title="10">{
+        if len(searchTerms) == 0 </span><span class="cov7" title="5">{
+                return true
+        }</span>
+        <span class="cov7" title="5">for _, term := range searchTerms </span><span class="cov7" title="5">{
+                if strings.Contains(target, term) </span><span class="cov3" title="2">{
+                        return true
+                }</span>
         }
         <span class="cov5" title="3">return false</span>
 }
 
-func containsAnyTag(partTags, searchTags []string) bool {
-        <span class="cov5" title="3">if len(searchTags) == 0 </span>{
-                <span class="cov3" title="2">return true
-</span>        }
-        <span class="cov1" title="1">for _, searchTag := range searchTags </span>{
-                <span class="cov1" title="1">for _, partTag := range partTags </span>{
-                        <span class="cov1" title="1">if partTag == searchTag </span>{
-                                <span class="cov1" title="1">return true
-</span>                        }
+func containsAnyTag(partTags, searchTags []string) bool <span class="cov5" title="3">{
+        if len(searchTags) == 0 </span><span class="cov3" title="2">{
+                return true
+        }</span>
+        <span class="cov1" title="1">for _, searchTag := range searchTags </span><span class="cov1" title="1">{
+                for _, partTag := range partTags </span><span class="cov1" title="1">{
+                        if partTag == searchTag </span><span class="cov1" title="1">{
+                                return true
+                        }</span>
                 }
         }
         <span class="cov0" title="0">return false</span>
 }
 
-func matchCategories(itemCategory int32, categories []model.Category) bool {
-        <span class="cov8" title="7">if len(categories) == 0 </span>{
-                <span class="cov7" title="5">return true
-</span>        }
-        <span class="cov3" title="2">for _, cat := range categories </span>{
-                <span class="cov3" title="2">if itemCategory == int32(cat) </span>{
-                        <span class="cov1" title="1">return true
-</span>                }
+func matchCategories(itemCategory int32, categories []model.Category) bool <span class="cov8" title="7">{
+        if len(categories) == 0 </span><span class="cov7" title="5">{
+                return true
+        }</span>
+        <span class="cov3" title="2">for _, cat := range categories </span><span class="cov3" title="2">{
+                if itemCategory == int32(cat) </span><span class="cov1" title="1">{
+                        return true
+                }</span>
         }
         <span class="cov1" title="1">return false</span>
 }
 
-func (r *repository) collectSourceByUUIDs(uuids []string) map[string]partsFilterStorage {
-        <span class="cov1" title="1">source := make(map[string]partsFilterStorage, len(uuids))
-        for _, id := range uuids </span>{
-                <span class="cov1" title="1">if filterItem, ok := r.filterIndices[id]; ok </span>{
-                        <span class="cov1" title="1">source[id] = filterItem
-</span>                }
+func (r *repository) collectSourceByUUIDs(uuids []string) map[string]partsFilterStorage <span class="cov1" title="1">{
+        source := make(map[string]partsFilterStorage, len(uuids))
+        for _, id := range uuids </span><span class="cov1" title="1">{
+                if filterItem, ok := r.filterIndices[id]; ok </span><span class="cov1" title="1">{
+                        source[id] = filterItem
+                }</span>
         }
         <span class="cov1" title="1">return source</span>
 }
 
 // Возвращает список деталей с возможностью фильтрации.
-func (r *repository) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) {
-        <span class="cov8" title="6">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return nil, err
-</span>        }
+func (r *repository) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) <span class="cov8" title="6">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return nil, err
+        }</span>
 
         <span class="cov7" title="5">r.mu.RLock()
         defer r.mu.RUnlock()
-</span>
-        <span class="cov7" title="5">if isFilterEmpty(filter) </span>{
-                <span class="cov1" title="1">result := make([]model.Part, 0, len(r.data))
-                for _, v := range r.data </span>{
-                        <span class="cov3" title="2">result = append(result, converter.PartToModel(v))
-</span>                }
+
+        if isFilterEmpty(filter) </span><span class="cov1" title="1">{
+                result := make([]model.Part, 0, len(r.data))
+                for _, v := range r.data </span><span class="cov3" title="2">{
+                        result = append(result, converter.PartToModel(v))
+                }</span>
                 <span class="cov1" title="1">return result, nil</span>
         }
 
@@ -590,32 +590,32 @@ func (r *repository) ListParts(ctx context.Context, filter model.PartsFilter) ([
         lowerCountries := normalizationSearchStrings(filter.ManufacturerCountries)
         lowerTags := normalizationSearchStrings(filter.Tags)
         categories := filter.Categories
-</span>
-        <span class="cov6" title="4">var source map[string]partsFilterStorage
-        if len(filter.UUIDs) &gt; 0 </span>{
-                <span class="cov1" title="1">source = r.collectSourceByUUIDs(filter.UUIDs)
-</span>        } else {
-                <span class="cov5" title="3">source = r.filterIndices
-</span>        }
+
+        var source map[string]partsFilterStorage
+        if len(filter.UUIDs) &gt; 0 </span><span class="cov1" title="1">{
+                source = r.collectSourceByUUIDs(filter.UUIDs)
+        }</span> else<span class="cov5" title="3"> {
+                source = r.filterIndices
+        }</span>
 
         <span class="cov6" title="4">result := make([]model.Part, 0, len(source))
-        for _, item := range source </span>{
-                <span class="cov8" title="7">if !matchCategories(item.category, categories) </span>{
-                        <span class="cov1" title="1">continue</span>
+        for _, item := range source </span><span class="cov8" title="7">{
+                if !matchCategories(item.category, categories) </span><span class="cov1" title="1">{
+                        continue</span>
                 }
-                <span class="cov8" title="6">if !containsAny(item.name, lowerNames) </span>{
-                        <span class="cov3" title="2">continue</span>
+                <span class="cov8" title="6">if !containsAny(item.name, lowerNames) </span><span class="cov3" title="2">{
+                        continue</span>
                 }
-                <span class="cov6" title="4">if !containsAny(item.manufacturerCountry, lowerCountries) </span>{
-                        <span class="cov1" title="1">continue</span>
+                <span class="cov6" title="4">if !containsAny(item.manufacturerCountry, lowerCountries) </span><span class="cov1" title="1">{
+                        continue</span>
                 }
-                <span class="cov5" title="3">if !containsAnyTag(item.tags, lowerTags) </span>{
-                        <span class="cov0" title="0">continue</span>
+                <span class="cov5" title="3">if !containsAnyTag(item.tags, lowerTags) </span><span class="cov0" title="0">{
+                        continue</span>
                 }
 
                 <span class="cov5" title="3">part, ok := r.data[item.uuid]
-                if !ok </span>{
-                        <span class="cov0" title="0">continue</span> // Защита от рассинхронизации индекса и данных
+                if !ok </span><span class="cov0" title="0">{
+                        continue</span> // Защита от рассинхронизации индекса и данных
                 }
 
                 <span class="cov5" title="3">result = append(result, converter.PartToModel(part))</span>
@@ -624,13 +624,13 @@ func (r *repository) ListParts(ctx context.Context, filter model.PartsFilter) ([
         <span class="cov6" title="4">return result, nil</span>
 }
 
-func isFilterEmpty(f model.PartsFilter) bool {
-        <span class="cov7" title="5">return len(f.UUIDs) == 0 &amp;&amp;
+func isFilterEmpty(f model.PartsFilter) bool <span class="cov7" title="5">{
+        return len(f.UUIDs) == 0 &amp;&amp;
                 len(f.Names) == 0 &amp;&amp;
                 len(f.Categories) == 0 &amp;&amp;
                 len(f.ManufacturerCountries) == 0 &amp;&amp;
                 len(f.Tags) == 0
-</span>}
+}</span>
 </pre>
 		
 		<pre class="file" id="file5" style="display: none">package part
@@ -651,12 +651,12 @@ type repository struct {
         filterIndices map[string]partsFilterStorage
 }
 
-func NewRepository() *repository {
-        <span class="cov7" title="7">return &amp;repository{
+func NewRepository() *repository <span class="cov7" title="7">{
+        return &amp;repository{
                 data:          make(map[string]repoModel.Part),
                 filterIndices: make(map[string]partsFilterStorage),
-</span>        }
-}
+        }
+}</span>
 
 // Плоская структура для быстрого поиска по фильтру
 type partsFilterStorage struct {
@@ -676,22 +676,22 @@ type partsFilterStorage struct {
         tags []string
 }
 
-func newPartsFilterStorage(part repoModel.Part) partsFilterStorage {
-        <span class="cov6" title="6">return partsFilterStorage{
+func newPartsFilterStorage(part repoModel.Part) partsFilterStorage <span class="cov6" title="6">{
+        return partsFilterStorage{
                 uuid:                part.UUID,
                 name:                strings.ToLower(strings.TrimSpace(part.Info.Name)),
                 category:            int32(part.Info.Category),
                 manufacturerCountry: strings.ToLower(strings.TrimSpace(part.Info.Manufacturer.Country)),
                 tags:                normalizationSearchStrings(part.Info.Tags),
-</span>        }
-}
+        }
+}</span>
 
-func normalizationSearchStrings(inputStr []string) []string {
-        <span class="cov10" title="18">normalizedString := make([]string, 0, len(inputStr))
-        for _, n := range inputStr </span>{
-                <span class="cov9" title="16">if trimmed := strings.ToLower(strings.TrimSpace(n)); trimmed != "" </span>{
-                        <span class="cov9" title="16">normalizedString = append(normalizedString, trimmed)
-</span>                }
+func normalizationSearchStrings(inputStr []string) []string <span class="cov10" title="18">{
+        normalizedString := make([]string, 0, len(inputStr))
+        for _, n := range inputStr </span><span class="cov9" title="16">{
+                if trimmed := strings.ToLower(strings.TrimSpace(n)); trimmed != "" </span><span class="cov9" title="16">{
+                        normalizedString = append(normalizedString, trimmed)
+                }</span>
         }
         <span class="cov10" title="18">return normalizedString</span>
 }
@@ -706,11 +706,11 @@ import (
 )
 
 // Записывает информацию о новой детали
-func (s *service) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
-        <span class="cov10" title="2">UUID, err := s.invRepository.CreatePart(ctx, info)
-        if err != nil </span>{
-                <span class="cov1" title="1">return "", err
-</span>        }
+func (s *service) CreatePart(ctx context.Context, info model.PartInfo) (string, error) <span class="cov10" title="2">{
+        UUID, err := s.invRepository.CreatePart(ctx, info)
+        if err != nil </span><span class="cov1" title="1">{
+                return "", err
+        }</span>
         <span class="cov1" title="1">return UUID, nil</span>
 }
 </pre>
@@ -724,11 +724,11 @@ import (
 )
 
 // Записывает информацию о новой детали
-func (s *service) GetPart(ctx context.Context, uuid string) (model.Part, error) {
-        <span class="cov10" title="3">part, err := s.invRepository.GetPart(ctx, uuid)
-        if err != nil </span>{
-                <span class="cov6" title="2">return model.Part{}, err
-</span>        }
+func (s *service) GetPart(ctx context.Context, uuid string) (model.Part, error) <span class="cov10" title="3">{
+        part, err := s.invRepository.GetPart(ctx, uuid)
+        if err != nil </span><span class="cov6" title="2">{
+                return model.Part{}, err
+        }</span>
         <span class="cov1" title="1">return part, nil</span>
 }
 </pre>
@@ -742,11 +742,11 @@ import (
 )
 
 // Записывает информацию о новой детали
-func (s *service) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) {
-        <span class="cov10" title="3">parts, err := s.invRepository.ListParts(ctx, filter)
-        if err != nil </span>{
-                <span class="cov1" title="1">return []model.Part{}, err
-</span>        }
+func (s *service) ListParts(ctx context.Context, filter model.PartsFilter) ([]model.Part, error) <span class="cov10" title="3">{
+        parts, err := s.invRepository.ListParts(ctx, filter)
+        if err != nil </span><span class="cov1" title="1">{
+                return []model.Part{}, err
+        }</span>
         <span class="cov6" title="2">return parts, nil</span>
 }
 </pre>
@@ -764,37 +764,39 @@ type service struct {
         invRepository repository.InventoryRepository
 }
 
-func NewService(repo repository.InventoryRepository) *service {
-        <span class="cov10" title="8">return &amp;service{
+func NewService(repo repository.InventoryRepository) *service <span class="cov10" title="8">{
+        return &amp;service{
                 invRepository: repo,
-</span>        }
-}
+        }
+}</span>
 </pre>
 		
 		<pre class="file" id="file10" style="display: none">package converter
 
 import (
+        "github.com/samber/lo"
+
         "github.com/AMSt1010/microservises-course/week2/order/internal/model"
         repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
 )
 
-func OrderToRepoModel(order model.Order) repoModel.Order {
-        <span class="cov10" title="11">partUUIDs := make([]string, len(order.PartUuids))
+func OrderToRepoModel(order model.Order) repoModel.Order <span class="cov10" title="11">{
+        partUUIDs := make([]string, len(order.PartUuids))
         copy(partUUIDs, order.PartUuids)
         var paymentMethod *repoModel.PaymentMethod
-</span>
-        <span class="cov10" title="11">if order.PaymentMethod != nil </span>{
-                <span class="cov10" title="11">paymentMethod = new(repoModel.PaymentMethod(*order.PaymentMethod))
-</span>        }
+
+        if order.PaymentMethod != nil </span><span class="cov10" title="11">{
+                paymentMethod = lo.ToPtr(repoModel.PaymentMethod(*order.PaymentMethod))
+        }</span>
         <span class="cov10" title="11">var orderStatus *repoModel.OrderStatus
-        if order.Status != nil </span>{
-                <span class="cov10" title="11">orderStatus = new(repoModel.OrderStatus(*order.Status))
-</span>        }
+        if order.Status != nil </span><span class="cov10" title="11">{
+                orderStatus = lo.ToPtr(repoModel.OrderStatus(*order.Status))
+        }</span>
 
         <span class="cov10" title="11">var transactionUUID *string
-        if order.TransactionUUID != nil </span>{
-                <span class="cov9" title="10">transactionUUID = new(string(*order.TransactionUUID))
-</span>        }
+        if order.TransactionUUID != nil </span><span class="cov9" title="10">{
+                transactionUUID = lo.ToPtr(string(*order.TransactionUUID))
+        }</span>
         <span class="cov10" title="11">return repoModel.Order{
                 OrderUUID:       order.OrderUUID,
                 UserUUID:        order.UserUUID,
@@ -803,25 +805,25 @@ func OrderToRepoModel(order model.Order) repoModel.Order {
                 TransactionUUID: transactionUUID,
                 PaymentMethod:   paymentMethod,
                 Status:          orderStatus,
-</span>        }
+        }</span>
 }
 
-func OrderToModel(order repoModel.Order) model.Order {
-        <span class="cov7" title="5">partUUIDs := make([]string, len(order.PartUuids))
+func OrderToModel(order repoModel.Order) model.Order <span class="cov7" title="5">{
+        partUUIDs := make([]string, len(order.PartUuids))
         copy(partUUIDs, order.PartUuids)
         var paymentMethod *model.PaymentMethod
-</span>
-        <span class="cov7" title="5">if order.PaymentMethod != nil </span>{
-                <span class="cov7" title="5">paymentMethod = new(model.PaymentMethod(*order.PaymentMethod))
-</span>        }
+
+        if order.PaymentMethod != nil </span><span class="cov7" title="5">{
+                paymentMethod = lo.ToPtr(model.PaymentMethod(*order.PaymentMethod))
+        }</span>
         <span class="cov7" title="5">var orderStatus *model.OrderStatus
-        if order.Status != nil </span>{
-                <span class="cov7" title="5">orderStatus = new(model.OrderStatus(*order.Status))
-</span>        }
+        if order.Status != nil </span><span class="cov7" title="5">{
+                orderStatus = lo.ToPtr(model.OrderStatus(*order.Status))
+        }</span>
         <span class="cov7" title="5">var transactionUUID *string
-        if order.TransactionUUID != nil </span>{
-                <span class="cov7" title="5">transactionUUID = new(string(*order.TransactionUUID))
-</span>        }
+        if order.TransactionUUID != nil </span><span class="cov7" title="5">{
+                transactionUUID = lo.ToPtr(string(*order.TransactionUUID))
+        }</span>
         <span class="cov7" title="5">return model.Order{
                 OrderUUID:       order.OrderUUID,
                 UserUUID:        order.UserUUID,
@@ -830,7 +832,7 @@ func OrderToModel(order repoModel.Order) model.Order {
                 TransactionUUID: transactionUUID,
                 PaymentMethod:   paymentMethod,
                 Status:          orderStatus,
-</span>        }
+        }</span>
 }
 </pre>
 		
@@ -839,40 +841,42 @@ func OrderToModel(order repoModel.Order) model.Order {
 import (
         "context"
 
+        "github.com/samber/lo"
+
         "github.com/AMSt1010/microservises-course/week2/order/internal/model"
         "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
         repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
 )
 
 // CancelOrder отменяет заказ, если он еще не оплачен
-func (r *repository) CancelOrder(ctx context.Context, orderUUID string) (model.Order, error) {
-        <span class="cov10" title="5">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+func (r *repository) CancelOrder(ctx context.Context, orderUUID string) (model.Order, error) <span class="cov10" title="5">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
         <span class="cov8" title="4">r.mu.Lock()
         defer r.mu.Unlock()
-</span>
-        <span class="cov8" title="4">order, ok := r.orders[orderUUID]
-</span>
-        <span class="cov8" title="4">if !ok </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
-</span>        }
 
-        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrAlreadyPaid
-</span>        }
+        order, ok := r.orders[orderUUID]
 
-        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderCancelled
-</span>        }
+        if !ok </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderNotFound
+        }</span>
 
-        <span class="cov1" title="1">order.Status = new(repoModel.OrderStatusCANCELLED)
+        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrAlreadyPaid
+        }</span>
+
+        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderCancelled
+        }</span>
+
+        <span class="cov1" title="1">order.Status = lo.ToPtr(repoModel.OrderStatusCANCELLED)
         r.orders[orderUUID] = order
-</span>
-        <span class="cov1" title="1">result := converter.OrderToModel(order)
-</span>
-        <span class="cov1" title="1">return result, nil</span>
+
+        result := converter.OrderToModel(order)
+
+        return result, nil</span>
 }
 </pre>
 		
@@ -886,19 +890,19 @@ import (
 )
 
 // Создает новый заказ в Map или обновляет информацию о заказе
-func (r *repository) CreateOrder(ctx context.Context, order model.Order) error {
-        <span class="cov10" title="11">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return err
-</span>        }
+func (r *repository) CreateOrder(ctx context.Context, order model.Order) error <span class="cov10" title="11">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
 
         <span class="cov9" title="10">repoOrder := converter.OrderToRepoModel(order)
-</span>
-        <span class="cov9" title="10">r.mu.Lock()
+
+        r.mu.Lock()
         defer r.mu.Unlock()
-</span>
-        <span class="cov9" title="10">if _, ok := r.orders[repoOrder.OrderUUID]; ok </span>{
-                <span class="cov1" title="1">return model.ErrAlreadyExists
-</span>        }
+
+        if _, ok := r.orders[repoOrder.OrderUUID]; ok </span><span class="cov1" title="1">{
+                return model.ErrAlreadyExists
+        }</span>
         <span class="cov9" title="9">r.orders[repoOrder.OrderUUID] = repoOrder
         return nil</span>
 }
@@ -914,17 +918,17 @@ import (
 )
 
 // Получает заказ из Map по Uuid заказа
-func (r *repository) GetOrder(ctx context.Context, orderUUID string) (model.Order, error) {
-        <span class="cov10" title="3">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+func (r *repository) GetOrder(ctx context.Context, orderUUID string) (model.Order, error) <span class="cov10" title="3">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
         <span class="cov6" title="2">r.mu.RLock()
         order, ok := r.orders[orderUUID]
         r.mu.RUnlock()
-        if !ok </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
-</span>        }
+        if !ok </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderNotFound
+        }</span>
 
         <span class="cov1" title="1">return converter.OrderToModel(order), nil</span>
 }
@@ -935,41 +939,43 @@ func (r *repository) GetOrder(ctx context.Context, orderUUID string) (model.Orde
 import (
         "context"
 
+        "github.com/samber/lo"
+
         "github.com/AMSt1010/microservises-course/week2/order/internal/model"
         "github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
         repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
 )
 
 // Помечает заказ как оплаченный с использованием сравнения и замены (Compare-And-Swap)
-func (r *repository) PayOrder(ctx context.Context, orderUUID, transactionUUID string, method model.PaymentMethod) (model.Order, error) {
-        <span class="cov10" title="5">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+func (r *repository) PayOrder(ctx context.Context, orderUUID, transactionUUID string, method model.PaymentMethod) (model.Order, error) <span class="cov10" title="5">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
         <span class="cov8" title="4">r.mu.Lock()
         defer r.mu.Unlock()
         order, ok := r.orders[orderUUID]
-</span>
-        <span class="cov8" title="4">if !ok </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderNotFound
-</span>        }
 
-        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrAlreadyPaid
-</span>        }
-        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderCancelled
-</span>        }
+        if !ok </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderNotFound
+        }</span>
 
-        <span class="cov1" title="1">order.Status = new(repoModel.OrderStatusPAID)
-        order.TransactionUUID = new(transactionUUID)
-        order.PaymentMethod = new(repoModel.PaymentMethod(method))
-</span>
-        <span class="cov1" title="1">r.orders[orderUUID] = order
-</span>
-        <span class="cov1" title="1">result := converter.OrderToModel(order)
-</span>
-        <span class="cov1" title="1">return result, nil</span>
+        <span class="cov7" title="3">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusPAID </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrAlreadyPaid
+        }</span>
+        <span class="cov4" title="2">if order.Status != nil &amp;&amp; *order.Status == repoModel.OrderStatusCANCELLED </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderCancelled
+        }</span>
+
+        <span class="cov1" title="1">order.Status = lo.ToPtr(repoModel.OrderStatusPAID)
+        order.TransactionUUID = lo.ToPtr(transactionUUID)
+        order.PaymentMethod = lo.ToPtr(repoModel.PaymentMethod(method))
+
+        r.orders[orderUUID] = order
+
+        result := converter.OrderToModel(order)
+
+        return result, nil</span>
 }
 </pre>
 		
@@ -989,11 +995,11 @@ type repository struct {
         orders map[string]repoModel.Order
 }
 
-func NewRepository() *repository {
-        <span class="cov10" title="16">return &amp;repository{
+func NewRepository() *repository <span class="cov10" title="16">{
+        return &amp;repository{
                 orders: make(map[string]repoModel.Order),
-</span>        }
-}
+        }
+}</span>
 </pre>
 		
 		<pre class="file" id="file16" style="display: none">package order
@@ -1005,31 +1011,31 @@ import (
 )
 
 // Отменяет заказ.
-func (s *service) CancelOrderByUuid(ctx context.Context, orderUUID string) error {
-        <span class="cov10" title="7">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return err
-</span>        }
-        <span class="cov9" title="6">if orderUUID == "" </span>{
-                <span class="cov1" title="1">return model.ErrOrderUUIDCannotBeEmpty
-</span>        }
+func (s *service) CancelOrderByUuid(ctx context.Context, orderUUID string) error <span class="cov10" title="7">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
+        <span class="cov9" title="6">if orderUUID == "" </span><span class="cov1" title="1">{
+                return model.ErrOrderUUIDCannotBeEmpty
+        }</span>
 
         <span class="cov8" title="5">order, err := s.repo.GetOrder(ctx, orderUUID)
-        if err != nil </span>{
-                <span class="cov1" title="1">return err
-</span>        }
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
 
-        <span class="cov7" title="4">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusPAID </span>{
-                <span class="cov1" title="1">return model.ErrAlreadyPaid
-</span>        }
+        <span class="cov7" title="4">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusPAID </span><span class="cov1" title="1">{
+                return model.ErrAlreadyPaid
+        }</span>
 
-        <span class="cov6" title="3">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusCANCELLED </span>{
-                <span class="cov1" title="1">return model.ErrOrderCancelled
-</span>        }
+        <span class="cov6" title="3">if order.Status != nil &amp;&amp; *order.Status == model.OrderStatusCANCELLED </span><span class="cov1" title="1">{
+                return model.ErrOrderCancelled
+        }</span>
 
         <span class="cov4" title="2">_, err = s.repo.CancelOrder(ctx, orderUUID)
-        if err != nil </span>{
-                <span class="cov1" title="1">return err
-</span>        }
+        if err != nil </span><span class="cov1" title="1">{
+                return err
+        }</span>
 
         <span class="cov1" title="1">return nil</span>
 }
@@ -1042,87 +1048,88 @@ import (
         "fmt"
 
         "github.com/google/uuid"
+        "github.com/samber/lo"
 
         "github.com/AMSt1010/microservises-course/week2/order/internal/model"
 )
 
 // Проверяет, что все запрашиваемые детали существуют
-func areAllPartsExist(checkUuids []string, parts []model.Part) bool {
-        <span class="cov6" title="3">getParts := make(map[string]struct{}, len(parts))
-        for _, part := range parts </span>{
-                <span class="cov7" title="4">getParts[part.UUID] = struct{}{}
-</span>        }
-        <span class="cov6" title="3">for _, checkuuid := range checkUuids </span>{
-                <span class="cov8" title="5">if _, ok := getParts[checkuuid]; !ok </span>{
-                        <span class="cov1" title="1">return false
-</span>                }
+func areAllPartsExist(checkUuids []string, parts []model.Part) bool <span class="cov5" title="3">{
+        getParts := make(map[string]struct{}, len(parts))
+        for _, part := range parts </span><span class="cov9" title="8">{
+                getParts[part.UUID] = struct{}{}
+        }</span>
+        <span class="cov5" title="3">for _, checkuuid := range checkUuids </span><span class="cov10" title="9">{
+                if _, ok := getParts[checkuuid]; !ok </span><span class="cov1" title="1">{
+                        return false
+                }</span>
         }
-        <span class="cov4" title="2">return true</span>
+        <span class="cov3" title="2">return true</span>
 }
 
 // Считает общую цену заказа с учетом количества каждого запрошенного UUID
-func totalPrice(requestedUUIDs []string, parts []model.Part) float64 {
-        <span class="cov4" title="2">priceMap := make(map[string]float64, len(parts))
-        for _, part := range parts </span>{
-                <span class="cov7" title="4">priceMap[part.UUID] = part.Info.Price
-</span>        }
-        <span class="cov4" title="2">var total float64
-        for _, id := range requestedUUIDs </span>{
-                <span class="cov7" title="4">total += priceMap[id]
-</span>        }
-        <span class="cov4" title="2">return total</span>
+func totalPrice(requestedUUIDs []string, parts []model.Part) float64 <span class="cov3" title="2">{
+        priceMap := make(map[string]float64, len(parts))
+        for _, part := range parts </span><span class="cov9" title="8">{
+                priceMap[part.UUID] = part.Info.Price
+        }</span>
+        <span class="cov3" title="2">var total float64
+        for _, id := range requestedUUIDs </span><span class="cov9" title="8">{
+                total += priceMap[id]
+        }</span>
+        <span class="cov3" title="2">return total</span>
 }
 
 // POST /api/v1/orders
 // Создаёт новый заказ на основе выбранных пользователем деталей.
-func (s *service) CreateOrder(ctx context.Context, order model.CreateOrderIn) (model.Order, error) {
-        <span class="cov10" title="7">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+func (s *service) CreateOrder(ctx context.Context, order model.CreateOrderIn) (model.Order, error) <span class="cov8" title="7">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
-        <span class="cov9" title="6">if err := order.Validate(); err != nil </span>{
-                <span class="cov4" title="2">return model.Order{}, err
-</span>        }
+        <span class="cov8" title="6">if err := order.Validate(); err != nil </span><span class="cov3" title="2">{
+                return model.Order{}, err
+        }</span>
 
         // генерируем id заказа
-        <span class="cov7" title="4">order_uuid := uuid.NewString()
-</span>
-        // список запрашиваемых деталей
-        <span class="cov7" title="4">uuids := order.PartUuids
-</span>
-        // Обращаемся к сервису Inventory и получаем список деталей
-        <span class="cov7" title="4">filter := model.PartsFilter{
-                UUIDs: order.PartUuids,
-</span>        }
+        <span class="cov6" title="4">order_uuid := uuid.NewString()
 
-        <span class="cov7" title="4">listParts, err := s.inventoryClient.ListParts(ctx, filter)
-        if err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, fmt.Errorf("%w: %w", model.ErrInventoryUnavailable, err)
-</span>        }
+        // список запрашиваемых деталей
+        uuids := order.PartUuids
+
+        // Обращаемся к сервису Inventory и получаем список деталей
+        filter := model.PartsFilter{
+                UUIDs: order.PartUuids,
+        }
+
+        listParts, err := s.inventoryClient.ListParts(ctx, filter)
+        if err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, fmt.Errorf("%w: %w", model.ErrInventoryUnavailable, err)
+        }</span>
 
         // Список деталей
         // Если хотя бы одной детали нет — возвращает ошибку.
-        <span class="cov6" title="3">if ok := areAllPartsExist(uuids, listParts); !ok </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrAtLeastOnePartWasNotFound
-</span>        }
+        <span class="cov5" title="3">if ok := areAllPartsExist(uuids, listParts); !ok </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrAtLeastOnePartWasNotFound
+        }</span>
 
         // общая сумма заказа
-        <span class="cov4" title="2">total := totalPrice(uuids, listParts)
-</span>
+        <span class="cov3" title="2">total := totalPrice(uuids, listParts)
+
         // Создаем заказ с полученными данными
-        <span class="cov4" title="2">orderInStorage := model.Order{
+        orderInStorage := model.Order{
                 OrderUUID:  order_uuid,
                 UserUUID:   order.UserUUID,
                 PartUuids:  order.PartUuids,
                 TotalPrice: float32(total),
-                Status:     new(model.OrderStatusPENDINGPAYMENT),
-</span>        }
+                Status:     lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
+        }
 
         // Обновляем данные в хранилище
-        <span class="cov4" title="2">err = s.repo.CreateOrder(ctx, orderInStorage)
-        if err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+        err = s.repo.CreateOrder(ctx, orderInStorage)
+        if err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
         <span class="cov1" title="1">return orderInStorage, nil</span>
 }
@@ -1137,19 +1144,19 @@ import (
 )
 
 // Возвращает информацию о заказе.
-func (s *service) GetOrderByUuid(ctx context.Context, orderUUID string) (model.Order, error) {
-        <span class="cov10" title="4">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+func (s *service) GetOrderByUuid(ctx context.Context, orderUUID string) (model.Order, error) <span class="cov10" title="4">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
 
-        <span class="cov8" title="3">if orderUUID == "" </span>{
-                <span class="cov1" title="1">return model.Order{}, model.ErrOrderUUIDCannotBeEmpty
-</span>        }
+        <span class="cov8" title="3">if orderUUID == "" </span><span class="cov1" title="1">{
+                return model.Order{}, model.ErrOrderUUIDCannotBeEmpty
+        }</span>
 
         <span class="cov5" title="2">order, err := s.repo.GetOrder(ctx, orderUUID)
-        if err != nil </span>{
-                <span class="cov1" title="1">return model.Order{}, err
-</span>        }
+        if err != nil </span><span class="cov1" title="1">{
+                return model.Order{}, err
+        }</span>
         <span class="cov1" title="1">return order, nil</span>
 }
 </pre>
@@ -1164,48 +1171,48 @@ import (
 )
 
 // Проводит оплату ранее созданного заказа.
-func (s *service) PayOrder(ctx context.Context, pay model.PayOrderIn) (string, error) {
-        <span class="cov10" title="10">if err := ctx.Err(); err != nil </span>{
-                <span class="cov1" title="1">return "", err
-</span>        }
+func (s *service) PayOrder(ctx context.Context, pay model.PayOrderIn) (string, error) <span class="cov10" title="10">{
+        if err := ctx.Err(); err != nil </span><span class="cov1" title="1">{
+                return "", err
+        }</span>
 
-        <span class="cov9" title="9">if err := pay.Validate(); err != nil </span>{
-                <span class="cov3" title="2">return "", err
-</span>        }
+        <span class="cov9" title="9">if err := pay.Validate(); err != nil </span><span class="cov3" title="2">{
+                return "", err
+        }</span>
 
         <span class="cov8" title="7">order, err := s.repo.GetOrder(ctx, pay.OrderUUID)
-        if err != nil </span>{
-                <span class="cov1" title="1">return "", err
-</span>        }
+        if err != nil </span><span class="cov1" title="1">{
+                return "", err
+        }</span>
 
-        <span class="cov8" title="6">if order.Status != nil </span>{
-                <span class="cov8" title="6">if *order.Status == model.OrderStatusPAID </span>{
-                        <span class="cov1" title="1">return "", model.ErrAlreadyPaid
-</span>                }
+        <span class="cov8" title="6">if order.Status != nil </span><span class="cov8" title="6">{
+                if *order.Status == model.OrderStatusPAID </span><span class="cov1" title="1">{
+                        return "", model.ErrAlreadyPaid
+                }</span>
 
-                <span class="cov7" title="5">if *order.Status == model.OrderStatusCANCELLED </span>{
-                        <span class="cov1" title="1">return "", model.ErrOrderCancelled
-</span>                }
+                <span class="cov7" title="5">if *order.Status == model.OrderStatusCANCELLED </span><span class="cov1" title="1">{
+                        return "", model.ErrOrderCancelled
+                }</span>
         }
 
         <span class="cov6" title="4">payment := model.Payment{
                 OrderUUID:     order.OrderUUID,
                 UserUUID:      order.UserUUID,
                 PaymentMethod: pay.PaymentMethod,
-</span>        }
+        }
 
-        <span class="cov6" title="4">transactionUuid, err := s.paymentClient.PayOrder(ctx, payment)
-        if err != nil </span>{
-                <span class="cov3" title="2">if ctx.Err() != nil </span>{
-                        <span class="cov1" title="1">return "", ctx.Err()
-</span>                }
+        transactionUuid, err := s.paymentClient.PayOrder(ctx, payment)
+        if err != nil </span><span class="cov3" title="2">{
+                if ctx.Err() != nil </span><span class="cov1" title="1">{
+                        return "", ctx.Err()
+                }</span>
                 <span class="cov1" title="1">return "", fmt.Errorf("%w: %w", model.ErrPaymentUnavailable, err)</span>
         }
 
         <span class="cov3" title="2">_, err = s.repo.PayOrder(ctx, pay.OrderUUID, transactionUuid, pay.PaymentMethod)
-        if err != nil </span>{
-                <span class="cov1" title="1">return "", err
-</span>        }
+        if err != nil </span><span class="cov1" title="1">{
+                return "", err
+        }</span>
 
         <span class="cov1" title="1">return transactionUuid, nil</span>
 }
@@ -1227,13 +1234,13 @@ type service struct {
         paymentClient   grpcClient.PaymentClient
 }
 
-func NewService(repo repository.OrderRepository, inventoryClient grpcClient.InventoryClient, paymentClient grpcClient.PaymentClient) *service {
-        <span class="cov10" title="28">return &amp;service{
+func NewService(repo repository.OrderRepository, inventoryClient grpcClient.InventoryClient, paymentClient grpcClient.PaymentClient) *service <span class="cov10" title="28">{
+        return &amp;service{
                 repo:            repo,
                 inventoryClient: inventoryClient,
                 paymentClient:   paymentClient,
-</span>        }
-}
+        }
+}</span>
 </pre>
 		
 		<pre class="file" id="file21" style="display: none">package payment
@@ -1247,18 +1254,18 @@ import (
         "github.com/AMSt1010/microservises-course/week2/payment/internal/model"
 )
 
-func (s *service) PayOrder(ctx context.Context, payment model.Payment) (string, error) {
-        <span class="cov10" title="5">if ctx.Err() != nil </span>{
-                <span class="cov1" title="1">return "", ctx.Err()
-</span>        }
+func (s *service) PayOrder(ctx context.Context, payment model.Payment) (string, error) <span class="cov10" title="5">{
+        if ctx.Err() != nil </span><span class="cov1" title="1">{
+                return "", ctx.Err()
+        }</span>
 
-        <span class="cov8" title="4">if err := payment.Validate(); err != nil </span>{
-                <span class="cov7" title="3">return "", err
-</span>        }
+        <span class="cov8" title="4">if err := payment.Validate(); err != nil </span><span class="cov7" title="3">{
+                return "", err
+        }</span>
 
         <span class="cov1" title="1">transactionUUID := uuid.NewString()
-</span>
-        <span class="cov1" title="1">log.Printf("Оплата прошла успешно , transaction_uuid: %v\nUUID заказа: %v\nUUID пользователя: %v\nСпособ оплаты: %v\n", transactionUUID, payment.OrderUUID, payment.UserUUID, payment.PaymentMethod)
+
+        log.Printf("Оплата прошла успешно , transaction_uuid: %v\nUUID заказа: %v\nUUID пользователя: %v\nСпособ оплаты: %v\n", transactionUUID, payment.OrderUUID, payment.UserUUID, payment.PaymentMethod)
         return transactionUUID, nil</span>
 }
 </pre>
@@ -1273,9 +1280,9 @@ var _ def.PaymentService = (*service)(nil)
 
 type service struct{}
 
-func NewService() *service {
-        <span class="cov10" title="5">return &amp;service{}
-</span>}
+func NewService() *service <span class="cov10" title="5">{
+        return &amp;service{}
+}</span>
 </pre>
 		
 		</div>

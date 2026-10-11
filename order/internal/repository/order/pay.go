@@ -3,6 +3,8 @@ package order
 import (
 	"context"
 
+	"github.com/samber/lo"
+
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
 	repoModel "github.com/AMSt1010/microservises-course/week2/order/internal/repository/model"
@@ -29,9 +31,9 @@ func (r *repository) PayOrder(ctx context.Context, orderUUID, transactionUUID st
 		return model.Order{}, model.ErrOrderCancelled
 	}
 
-	order.Status = new(repoModel.OrderStatusPAID)
-	order.TransactionUUID = new(transactionUUID)
-	order.PaymentMethod = new(repoModel.PaymentMethod(method))
+	order.Status = lo.ToPtr(repoModel.OrderStatusPAID)
+	order.TransactionUUID = lo.ToPtr(transactionUUID)
+	order.PaymentMethod = lo.ToPtr(repoModel.PaymentMethod(method))
 
 	r.orders[orderUUID] = order
 

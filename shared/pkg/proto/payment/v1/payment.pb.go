@@ -214,7 +214,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\x1aPAYMENT_METHOD_CREDIT_CARD\x10\x03\x12!\n" +
 	"\x1dPAYMENT_METHOD_INVESTOR_MONEY\x10\x042W\n" +
 	"\x0ePaymentService\x12E\n" +
-	"\bPayOrder\x12\x1b.payment.v1.PayOrderRequest\x1a\x1c.payment.v1.PayOrderResponseBTZRgithub.com/alex100010/microservices-course/hw/hw_1/pkg/proto/payment/v1;payment_v1b\x06proto3"
+	"\bPayOrder\x12\x1b.payment.v1.PayOrderRequest\x1a\x1c.payment.v1.PayOrderResponseBWZUgithub.com/AMSt1010/microservises-course/week2/shared/pkg/proto/payment/v1;payment_v1b\x06proto3"
 
 var (
 	file_payment_v1_payment_proto_rawDescOnce sync.Once
@@ -237,7 +237,6 @@ var (
 		(*PayOrderResponse)(nil), // 2: payment.v1.PayOrderResponse
 	}
 )
-
 var file_payment_v1_payment_proto_depIdxs = []int32{
 	0, // 0: payment.v1.PayOrderRequest.payment_method:type_name -> payment.v1.PaymentMethod
 	1, // 1: payment.v1.PaymentService.PayOrder:input_type -> payment.v1.PayOrderRequest

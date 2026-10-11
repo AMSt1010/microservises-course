@@ -6,6 +6,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/converter"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
@@ -69,7 +70,7 @@ func (s *ApiSuite) TestGetOrderByUuidSuccess() {
 		UserUUID:   uuid.NewString(),
 		PartUuids:  []string{uuid.NewString(), uuid.NewString()},
 		TotalPrice: 250.75,
-		Status:     new(model.OrderStatusPENDINGPAYMENT),
+		Status:     lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}
 	s.service.On("GetOrderByUuid", s.ctx, orderUUID).Return(expectedOrder, nil)
 	resp, err := s.api.GetOrderByUuid(s.ctx, orderV1.GetOrderByUuidParams{

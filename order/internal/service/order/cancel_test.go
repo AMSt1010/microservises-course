@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 )
@@ -39,7 +40,7 @@ func (s *ServiceSuite) TestCancelOrderByUuidOrderStatusPaid() {
 	orderUUID := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPAID),
+		Status:    lo.ToPtr(model.OrderStatusPAID),
 	}, nil)
 	err := s.service.CancelOrderByUuid(s.ctx, orderUUID)
 
@@ -51,7 +52,7 @@ func (s *ServiceSuite) TestCancelOrderByUuidOrderStatusCancelled() {
 	orderUUID := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusCANCELLED),
+		Status:    lo.ToPtr(model.OrderStatusCANCELLED),
 	}, nil)
 	err := s.service.CancelOrderByUuid(s.ctx, orderUUID)
 
@@ -64,7 +65,7 @@ func (s *ServiceSuite) TestCancelOrderByUuidRepoCancelError() {
 	randomError := gofakeit.Error()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.repo.On("CancelOrder", s.ctx, orderUUID).Return(model.Order{}, randomError)
 	err := s.service.CancelOrderByUuid(s.ctx, orderUUID)
@@ -77,7 +78,7 @@ func (s *ServiceSuite) TestCancelOrderByUuidSuccess() {
 	orderUUID := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.repo.On("CancelOrder", s.ctx, orderUUID).Return(model.Order{}, nil)
 	err := s.service.CancelOrderByUuid(s.ctx, orderUUID)

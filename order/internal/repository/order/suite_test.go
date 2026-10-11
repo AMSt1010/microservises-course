@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
@@ -43,7 +44,7 @@ func (r *RepositorySuite) GenerateOrder() model.Order {
 		UserUUID:        gofakeit.UUID(),
 		PartUuids:       parts,
 		TotalPrice:      gofakeit.Float32(),
-		TransactionUUID: new(gofakeit.UUID()),
+		TransactionUUID: lo.ToPtr(gofakeit.UUID()),
 		PaymentMethod:   &payment,
 		Status:          &status,
 	}

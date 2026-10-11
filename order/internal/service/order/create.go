@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 )
@@ -78,7 +79,7 @@ func (s *service) CreateOrder(ctx context.Context, order model.CreateOrderIn) (m
 		UserUUID:   order.UserUUID,
 		PartUuids:  order.PartUuids,
 		TotalPrice: float32(total),
-		Status:     new(model.OrderStatusPENDINGPAYMENT),
+		Status:     lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}
 
 	// Обновляем данные в хранилище

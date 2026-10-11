@@ -3,13 +3,15 @@ package order
 import (
 	"context"
 
+	"github.com/samber/lo"
+
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
 )
 
 func (s *RepositorySuite) TestCancelOrderSuccess() {
 	orderFake := s.GenerateOrder()
-	orderFake.Status = new(model.OrderStatusPENDINGPAYMENT)
+	orderFake.Status = lo.ToPtr(model.OrderStatusPENDINGPAYMENT)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)
@@ -48,7 +50,7 @@ func (s *RepositorySuite) TestCancelOrderContextDone() {
 
 func (s *RepositorySuite) TestCancelOrderStatusPaid() {
 	orderFake := s.GenerateOrder()
-	orderFake.Status = new(model.OrderStatusPAID)
+	orderFake.Status = lo.ToPtr(model.OrderStatusPAID)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)
@@ -62,7 +64,7 @@ func (s *RepositorySuite) TestCancelOrderStatusPaid() {
 
 func (s *RepositorySuite) TestCancelOrderStatusCancelled() {
 	orderFake := s.GenerateOrder()
-	orderFake.Status = new(model.OrderStatusCANCELLED)
+	orderFake.Status = lo.ToPtr(model.OrderStatusCANCELLED)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)

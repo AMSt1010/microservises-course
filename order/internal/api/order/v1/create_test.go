@@ -5,6 +5,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v7"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/converter"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
@@ -25,7 +26,7 @@ func (s *ApiSuite) TestCreateOrderSuccess() {
 		UserUUID:   userUUID,
 		PartUuids:  partUUIDs,
 		TotalPrice: 250.75,
-		Status:     new(model.OrderStatusPENDINGPAYMENT),
+		Status:     lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}
 
 	s.service.On("CreateOrder", s.ctx, converter.CreateOrderToModel(*req)).

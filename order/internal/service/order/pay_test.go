@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/mock"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
@@ -59,7 +60,7 @@ func (s *ServiceSuite) TestPayOrderOrderStatusPaid() {
 	orderUUID := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPAID),
+		Status:    lo.ToPtr(model.OrderStatusPAID),
 	}, nil)
 	transactionUUID, err := s.service.PayOrder(s.ctx, model.PayOrderIn{
 		PaymentMethod: model.PaymentMethodCARD,
@@ -75,7 +76,7 @@ func (s *ServiceSuite) TestPayOrderOrderStatusCancelled() {
 	orderUUID := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusCANCELLED),
+		Status:    lo.ToPtr(model.OrderStatusCANCELLED),
 	}, nil)
 	transactionUUID, err := s.service.PayOrder(s.ctx, model.PayOrderIn{
 		PaymentMethod: model.PaymentMethodCARD,
@@ -93,7 +94,7 @@ func (s *ServiceSuite) TestPayOrderPaymentClientUnavailable() {
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
 		UserUUID:  userUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.paymentClient.On("PayOrder", s.ctx, model.Payment{
 		OrderUUID:     orderUUID,
@@ -118,7 +119,7 @@ func (s *ServiceSuite) TestPayOrderPaymentClientContextDone() {
 	s.repo.On("GetOrder", ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
 		UserUUID:  userUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.paymentClient.On("PayOrder", ctx, model.Payment{
 		OrderUUID:     orderUUID,
@@ -143,7 +144,7 @@ func (s *ServiceSuite) TestPayOrderRepoPayOrderError() {
 	randomError := gofakeit.Error()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.paymentClient.On("PayOrder", s.ctx, model.Payment{
 		OrderUUID:     orderUUID,
@@ -165,7 +166,7 @@ func (s *ServiceSuite) TestPayOrderSuccess() {
 	transactionUUIDExp := gofakeit.UUID()
 	s.repo.On("GetOrder", s.ctx, orderUUID).Return(model.Order{
 		OrderUUID: orderUUID,
-		Status:    new(model.OrderStatusPENDINGPAYMENT),
+		Status:    lo.ToPtr(model.OrderStatusPENDINGPAYMENT),
 	}, nil)
 	s.paymentClient.On("PayOrder", s.ctx, model.Payment{
 		OrderUUID:     orderUUID,

@@ -2,8 +2,8 @@ version: '3'
 
 # Глобальные переменные проекта
 vars:
-  GO_VERSION: '1.27'
-  GOLANGCI_LINT_VERSION: 'v2.14.0'
+  GO_VERSION: '1.24'
+  GOLANGCI_LINT_VERSION: 'v2.6.2'
   GCI_VERSION: 'v0.13.6'
   GOFUMPT_VERSION: 'v0.8.0'
   BUF_VERSION: '1.53.0'
@@ -105,10 +105,11 @@ tasks:
         [ -f {{.GOLANGCI_LINT}} ] || {
           mkdir -p {{.BIN_DIR}}
           echo "📦 Устанавливаем golangci-lint {{.GOLANGCI_LINT_VERSION}}..."
-          GOBIN={{.BIN_DIR}} go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@{{.GOLANGCI_LINT_VERSION}}
+          GOBIN={{.BIN_DIR}} go install -a github.com/golangci/golangci-lint/v2/cmd/golangci-lint@{{.GOLANGCI_LINT_VERSION}}
         }
     status:
       - test -x {{.GOLANGCI_LINT}}
+
 
   lint:
     desc: "Запускает golangci-lint для всех модулей"
@@ -146,7 +147,8 @@ tasks:
           GOBIN={{.BIN_DIR}} go install github.com/bufbuild/buf/cmd/buf@v{{.BUF_VERSION}}
         }
     status:
-       - test -x {{.BUF}}
+      - test -x {{.BUF}}
+
 
 
   proto:install-plugins:
@@ -242,15 +244,16 @@ tasks:
     desc: "Обновление зависимостей в go.mod во всех модулях"
     cmds:
       - |
-        echo "🔄 Обновление зависимостей в go.work"
-        go work sync
-        echo "🔄 Обновление зависимостей в go.mod во всех модулях"
+        echo "🔄 Очистка и фиксация зависимостей в go.mod во всех модулях"
         for mod in {{.MODULES}}; do
           if [ -d "$mod" ]; then
-            echo "🔄 Обновление зависимостей в $mod"
-            (cd "$mod" && go mod tidy -compat=1.25.0) || exit 1
+            echo "🔄 Обработка $mod"
+            (cd "$mod" && GOTOOLCHAIN=local go mod tidy -compat={{.GO_VERSION}}) || exit 1
           fi
         done
+        echo "🔄 Синхронизация go.work"
+        GOTOOLCHAIN=local go work sync
+
 
   yq:install:
     desc: "Устанавливает yq в bin/ при необходимости"

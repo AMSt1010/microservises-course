@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/samber/lo"
 
 	"github.com/AMSt1010/microservises-course/week2/order/internal/model"
 	"github.com/AMSt1010/microservises-course/week2/order/internal/repository/converter"
@@ -12,7 +13,7 @@ import (
 func (s *RepositorySuite) TestPayOrderSuccess() {
 	orderFake := s.GenerateOrder()
 	orderFake.TransactionUUID = nil
-	orderFake.Status = new(model.OrderStatusPENDINGPAYMENT)
+	orderFake.Status = lo.ToPtr(model.OrderStatusPENDINGPAYMENT)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)
@@ -56,7 +57,7 @@ func (s *RepositorySuite) TestPayOrderContextDone() {
 
 func (s *RepositorySuite) TestPayOrderStatusPaid() {
 	orderFake := s.GenerateOrder()
-	orderFake.Status = new(model.OrderStatusPAID)
+	orderFake.Status = lo.ToPtr(model.OrderStatusPAID)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)
@@ -72,7 +73,7 @@ func (s *RepositorySuite) TestPayOrderStatusPaid() {
 
 func (s *RepositorySuite) TestPayOrderStatusCancelled() {
 	orderFake := s.GenerateOrder()
-	orderFake.Status = new(model.OrderStatusCANCELLED)
+	orderFake.Status = lo.ToPtr(model.OrderStatusCANCELLED)
 	err := s.repo.CreateOrder(s.ctx, orderFake)
 
 	s.Require().NoError(err)
