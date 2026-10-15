@@ -1,6 +1,8 @@
 package part
 
 import (
+	"context"
+
 	"github.com/brianvoe/gofakeit/v7"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
@@ -38,7 +40,7 @@ func (s *ServiceSuite) TestListPartsSuccess() {
 		expectedParts = append(expectedParts, GenerateFakePart())
 	}
 
-	s.invRepository.On("ListParts", s.ctx, filter).Return(expectedParts, nil)
+	s.invRepository.On("ListParts", s.ctx, filter).Return(expectedParts, nil).Once()
 
 	actualParts, err := s.service.ListParts(s.ctx, filter)
 
@@ -47,11 +49,24 @@ func (s *ServiceSuite) TestListPartsSuccess() {
 	s.Require().Len(actualParts, count)
 }
 
+func (s *ServiceSuite) TestListPartsContextCancelled() {
+	ctx, cancel := context.WithCancel(s.ctx)
+	cancel()
+
+	filter := GenerateFakePartsFilter()
+
+	actualParts, err := s.service.ListParts(ctx, filter)
+
+	s.Require().Error(err)
+	s.Require().ErrorIs(err, context.Canceled)
+	s.Require().Nil(actualParts)
+}
+
 func (s *ServiceSuite) TestListPartsEmptyResult() {
 	filter := model.PartsFilter{}
 	expectedParts := []model.Part{}
 
-	s.invRepository.On("ListParts", s.ctx, filter).Return(expectedParts, nil)
+	s.invRepository.On("ListParts", s.ctx, filter).Return(expectedParts, nil).Once()
 
 	actualParts, err := s.service.ListParts(s.ctx, filter)
 
@@ -63,7 +78,7 @@ func (s *ServiceSuite) TestListPartsRepoError() {
 	filter := GenerateFakePartsFilter()
 	repoErr := gofakeit.Error()
 
-	s.invRepository.On("ListParts", s.ctx, filter).Return([]model.Part{}, repoErr)
+	s.invRepository.On("ListParts", s.ctx, filter).Return([]model.Part{}, repoErr).Once()
 
 	actualParts, err := s.service.ListParts(s.ctx, filter)
 

@@ -1,14 +1,16 @@
 package part
 
 import (
+	"context"
+
 	"github.com/brianvoe/gofakeit/v7"
+	"github.com/stretchr/testify/mock"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
 
 // GenerateFakePartInfo генерирует валидный экземпляр структуры PartInfo с реалистичными тестовыми данными.
 func GenerateFakePartInfo() model.PartInfo {
-	// 1. Выбор случайной категории из допустимого диапазона (исключая CategoryUnspecified)
 	validCategories := []model.Category{
 		model.CategoryEngine,
 		model.CategoryFuel,
@@ -17,7 +19,6 @@ func GenerateFakePartInfo() model.PartInfo {
 	}
 	randomCategory := validCategories[gofakeit.Number(0, len(validCategories)-1)]
 
-	// 2. Генерация физических габаритов
 	dimensions := model.Dimensions{
 		Length: gofakeit.Float64Range(10.0, 500.0),
 		Width:  gofakeit.Float64Range(5.0, 200.0),
@@ -25,21 +26,18 @@ func GenerateFakePartInfo() model.PartInfo {
 		Weight: gofakeit.Float64Range(0.5, 50.0),
 	}
 
-	// 3. Генерация информации о производителе
 	manufacturer := model.Manufacturer{
 		Name:    gofakeit.Company(),
 		Country: gofakeit.Country(),
 		Website: gofakeit.URL(),
 	}
 
-	// 4. Генерация тегов (от 2 до 5 уникальных слов)
 	tagsCount := gofakeit.Number(2, 5)
 	tags := make([]string, 0, tagsCount)
 	for i := 0; i < tagsCount; i++ {
 		tags = append(tags, gofakeit.Noun())
 	}
 
-	// 5. Генерация метаданных с гарантией соблюдения валидации CustomValue (ровно одно поле заполнено)
 	metadata := map[string]model.CustomValue{
 		"serial_code":  model.NewStringValue(gofakeit.UUID()),
 		"batch_number": model.NewInt64Value(gofakeit.Int64()),
@@ -63,26 +61,49 @@ func GenerateFakePartInfo() model.PartInfo {
 func (s *ServiceSuite) TestCreatePartSuccess() {
 	info := GenerateFakePartInfo()
 
-	expectedUUID := gofakeit.UUID()
+	s.invRepository.On("CreatePart", s.ctx, mock.MatchedBy(func(p model.Part) bool {
+		return p.UUID != "" && p.Info.Name == info.Name && p.Info.Price == info.Price
+	})).Return(nil).Once()
 
-	s.invRepository.On("CreatePart", s.ctx, info).Return(expectedUUID, nil)
-
-	UUID, err := s.service.CreatePart(s.ctx, info)
+	newUUID, err := s.service.CreatePart(s.ctx, info)
 
 	s.Require().NoError(err)
-	s.Require().Equal(expectedUUID, UUID)
+	s.Require().NotEmpty(newUUID)
+}
+
+func (s *ServiceSuite) TestCreatePartValidationError() {
+	info := GenerateFakePartInfo()
+	info.Name = "" // Пустое имя нарушает валидацию
+
+	newUUID, err := s.service.CreatePart(s.ctx, info)
+
+	s.Require().Error(err)
+	s.Require().ErrorIs(err, model.ErrPartNameCannotBeEmpty)
+	s.Require().Empty(newUUID)
+}
+
+func (s *ServiceSuite) TestCreatePartContextCancelled() {
+	ctx, cancel := context.WithCancel(s.ctx)
+	cancel()
+
+	info := GenerateFakePartInfo()
+
+	newUUID, err := s.service.CreatePart(ctx, info)
+
+	s.Require().Error(err)
+	s.Require().ErrorIs(err, context.Canceled)
+	s.Require().Empty(newUUID)
 }
 
 func (s *ServiceSuite) TestCreatePartRepoError() {
 	info := GenerateFakePartInfo()
-
 	repoErr := gofakeit.Error()
 
-	s.invRepository.On("CreatePart", s.ctx, info).Return("", repoErr)
+	s.invRepository.On("CreatePart", s.ctx, mock.Anything).Return(repoErr).Once()
 
-	UUID, err := s.service.CreatePart(s.ctx, info)
+	newUUID, err := s.service.CreatePart(s.ctx, info)
 
 	s.Require().Error(err)
 	s.Require().ErrorIs(err, repoErr)
-	s.Require().Empty(UUID)
+	s.Require().Empty(newUUID)
 }

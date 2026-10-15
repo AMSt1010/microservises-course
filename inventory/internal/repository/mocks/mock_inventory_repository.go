@@ -25,32 +25,22 @@ func (_m *InventoryRepository) EXPECT() *InventoryRepository_Expecter {
 	return &InventoryRepository_Expecter{mock: &_m.Mock}
 }
 
-// CreatePart provides a mock function with given fields: ctx, info
-func (_m *InventoryRepository) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
-	ret := _m.Called(ctx, info)
+// CreatePart provides a mock function with given fields: ctx, part
+func (_m *InventoryRepository) CreatePart(ctx context.Context, part model.Part) error {
+	ret := _m.Called(ctx, part)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreatePart")
 	}
 
-	var r0 string
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, model.PartInfo) (string, error)); ok {
-		return rf(ctx, info)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, model.PartInfo) string); ok {
-		r0 = rf(ctx, info)
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, model.Part) error); ok {
+		r0 = rf(ctx, part)
 	} else {
-		r0 = ret.Get(0).(string)
+		r0 = ret.Error(0)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, model.PartInfo) error); ok {
-		r1 = rf(ctx, info)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
 // InventoryRepository_CreatePart_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'CreatePart'
@@ -60,24 +50,24 @@ type InventoryRepository_CreatePart_Call struct {
 
 // CreatePart is a helper method to define mock.On call
 //   - ctx context.Context
-//   - info model.PartInfo
-func (_e *InventoryRepository_Expecter) CreatePart(ctx interface{}, info interface{}) *InventoryRepository_CreatePart_Call {
-	return &InventoryRepository_CreatePart_Call{Call: _e.mock.On("CreatePart", ctx, info)}
+//   - part model.Part
+func (_e *InventoryRepository_Expecter) CreatePart(ctx interface{}, part interface{}) *InventoryRepository_CreatePart_Call {
+	return &InventoryRepository_CreatePart_Call{Call: _e.mock.On("CreatePart", ctx, part)}
 }
 
-func (_c *InventoryRepository_CreatePart_Call) Run(run func(ctx context.Context, info model.PartInfo)) *InventoryRepository_CreatePart_Call {
+func (_c *InventoryRepository_CreatePart_Call) Run(run func(ctx context.Context, part model.Part)) *InventoryRepository_CreatePart_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(model.PartInfo))
+		run(args[0].(context.Context), args[1].(model.Part))
 	})
 	return _c
 }
 
-func (_c *InventoryRepository_CreatePart_Call) Return(_a0 string, _a1 error) *InventoryRepository_CreatePart_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *InventoryRepository_CreatePart_Call) Return(_a0 error) *InventoryRepository_CreatePart_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *InventoryRepository_CreatePart_Call) RunAndReturn(run func(context.Context, model.PartInfo) (string, error)) *InventoryRepository_CreatePart_Call {
+func (_c *InventoryRepository_CreatePart_Call) RunAndReturn(run func(context.Context, model.Part) error) *InventoryRepository_CreatePart_Call {
 	_c.Call.Return(run)
 	return _c
 }

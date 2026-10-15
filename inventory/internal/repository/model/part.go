@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"time"
 )
 
@@ -33,7 +32,7 @@ type Manufacturer struct {
 	Website string
 }
 
-// Part описывает сущность детали в бизнес-логике.
+// Part описывает сущность детали в базе данных/хранилище.
 type Part struct {
 	UUID      string
 	Info      PartInfo
@@ -83,25 +82,4 @@ func NewDoubleValue(v float64) CustomValue {
 
 func NewBoolValue(v bool) CustomValue {
 	return CustomValue{BoolValue: &v}
-}
-
-func (c CustomValue) Validate() error {
-	count := 0
-	if c.StringValue != nil {
-		count++
-	}
-	if c.Int64Value != nil {
-		count++
-	}
-	if c.DoubleValue != nil {
-		count++
-	}
-	if c.BoolValue != nil {
-		count++
-	}
-
-	if count != 1 {
-		return errors.New("custom value must have exactly one field populated")
-	}
-	return nil
 }

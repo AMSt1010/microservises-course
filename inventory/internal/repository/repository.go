@@ -8,7 +8,7 @@ import (
 
 type InventoryRepository interface {
 	// Записывает информацию о новой детали
-	CreatePart(ctx context.Context, info model.PartInfo) (string, error)
+	CreatePart(ctx context.Context, part model.Part) error
 	// Возвращает информацию о детали по её UUID
 	GetPart(ctx context.Context, uuid string) (model.Part, error)
 	// Возвращает список деталей с возможностью фильтрации

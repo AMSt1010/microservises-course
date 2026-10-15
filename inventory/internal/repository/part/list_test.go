@@ -2,17 +2,28 @@ package part
 
 import (
 	"context"
+	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 )
 
 func (s *RepositorySuite) TestListPartsEmptyFilter() {
-	info1 := generateRepoTestPartInfo()
-	info2 := generateRepoTestPartInfo()
+	part1 := model.Part{
+		UUID:      uuid.NewString(),
+		Info:      generateRepoTestPartInfo(),
+		CreatedAt: time.Now().UTC(),
+	}
+	part2 := model.Part{
+		UUID:      uuid.NewString(),
+		Info:      generateRepoTestPartInfo(),
+		CreatedAt: time.Now().UTC(),
+	}
 
-	_, err := s.repo.CreatePart(s.ctx, info1)
+	err := s.repo.CreatePart(s.ctx, part1)
 	s.Require().NoError(err)
-	_, err = s.repo.CreatePart(s.ctx, info2)
+	err = s.repo.CreatePart(s.ctx, part2)
 	s.Require().NoError(err)
 
 	parts, err := s.repo.ListParts(s.ctx, model.PartsFilter{})
@@ -34,10 +45,24 @@ func (s *RepositorySuite) TestListPartsFilters() {
 	info2.Manufacturer.Country = "Japan"
 	info2.Tags = []string{"solar", "light"}
 
-	uuid1, err := s.repo.CreatePart(s.ctx, info1)
+	uuid1 := uuid.NewString()
+	uuid2 := uuid.NewString()
+
+	part1 := model.Part{
+		UUID:      uuid1,
+		Info:      info1,
+		CreatedAt: time.Now().UTC(),
+	}
+	part2 := model.Part{
+		UUID:      uuid2,
+		Info:      info2,
+		CreatedAt: time.Now().UTC(),
+	}
+
+	err := s.repo.CreatePart(s.ctx, part1)
 	s.Require().NoError(err)
 
-	uuid2, err := s.repo.CreatePart(s.ctx, info2)
+	err = s.repo.CreatePart(s.ctx, part2)
 	s.Require().NoError(err)
 
 	// 1. Фильтр по UUID

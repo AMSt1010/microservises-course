@@ -8,14 +8,13 @@ import (
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
 )
 
-// Возвращает информацию о детали по её UUID
 func (r *repository) GetPart(ctx context.Context, uuid string) (model.Part, error) {
+	if err := ctx.Err(); err != nil {
+		return model.Part{}, err
+	}
+
 	r.mu.RLock()
 	defer r.mu.RUnlock()
-
-	if uuid == "" {
-		return model.Part{}, model.ErrUUIDCannotBeEmpty
-	}
 
 	part, ok := r.data[uuid]
 	if !ok {

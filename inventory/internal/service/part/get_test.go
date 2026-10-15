@@ -1,6 +1,7 @@
 package part
 
 import (
+	"context"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v7"
@@ -55,5 +56,24 @@ func (s *ServiceSuite) TestGetPartNotFound() {
 
 	s.Require().Error(err)
 	s.Require().ErrorIs(err, model.ErrPartNotFound)
+	s.Require().Empty(actualPart)
+}
+
+func (s *ServiceSuite) TestGetPartEmptyUUID() {
+	actualPart, err := s.service.GetPart(s.ctx, "")
+
+	s.Require().Error(err)
+	s.Require().ErrorIs(err, model.ErrUUIDCannotBeEmpty)
+	s.Require().Empty(actualPart)
+}
+
+func (s *ServiceSuite) TestGetPartContextCancelled() {
+	ctx, cancel := context.WithCancel(s.ctx)
+	cancel()
+
+	actualPart, err := s.service.GetPart(ctx, gofakeit.UUID())
+
+	s.Require().Error(err)
+	s.Require().ErrorIs(err, context.Canceled)
 	s.Require().Empty(actualPart)
 }

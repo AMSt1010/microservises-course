@@ -18,6 +18,24 @@ type PartInfo struct {
 	Metadata      map[string]CustomValue
 }
 
+func (p PartInfo) Validate() error {
+	if p.Name == "" {
+		return ErrPartNameCannotBeEmpty
+	}
+	if p.Price <= 0 {
+		return ErrInvalidPartPrice
+	}
+	if p.Category <= CategoryUnspecified || p.Category > CategoryWing {
+		return ErrInvalidCategory
+	}
+	for _, val := range p.Metadata {
+		if err := val.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // Dimensions описывает физические размеры и вес.
 type Dimensions struct {
 	Length float64

@@ -3,33 +3,26 @@ package part
 import (
 	"context"
 	"log"
-	"time"
-
-	"github.com/google/uuid"
 
 	"github.com/AMSt1010/microservises-course/week2/inventory/internal/model"
 	repoConverter "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/converter"
-	repoModel "github.com/AMSt1010/microservises-course/week2/inventory/internal/repository/model"
 )
 
 // Записывает информацию о новой детали
-func (r *repository) CreatePart(ctx context.Context, info model.PartInfo) (string, error) {
+func (r *repository) CreatePart(ctx context.Context, part model.Part) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	newUUID := uuid.NewString()
+	repoPart := repoConverter.PartToRepoModel(part)
+	r.data[repoPart.UUID] = repoPart
 
-	part := repoModel.Part{
-		UUID:      newUUID,
-		Info:      repoConverter.PartInfoToRepoModel(info),
-		CreatedAt: time.Now(),
-	}
+	partsFilter := newPartsFilterStorage(repoPart)
+	r.filterIndices[repoPart.UUID] = partsFilter
 
-	r.data[newUUID] = part
-
-	partsFilter := newPartsFilterStorage(part)
-	r.filterIndices[newUUID] = partsFilter
-
-	log.Printf("Создана деталь с Uuid %v", newUUID)
-	return newUUID, nil
+	log.Printf("Сохранена деталь с Uuid %v", repoPart.UUID)
+	return nil
 }
