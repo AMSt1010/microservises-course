@@ -1,0 +1,11 @@
+type: string
+description: |
+  Статус заказа:
+  * `PENDING_PAYMENT` - Ожидает оплату
+  * `PAID` - Оплачен
+  * `CANCELLED` - Отменен
+enum:
+  - UNKNOWN
+  - PENDING_PAYMENT
+  - PAID
+  - CANCELLED

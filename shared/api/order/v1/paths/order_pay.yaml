@@ -1,0 +1,53 @@
+post:
+  summary: Проводит оплату ранее созданного заказа.
+  operationId: OrderPay 
+  tags:
+    - Orders
+  parameters:
+  - $ref: ../params/order_uuid.yaml
+  requestBody: 
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/pay_order_request.yaml
+  responses:
+    '200':
+      description: Заказ успешно оплачен
+      content: 
+        application/json:
+          schema:
+            $ref: ../components/pay_order_response.yaml
+    '502':
+      description: Неверный ответ от вышестоящего сервиса
+      content: 
+        application/json:
+          schema:
+            $ref: ../components/errors/bad_gateway_error.yaml
+    '404':
+      description: Заказ не найден
+      content:
+        application/json:
+          schema:
+            $ref: ../components/errors/not_found_error.yaml
+    '400':
+      description: Ошибка запроса
+      content:
+        application/json:
+          schema:
+            $ref: ../components/errors/bad_request_error.yaml
+    '409':
+      description: Заказ уже оплачен или отменен и не может быть отменён
+      content:
+        application/json:
+          schema:
+            $ref: ../components/errors/conflict_error.yaml        
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: ../components/errors/generic_error.yaml 
+
+            
+            

@@ -1,0 +1,18 @@
+# Сборка и бинарники
+bin/
+
+# Отчеты о тестах
+coverage/
+*.out
+*.html
+
+# Node.js зависимости
+node_modules/
+
+# Локальные логи и дампы npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Настройки VS Code (если еще не добавлены)
+.vscode/
