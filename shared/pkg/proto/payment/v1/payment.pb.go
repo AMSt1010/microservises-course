@@ -5,16 +5,16 @@
 // source: payment/v1/payment.proto
 
 // Сервис оплаты заказов симулирует работу платёжного шлюза. Он не сохраняет состояние, а просто принимает команду на
-// оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
+//оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне.
+
 package payment_v1
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -214,7 +214,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\x1aPAYMENT_METHOD_CREDIT_CARD\x10\x03\x12!\n" +
 	"\x1dPAYMENT_METHOD_INVESTOR_MONEY\x10\x042W\n" +
 	"\x0ePaymentService\x12E\n" +
-	"\bPayOrder\x12\x1b.payment.v1.PayOrderRequest\x1a\x1c.payment.v1.PayOrderResponseBWZUgithub.com/AMSt1010/microservises-course/week2/shared/pkg/proto/payment/v1;payment_v1b\x06proto3"
+	"\bPayOrder\x12\x1b.payment.v1.PayOrderRequest\x1a\x1c.payment.v1.PayOrderResponseBTZRgithub.com/alex100010/microservices-course/hw/hw_1/pkg/proto/payment/v1;payment_v1b\x06proto3"
 
 var (
 	file_payment_v1_payment_proto_rawDescOnce sync.Once
@@ -228,16 +228,13 @@ func file_payment_v1_payment_proto_rawDescGZIP() []byte {
 	return file_payment_v1_payment_proto_rawDescData
 }
 
-var (
-	file_payment_v1_payment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-	file_payment_v1_payment_proto_msgTypes  = make([]protoimpl.MessageInfo, 2)
-	file_payment_v1_payment_proto_goTypes   = []any{
-		(PaymentMethod)(0),       // 0: payment.v1.PaymentMethod
-		(*PayOrderRequest)(nil),  // 1: payment.v1.PayOrderRequest
-		(*PayOrderResponse)(nil), // 2: payment.v1.PayOrderResponse
-	}
-)
-
+var file_payment_v1_payment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_payment_v1_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_payment_v1_payment_proto_goTypes = []any{
+	(PaymentMethod)(0),       // 0: payment.v1.PaymentMethod
+	(*PayOrderRequest)(nil),  // 1: payment.v1.PayOrderRequest
+	(*PayOrderResponse)(nil), // 2: payment.v1.PayOrderResponse
+}
 var file_payment_v1_payment_proto_depIdxs = []int32{
 	0, // 0: payment.v1.PayOrderRequest.payment_method:type_name -> payment.v1.PaymentMethod
 	1, // 1: payment.v1.PaymentService.PayOrder:input_type -> payment.v1.PayOrderRequest

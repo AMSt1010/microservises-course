@@ -10,4 +10,4 @@ properties:
   message: 
     type: string
     description: Описание ошибки
-    example: The order has already been paid for or cancelled
+    example: The order has already been paid for and cannot be cancelled

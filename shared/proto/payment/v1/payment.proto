@@ -4,7 +4,7 @@ syntax = "proto3";
    оплату, генерирует UUID транзакции, печатает его в консоль и возвращает вызывающей стороне. */
 package payment.v1;
 
-option go_package = "github.com/AMSt1010/microservises-course/week2/shared/pkg/proto/payment/v1;payment_v1";
+option go_package = "github.com/alex100010/microservices-course/hw/hw_1/pkg/proto/payment/v1;payment_v1";
 
 //Сервис оплаты заказов симулирует работу платёжного шлюза
 service PaymentService {

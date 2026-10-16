@@ -15,7 +15,7 @@ post:
           schema:
             $ref: ../components/errors/not_found_error.yaml
     '409':
-      description: Заказ уже оплачен или отменен и не может быть отменён
+      description: Заказ уже оплачен и не может быть отменён
       content:
         application/json:
           schema:

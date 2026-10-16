@@ -9,13 +9,12 @@
 package inventory_v1
 
 import (
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
 )
 
 const (
@@ -960,7 +959,7 @@ const file_inventory_v1_inventory_proto_rawDesc = "" +
 	"\n" +
 	"CreatePart\x12\x1f.inventory.v1.CreatePartRequest\x1a .inventory.v1.CreatePartResponse\x12F\n" +
 	"\aGetPart\x12\x1c.inventory.v1.GetPartRequest\x1a\x1d.inventory.v1.GetPartResponse\x12L\n" +
-	"\tListParts\x12\x1e.inventory.v1.ListPartsRequest\x1a\x1f.inventory.v1.ListPartsResponseB[ZYgithub.com/AMSt1010/microservises-course/week2/shared/pkg/proto/inventory/v1;inventory_v1b\x06proto3"
+	"\tListParts\x12\x1e.inventory.v1.ListPartsRequest\x1a\x1f.inventory.v1.ListPartsResponseBXZVgithub.com/alex100010/microservices-course/hw/hw_1/pkg/proto/inventory/v1;inventory_v1b\x06proto3"
 
 var (
 	file_inventory_v1_inventory_proto_rawDescOnce sync.Once
@@ -974,28 +973,25 @@ func file_inventory_v1_inventory_proto_rawDescGZIP() []byte {
 	return file_inventory_v1_inventory_proto_rawDescData
 }
 
-var (
-	file_inventory_v1_inventory_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-	file_inventory_v1_inventory_proto_msgTypes  = make([]protoimpl.MessageInfo, 13)
-	file_inventory_v1_inventory_proto_goTypes   = []any{
-		(Category)(0),                 // 0: inventory.v1.Category
-		(*CreatePartRequest)(nil),     // 1: inventory.v1.CreatePartRequest
-		(*CreatePartResponse)(nil),    // 2: inventory.v1.CreatePartResponse
-		(*GetPartRequest)(nil),        // 3: inventory.v1.GetPartRequest
-		(*GetPartResponse)(nil),       // 4: inventory.v1.GetPartResponse
-		(*ListPartsRequest)(nil),      // 5: inventory.v1.ListPartsRequest
-		(*ListPartsResponse)(nil),     // 6: inventory.v1.ListPartsResponse
-		(*Part)(nil),                  // 7: inventory.v1.Part
-		(*Info)(nil),                  // 8: inventory.v1.Info
-		(*Dimensions)(nil),            // 9: inventory.v1.Dimensions
-		(*Manufacturer)(nil),          // 10: inventory.v1.Manufacturer
-		(*CustomValue)(nil),           // 11: inventory.v1.CustomValue
-		(*PartsFilter)(nil),           // 12: inventory.v1.PartsFilter
-		nil,                           // 13: inventory.v1.Info.MetadataEntry
-		(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
-	}
-)
-
+var file_inventory_v1_inventory_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_inventory_v1_inventory_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_inventory_v1_inventory_proto_goTypes = []any{
+	(Category)(0),                 // 0: inventory.v1.Category
+	(*CreatePartRequest)(nil),     // 1: inventory.v1.CreatePartRequest
+	(*CreatePartResponse)(nil),    // 2: inventory.v1.CreatePartResponse
+	(*GetPartRequest)(nil),        // 3: inventory.v1.GetPartRequest
+	(*GetPartResponse)(nil),       // 4: inventory.v1.GetPartResponse
+	(*ListPartsRequest)(nil),      // 5: inventory.v1.ListPartsRequest
+	(*ListPartsResponse)(nil),     // 6: inventory.v1.ListPartsResponse
+	(*Part)(nil),                  // 7: inventory.v1.Part
+	(*Info)(nil),                  // 8: inventory.v1.Info
+	(*Dimensions)(nil),            // 9: inventory.v1.Dimensions
+	(*Manufacturer)(nil),          // 10: inventory.v1.Manufacturer
+	(*CustomValue)(nil),           // 11: inventory.v1.CustomValue
+	(*PartsFilter)(nil),           // 12: inventory.v1.PartsFilter
+	nil,                           // 13: inventory.v1.Info.MetadataEntry
+	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
+}
 var file_inventory_v1_inventory_proto_depIdxs = []int32{
 	8,  // 0: inventory.v1.CreatePartRequest.info:type_name -> inventory.v1.Info
 	7,  // 1: inventory.v1.GetPartResponse.part:type_name -> inventory.v1.Part
