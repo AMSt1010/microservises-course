@@ -7,9 +7,10 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-	ht "github.com/ogen-go/ogen/http"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
+
+	ht "github.com/ogen-go/ogen/http"
 )
 
 func encodeCreateOrderResponse(response *CreateOrderResponse, w http.ResponseWriter, span trace.Span) error {
@@ -32,19 +33,6 @@ func encodeGetOrderByUuidResponse(response GetOrderByUuidRes, w http.ResponseWri
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(200)
 		span.SetStatus(codes.Ok, http.StatusText(200))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	case *BadRequestError:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(400)
-		span.SetStatus(codes.Error, http.StatusText(400))
 
 		e := new(jx.Encoder)
 		response.Encode(e)
@@ -165,32 +153,6 @@ func encodeOrderPayResponse(response OrderPayRes, w http.ResponseWriter, span tr
 
 		return nil
 
-	case *ConflictError:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(409)
-		span.SetStatus(codes.Error, http.StatusText(409))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
-	case *BadGatewayError:
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(502)
-		span.SetStatus(codes.Error, http.StatusText(502))
-
-		e := new(jx.Encoder)
-		response.Encode(e)
-		if _, err := e.WriteTo(w); err != nil {
-			return errors.Wrap(err, "write")
-		}
-
-		return nil
-
 	default:
 		return errors.Errorf("unexpected response type: %T", response)
 	}
@@ -220,4 +182,5 @@ func encodeErrorResponse(response *GenericErrorStatusCode, w http.ResponseWriter
 		return errors.Wrapf(ht.ErrInternalServerErrorResponse, "code: %d, message: %s", code, http.StatusText(code))
 	}
 	return nil
+
 }

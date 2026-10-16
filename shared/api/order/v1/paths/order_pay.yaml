@@ -18,12 +18,6 @@ post:
         application/json:
           schema:
             $ref: ../components/pay_order_response.yaml
-    '502':
-      description: Неверный ответ от вышестоящего сервиса
-      content: 
-        application/json:
-          schema:
-            $ref: ../components/errors/bad_gateway_error.yaml
     '404':
       description: Заказ не найден
       content:
@@ -35,13 +29,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../components/errors/bad_request_error.yaml
-    '409':
-      description: Заказ уже оплачен или отменен и не может быть отменён
-      content:
-        application/json:
-          schema:
-            $ref: ../components/errors/conflict_error.yaml        
+            $ref: ../components/errors/bad_request_error.yaml        
     default:
       description: Unexpected error
       content:

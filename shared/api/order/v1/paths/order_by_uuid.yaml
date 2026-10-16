@@ -18,12 +18,6 @@ get:
         application/json:
           schema:
             $ref: ../components/errors/not_found_error.yaml
-    '400':
-      description: Некорректный или пустой UUID заказа
-      content:
-        application/json:
-          schema:
-            $ref: ../components/errors/bad_request_error.yaml
     default:
       description: Unexpected error
       content:
